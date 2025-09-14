@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { CgMenuMotion } from "react-icons/cg";
 import { RiMenuAddLine } from "react-icons/ri";
-import { FaUserCircle } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../context/AuthContext";
 import { Link, NavLink } from "react-router";
@@ -35,17 +34,18 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 bg-white dark:bg-[#12121c] shadow z-50">
-      <div className="max-w-7xl px-4 mx-auto py-0  flex justify-between items-center relative">
+    <nav className="fixed top-6 left-1/2 transform -translate-x-1/2 
+                w-[95%] max-w-7xl bg-white dark:bg-[#12121c] 
+                shadow z-50 transition-colors duration-300 rounded-lg ">
+      <div className=" flex justify-between items-center px-4">
 
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <img
-            src="/public/travel-logo.png"
+            src="/travel-logo.png"
             alt="Site Logo"
-            className="h-20 w-auto object-contain"
+            className="h-16 w-auto object-contain"
           />
-
         </Link>
 
         {/* Desktop Menu */}
@@ -55,9 +55,10 @@ const Navbar = () => {
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `px-4 py-5 transition-all ${isActive
-                  ? "bg-gray-100 dark:bg-[#292b51] border-b-[3px] border-[#4657F0] text-black dark:text-[#fcfcfd]/80"
-                  : "text-gray-800 dark:text-[#fcfcfd] hover:text-[#4657F0]"
+                `px-4 py-5 transition-all duration-300 ease-in-out ${
+                  isActive
+                    ? "bg-gray-100 dark:bg-[#292b51] border-b-[3px] border-[#4657F0] text-black dark:text-[#fcfcfd]/80"
+                    : "text-gray-800 dark:text-[#fcfcfd] hover:text-[#4657F0]"
                 }`
               }
             >
@@ -69,7 +70,7 @@ const Navbar = () => {
           {user ? (
             <button
               onClick={logOuthandle}
-              className="ml-3 px-4 py-2 rounded bg-[#4657F0] text-white hover:bg-[#2f3fd9] transition"
+              className="ml-3 px-4 py-2 rounded bg-[#4657F0] text-white hover:bg-[#2f3fd9] transition-all duration-300"
             >
               Logout
             </button>
@@ -77,85 +78,88 @@ const Navbar = () => {
             <>
               <NavLink
                 to="/login"
-                className="px-3 py-2 text-gray-700 dark:text-[#fcfcfd] hover:text-[#4657F0]"
+                className="px-3 py-2 text-gray-700 dark:text-[#fcfcfd] hover:text-[#4657F0] transition-colors duration-300"
               >
                 Login
               </NavLink>
               <NavLink
                 to="/register"
-                className="px-3 py-2 text-gray-700 dark:text-[#fcfcfd] hover:text-[#4657F0]"
+                className="px-3 py-2 text-gray-700 dark:text-[#fcfcfd] hover:text-[#4657F0] transition-colors duration-300"
               >
                 Register
               </NavLink>
             </>
           )}
-          <ThemeToggle></ThemeToggle>
+          <ThemeToggle />
         </ul>
 
         {/* Mobile Menu Button */}
         <div className="lg:hidden flex items-center">
           <button
             onClick={() => setIsMenuOpen((prev) => !prev)}
-            className="w-10 h-10 grid place-items-center focus:outline-none"
+            className="w-10 h-10 grid place-items-center focus:outline-none transition-transform duration-300"
           >
             {isMenuOpen ? (
-              <CgMenuMotion className="text-2xl text-[#4657F0]" />
+              <CgMenuMotion className="text-2xl text-[#4657F0] transform rotate-90 transition-transform duration-300" />
             ) : (
-              <RiMenuAddLine className="text-2xl text-[#4657F0]" />
+              <RiMenuAddLine className="text-2xl text-[#4657F0] transition-transform duration-300" />
             )}
           </button>
         </div>
 
         {/* Mobile Menu */}
-        
-        {isMenuOpen && (
-          <div className="flex flex-col absolute top-full left-0 w-full bg-white dark:bg-[#12121c] border-b shadow-lg z-50 p-4 lg:hidden text-base">
-             
-            {menu.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                onClick={() => setIsMenuOpen(false)}
-                className={({ isActive }) =>
-                  `block px-3 py-2 rounded ${isActive
-                    ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] dark:text-gray-300 font-semibold"
+        <div
+          className={`absolute top-full left-0 w-full bg-white dark:bg-[#12121c] shadow-lg z-50 overflow-hidden lg:hidden transition-all duration-500 ease-in-out ${
+            isMenuOpen ? "max-h-112 rounded-lg opacity-100 py-4" : "max-h-0 opacity-0"
+          }`}
+        >
+          {menu.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              onClick={() => setIsMenuOpen(false)}
+              className={({ isActive }) =>
+                `block px-3 py-3 rounded transition-all duration-300 ${
+                  isActive
+                    ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
                     : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0]"
-                  }`
-                }
-              >
-                {item.name}
-              </NavLink>
-            ))}
+                }`
+              }
+            >
+              {item.name}
+            </NavLink>
+          ))}
 
-            {/* Auth actions */}
-            {user ? (
-              <button
-                onClick={logOuthandle}
-                className="mt-3 px-4 py-2 rounded bg-[#4657F0] text-white hover:bg-[#2f3fd9] transition"
+          {/* Auth actions */}
+          {user ? (
+            <button
+              onClick={logOuthandle}
+              className="mt-3 px-4 py-2 rounded bg-[#4657F0] text-white hover:bg-[#2f3fd9] transition-all duration-300"
+            >
+              Logout
+            </button>
+          ) : (
+            <>
+              <NavLink
+                to="/login"
+                className="block px-3 py-3 text-gray-700 dark:text-gray-300 hover:text-[#4657F0] transition-colors duration-300"
+                onClick={() => setIsMenuOpen(false)}
               >
-                Logout
-              </button>
-            ) : (
-              <>
-                <NavLink
-                  to="/login"
-                  className="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-[#4657F0]"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Login
-                </NavLink>
-                <NavLink
-                  to="/register"
-                  className="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-[#4657F0]"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Register
-                </NavLink>
-              </>
-            )}
-            <ThemeToggle></ThemeToggle>
+                Login
+              </NavLink>
+              <NavLink
+                to="/register"
+                className="block px-3 py-3 text-gray-700 dark:text-gray-300 hover:text-[#4657F0] transition-colors duration-300"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Register
+              </NavLink>
+            </>
+          )}
+          <div className="mt-3">
+            <ThemeToggle />
           </div>
-        )}
+        </div>
       </div>
     </nav>
   );

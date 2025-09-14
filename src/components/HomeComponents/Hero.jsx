@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 const Hero = () => {
   return (
-    <section className="relative w-full h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative w-full min-h-[92vh] flex items-center justify-center overflow-hidden">
       {/* Background Video */}
       <video
         className="absolute top-0 left-0 w-full h-full object-cover"
