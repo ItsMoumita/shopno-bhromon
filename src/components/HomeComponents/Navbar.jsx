@@ -34,7 +34,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-6 left-1/2 transform -translate-x-1/2 
+    <nav className="fixed top-10 left-1/2 transform -translate-x-1/2 
                 w-[95%] max-w-7xl bg-white dark:bg-[#12121c] 
                 shadow z-50 transition-colors duration-300 rounded-lg ">
       <div className=" flex justify-between items-center px-4">
