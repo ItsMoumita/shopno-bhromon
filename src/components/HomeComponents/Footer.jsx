@@ -1,120 +1,192 @@
 "use client";
 
 import React from "react";
-import { FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 
 const Footer = () => {
-  const footerLinks = {
-    pages: [
-      { name: "Home", href: "/" },
-      { name: "Packages", href: "/packages" },
-      { name: "Resorts", href: "/resorts" },
-      { name: "About Us", href: "/about" },
-      { name: "Contact", href: "/contact" },
-    ],
-    resources: [
-      { name: "FAQs", href: "#" },
-      { name: "Quick Start", href: "#" },
-      { name: "Documentation", href: "#" },
-      { name: "User Guide", href: "#" },
-    ],
-    blogs: [
-      { name: "News", href: "/blog" },
-      { name: "Tips & Tricks", href: "#" },
-      { name: "New Updates", href: "#" },
-      { name: "Events", href: "#" },
-    ],
-  };
-
-const socialLinks = [
-  {
-    label: "Twitter",
-    href: "#",
-    icon: <FaTwitter className="w-5 h-5 text-white" />,
-  },
-  {
-    label: "Instagram",
-    href: "#",
-    icon: <FaInstagram className="w-5 h-5 text-white" />,
-  },
-  {
-    label: "LinkedIn",
-    href: "#",
-    icon: <FaLinkedin className="w-5 h-5 text-white" />,
-  },
-  {
-    label: "YouTube",
-    href: "#",
-    icon: <FaYoutube className="w-5 h-5 text-white" />,
-  },
-];
-
   return (
-    <footer className="w-full bg-white dark:bg-[#12121c]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Top Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-8 py-12">
-          {/* Logo + About */}
-          <div className="col-span-full lg:col-span-2 text-center lg:text-left">
-            <a href="/" className="flex justify-center lg:justify-start">
-              <img
-                src="/travel-logo.png"
-                alt="Travel Logo"
-                className="h-14 w-auto object-contain"
-              />
-            </a>
-            <p className="mt-6 text-sm text-gray-600 dark:text-gray-400 lg:max-w-xs">
-              Explore the world with confidence. Trusted by travelers in 100+
-              countries to book tours, resorts, and more.
-            </p>
+    <footer className="bg-gradient-to-t from-[#aeb0d6]/20 to-gray-50 dark:from-[#12121c] dark:to-gray-900 text-gray-900 dark:text-white py-16 px-8 border-t border-gray-200 dark:border-gray-800">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        {/* Brand Logo + About */}
+        <div className="space-y-4 text-center md:text-left">
+          <a
+            href="/"
+            className="flex justify-center md:justify-start items-center space-x-2"
+          >
+            <img
+              src="/travel-logo.png"
+              alt="Shopnobhromon Logo"
+              className="h-12 w-auto object-contain"
+            />
+            <h3 className="text-2xl font-extrabold text-[#4657F0]">
+              সপ্নভ্রমণ
+            </h3>
+          </a>
+          <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+            Explore the world with confidence. Trusted by travelers in 100+
+            countries to book tours, resorts, and more.
+          </p>
+
+          {/* Socials */}
+          <div className="flex justify-center md:justify-start space-x-4 pt-2">
             <a
-              href="/contact"
-              className="mt-6 inline-block py-2.5 px-6 bg-[#4657F0] hover:bg-[#2f3fd9] text-white text-sm rounded-full shadow-sm transition-colors"
+              href="#"
+              aria-label="Facebook"
+              className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-[#4657F0] hover:text-white transition-colors"
             >
-              Contact Us
+              <FaFacebookF size={18} />
+            </a>
+            <a
+              href="#"
+              aria-label="Instagram"
+              className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-[#4657F0] hover:text-white transition-colors"
+            >
+              <FaInstagram size={18} />
+            </a>
+            <a
+              href="#"
+              aria-label="LinkedIn"
+              className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-[#4657F0] hover:text-white transition-colors"
+            >
+              <FaLinkedinIn size={18} />
             </a>
           </div>
-
-          {/* Dynamic Links */}
-          {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title}>
-              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-5 capitalize">
-                {title}
-              </h4>
-              <ul className="space-y-3 text-sm">
-                {links.map((link, index) => (
-                  <li key={index}>
-                    <a
-                      href={link.href}
-                      className="text-gray-600 dark:text-gray-300 hover:text-[#4657F0] transition-colors"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-gray-200 dark:border-gray-700 py-6 flex flex-col-reverse md:flex-row items-center justify-between gap-4">
-          <span className="text-sm text-gray-500 dark:text-gray-400 text-center md:text-left">
-            © 2024 FlyPlane Travel. All rights reserved.
-          </span>
-          <div className="flex space-x-3">
-            {socialLinks.map((link) => (
+        {/* Quick Links */}
+        <div className="space-y-4 text-center md:text-left">
+          <h3 className="text-lg font-bold">Quick Links</h3>
+          <ul className="space-y-3">
+            <li>
               <a
-                key={link.label}
-                href={link.href}
-                aria-label={link.label}
-                className="w-9 h-9 flex justify-center items-center rounded-full bg-gray-700 dark:bg-gray-600 hover:bg-[#4657F0] transition-colors"
+                href="/"
+                className="text-gray-600 dark:text-gray-300 hover:text-[#4657F0] transition-colors"
               >
-                {link.icon}
+                Home
               </a>
-            ))}
-          </div>
+            </li>
+            <li>
+              <a
+                href="/packages"
+                className="text-gray-600 dark:text-gray-300 hover:text-[#4657F0] transition-colors"
+              >
+                Packages
+              </a>
+            </li>
+            <li>
+              <a
+                href="/resorts"
+                className="text-gray-600 dark:text-gray-300 hover:text-[#4657F0] transition-colors"
+              >
+                Resorts
+              </a>
+            </li>
+            <li>
+              <a
+                href="/about"
+                className="text-gray-600 dark:text-gray-300 hover:text-[#4657F0] transition-colors"
+              >
+                About Us
+              </a>
+            </li>
+            <li>
+              <a
+                href="/contact"
+                className="text-gray-600 dark:text-gray-300 hover:text-[#4657F0] transition-colors"
+              >
+                Contact
+              </a>
+            </li>
+          </ul>
         </div>
+
+        {/* Resources */}
+        <div className="space-y-4 text-center md:text-left">
+          <h3 className="text-lg font-bold">Resources</h3>
+          <ul className="space-y-3">
+            <li>
+              <a
+                href="#"
+                className="text-gray-600 dark:text-gray-300 hover:text-[#4657F0] transition-colors"
+              >
+                FAQs
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="text-gray-600 dark:text-gray-300 hover:text-[#4657F0] transition-colors"
+              >
+                Quick Start
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="text-gray-600 dark:text-gray-300 hover:text-[#4657F0] transition-colors"
+              >
+                Documentation
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="text-gray-600 dark:text-gray-300 hover:text-[#4657F0] transition-colors"
+              >
+                User Guide
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        {/* Blogs */}
+        <div className="space-y-4 text-center md:text-left">
+          <h3 className="text-lg font-bold">Blogs</h3>
+          <ul className="space-y-3">
+            <li>
+              <a
+                href="/blog"
+                className="text-gray-600 dark:text-gray-300 hover:text-[#4657F0] transition-colors"
+              >
+                News
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="text-gray-600 dark:text-gray-300 hover:text-[#4657F0] transition-colors"
+              >
+                Tips & Tricks
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="text-gray-600 dark:text-gray-300 hover:text-[#4657F0] transition-colors"
+              >
+                New Updates
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                className="text-gray-600 dark:text-gray-300 hover:text-[#4657F0] transition-colors"
+              >
+                Events
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Bottom Bar */}
+      <div className="text-center text-gray-500 dark:text-gray-400 text-sm pt-10 mt-10 border-t border-gray-200 dark:border-gray-700">
+        <p>
+          © {new Date().getFullYear()}{" "}
+          <span className="text-[#4657F0]">সপ্নভ্রমণ</span>. All rights
+          reserved.
+        </p>
+        <p className="mt-1">Designed with ❤️ in Bangladesh</p>
       </div>
     </footer>
   );
