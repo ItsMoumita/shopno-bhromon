@@ -1,22 +1,47 @@
-"use client";
 
-import React, { useState } from "react";
-import { Link } from "react-router";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router";
 import { MdEmail } from "react-icons/md";
 import { FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const togglePassword = () => setPasswordVisible(!passwordVisible);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const { signIn, googleSignIn, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+
+
+  // Email/password login
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login submitted ✅");
+    try {
+      const result = await signIn(email, password);
+      setUser(result.user);
+      console.log("Login successful ✅", result.user);
+
+      navigate("/"); // redirect home after login
+    } catch (err) {
+      console.error("Login error:", err.message);
+    }
   };
 
-  const handleGoogleSignIn = () => {
-    console.log("Google Sign-In triggered 🚀");
+  // Google login
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await googleSignIn();
+      setUser(result.user);
+      console.log("Google Sign-In successful 🚀", result.user);
+
+      navigate("/");
+    } catch (err) {
+      console.error("Google login error:", err.message);
+    }
   };
 
   return (
@@ -55,6 +80,8 @@ const Login = () => {
               </span>
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@example.com"
                 required
                 className="w-full pl-9 pr-3 py-2 border rounded-md bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-[#4657F0] outline-none transition-all"
@@ -74,7 +101,9 @@ const Login = () => {
               <input
                 type={passwordVisible ? "text" : "password"}
                 required
+                value={password}
                 placeholder="Enter your password"
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-9 pr-10 py-2 border rounded-md bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-[#4657F0] outline-none transition-all"
               />
               <button
@@ -92,7 +121,7 @@ const Login = () => {
             type="submit"
             className="w-full py-2 rounded-md text-white bg-[#4657F0] hover:bg-[#2f3fd9] text-sm font-medium transition-transform hover:-translate-y-0.5"
           >
-            Sign In
+            Login
           </button>
         </form>
 
@@ -115,7 +144,7 @@ const Login = () => {
         >
           <FcGoogle className="text-xl" />
           <span className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-            Sign in with Google
+            Login with Google
           </span>
         </button>
 

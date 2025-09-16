@@ -1,10 +1,11 @@
 // "use client";
 
-import React, { useState } from "react";
-import { Link } from "react-router";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router";
 import { FaUser, FaLock, FaEye, FaEyeSlash, FaCheck } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
+import { AuthContext } from "../context/AuthContext";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,15 +14,34 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [isChecked, setIsChecked] = useState(false);
 
-  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+  const { createUser, setUser, googleSignIn, updateUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const togglePasswordVisibility = () => {
+  setShowPassword(!showPassword);
+};
+  const handleRegister = async (e) => {
     e.preventDefault();
-    console.log("REGISTER DATA ➝", { fullName, email, password });
+    try {
+      const result = await createUser(email, password);
+      await updateUser({ displayName: fullName });
+      setUser(result.user);
+      console.log("Created user:", result.user);
+      navigate("/");
+    } catch (err) {
+      console.error("Registration failed:", err.message);
+    }
   };
 
-  const handleGoogleSignIn = () => {
-    console.log("Google auth triggered 🚀");
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await googleSignIn();
+      setUser(result.user);
+      console.log("Google login:", result.user);
+      navigate("/");
+    } catch (err) {
+      console.error("Google sign-in failed:", err.message);
+    }
   };
 
   return (
@@ -165,7 +185,7 @@ const Register = () => {
 
         {/* Google button */}
         <button
-          onClick={handleGoogleSignIn}
+          onClick={handleGoogleSignIn} type="button"
           className="flex items-center justify-center w-full py-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-black rounded-md hover:bg-gray-50 dark:hover:bg-gray-900 transition-all"
         >
           <FcGoogle className="text-xl" />
