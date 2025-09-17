@@ -7,6 +7,8 @@ import Packages from "../pages/packages";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import About from "../pages/About";
+import DashboardLayout from "../layouts/DashboardLayout";
+import { Component } from "lucide-react";
 
 
 export const router = createBrowserRouter([
@@ -28,6 +30,17 @@ export const router = createBrowserRouter([
       }
 
     ]
+  },
+  {
+    path: "dashboard",
+    Component: DashboardLayout,
+    children: [
+      //  {
+      //   path: "all-users",
+      //  Component: AllUsers
+      //  }
+    ]
+
   },
   {
         path: "login",

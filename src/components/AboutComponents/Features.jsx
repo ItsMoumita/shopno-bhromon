@@ -7,7 +7,7 @@ const Features = () => {
       <div className="max-w-7xl mx-auto px-6 text-center">
         {/* Section Title */}
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-12">
-          Why Choose <span className="text-[#4657F0]">সপ্নভ্রমণ</span> 🏆
+          Why Choose <span className="text-[#4657F0]">সপ্নভ্রমণ</span> 
         </h2>
 
         {/* Grid */}

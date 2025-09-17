@@ -1,35 +1,63 @@
 // "use client";
 
 import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router";
-import { FaUser, FaLock, FaEye, FaEyeSlash, FaCheck } from "react-icons/fa";
+import { Link, useNavigate } from "react-router"; 
+import { FaUser, FaFileImage, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
+import Swal from "sweetalert2"; 
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [fullName, setFullName] = useState("");
+  const [profilePic, setProfilePic] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isChecked, setIsChecked] = useState(false);
 
-  const { createUser, setUser, googleSignIn, updateUser } = useContext(AuthContext);
+  const { createUser, setUser, googleSignIn, updateUser } =
+    useContext(AuthContext);
   const navigate = useNavigate();
 
-  const togglePasswordVisibility = () => {
-  setShowPassword(!showPassword);
-};
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
       const result = await createUser(email, password);
-      await updateUser({ displayName: fullName });
+
+      let photoURL = "";
+      if (profilePic) {
+        photoURL = URL.createObjectURL(profilePic);
+      }
+
+      await updateUser({ displayName: fullName, photoURL });
       setUser(result.user);
-      console.log("Created user:", result.user);
-      navigate("/");
+
+      const user = { name: fullName, email, profilePic: photoURL };
+      await axios.post("http://localhost:5000/api/users", user);
+
+      // ✅ SweetAlert after success
+      Swal.fire({
+        icon: "success",
+        title: "Registration Successful 🎉",
+        text: "Welcome to Shopnobhromon!",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      navigate("/"); // ✅ Navigate home after signup
     } catch (err) {
       console.error("Registration failed:", err.message);
+
+      // ❌ SweetAlert for error
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: err.message,
+      });
     }
   };
 
@@ -37,45 +65,44 @@ const Register = () => {
     try {
       const result = await googleSignIn();
       setUser(result.user);
-      console.log("Google login:", result.user);
+
+      const user = {
+        name: result.user.displayName,
+        email: result.user.email,
+        profilePic: result.user.photoURL,
+      };
+      await axios.post("http://localhost:5000/api/users", user);
+
+      Swal.fire({
+        icon: "success",
+        title: "Welcome 🎉",
+        text: "Google Sign-In Successful!",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
       navigate("/");
     } catch (err) {
       console.error("Google sign-in failed:", err.message);
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: err.message,
+      });
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-[#12121c] px-4">
-      {/* Back Home */}
-      <div className="mb-6">
-        <Link
-          to="/"
-          className="text-[#4657F0] dark:text-white/80  hover:text-[#2f3fd9] text-lg font-medium flex items-center"
-        >
-          ← Back to Home
-        </Link>
-      </div>
-
-      {/* Card */}
-      <div className="w-full max-w-md bg-white dark:bg-black border border-gray-200 dark:border-gray-800 rounded-lg shadow-sm p-6 signin-card">
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-gray-100 dark:bg-gray-900 rounded-full mb-4 text-gray-600 dark:text-gray-300">
-            <FaUser />
-          </div>
-          <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
-            Create account
-          </h1>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            Enter your details to get started
-          </p>
-        </div>
+      <div className="w-full max-w-md bg-white dark:bg-black border border-gray-200 dark:border-gray-800 rounded-lg shadow-sm p-6">
+        <h1 className="text-2xl font-semibold text-center text-gray-900 dark:text-gray-100 mb-4">
+          Create Account
+        </h1>
 
         <form onSubmit={handleRegister} className="space-y-4">
           {/* Full Name */}
           <div>
-            <label className="text-sm font-medium text-gray-900 dark:text-gray-100">
-              Full Name
-            </label>
+            <label className="text-sm font-medium">Full Name</label>
             <div className="relative">
               <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
                 <FaUser />
@@ -85,16 +112,30 @@ const Register = () => {
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Enter your full name"
-                className="w-full pl-9 pr-3 py-2 border rounded-md bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-[#4657F0] outline-none transition-all"
+                className="w-full pl-9 pr-3 py-2 border rounded-md dark:bg-black"
+              />
+            </div>
+          </div>
+
+          {/* Profile Picture */}
+          <div>
+            <label className="text-sm font-medium">Profile Picture</label>
+            <div className="relative">
+              <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                <FaFileImage />
+              </span>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setProfilePic(e.target.files[0])}
+                className="w-full pl-9 pr-3 py-2 border rounded-md dark:bg-black"
               />
             </div>
           </div>
 
           {/* Email */}
           <div>
-            <label className="text-sm font-medium text-gray-900 dark:text-gray-100">
-              Email
-            </label>
+            <label className="text-sm font-medium">Email</label>
             <div className="relative">
               <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
                 <MdEmail />
@@ -104,16 +145,14 @@ const Register = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@example.com"
-                className="w-full pl-9 pr-3 py-2 border rounded-md bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-[#4657F0] outline-none transition-all"
+                className="w-full pl-9 pr-3 py-2 border rounded-md dark:bg-black"
               />
             </div>
           </div>
 
           {/* Password */}
           <div>
-            <label className="text-sm font-medium text-gray-900 dark:text-gray-100">
-              Password
-            </label>
+            <label className="text-sm font-medium">Password</label>
             <div className="relative">
               <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
                 <FaLock />
@@ -123,58 +162,42 @@ const Register = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Create a password"
-                className="w-full pl-9 pr-10 py-2 border rounded-md bg-white dark:bg-black border-gray-200 dark:border-gray-700 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-[#4657F0] outline-none transition-all"
+                className="w-full pl-9 pr-10 py-2 border rounded-md dark:bg-black"
               />
               <button
                 type="button"
                 onClick={togglePasswordVisibility}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500"
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
           </div>
 
-          {/* Terms checkbox */}
+          {/* Terms */}
           <div className="flex items-center space-x-2">
             <input
               type="checkbox"
               checked={isChecked}
               onChange={(e) => setIsChecked(e.target.checked)}
-              className="h-4 w-4 text-[#4657F0] border-gray-300 rounded focus:ring-[#4657F0]"
             />
-            <label className="text-sm text-gray-600 dark:text-gray-400">
-              I agree to the{" "}
-              <a
-                href="#"
-                className="text-[#4657F0] hover:underline font-medium"
-              >
-                Terms of Service
-              </a>{" "}
-              and{" "}
-              <a
-                href="#"
-                className="text-[#4657F0] hover:underline font-medium"
-              >
-                Privacy Policy
-              </a>
-            </label>
+            <span className="text-sm">I agree to the Terms & Privacy</span>
           </div>
 
           {/* Submit */}
           <button
             type="submit"
             disabled={!isChecked}
-            className="w-full py-2 rounded-md text-white bg-[#4657F0] hover:bg-[#2f3fd9] disabled:opacity-50 text-sm font-medium transition-transform hover:-translate-y-0.5"
+            className="w-full py-2 rounded-md text-white bg-[#4657F0] hover:bg-[#2f3fd9] disabled:opacity-50"
           >
             Create account
           </button>
         </form>
 
-        {/* Divider */}
+        {/* Or Google */}
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-200 dark:border-gray-700"></div>
+            <div className="w-full border-t border-gray-300 dark:border-gray-700"></div>
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-white dark:bg-black px-2 text-gray-500 dark:text-gray-400">
@@ -183,25 +206,20 @@ const Register = () => {
           </div>
         </div>
 
-        {/* Google button */}
         <button
-          onClick={handleGoogleSignIn} type="button"
-          className="flex items-center justify-center w-full py-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-black rounded-md hover:bg-gray-50 dark:hover:bg-gray-900 transition-all"
+          onClick={handleGoogleSignIn}
+          type="button"
+          className="flex items-center justify-center w-full py-2 border rounded"
         >
           <FcGoogle className="text-xl" />
-          <span className="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-            Sign up with Google
-          </span>
+          <span className="ml-2">Sign up with Google</span>
         </button>
 
         {/* Already have account */}
         <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          <p>
             Already have an account?{" "}
-            <Link
-              to="/login"
-              className="text-[#4657F0] font-medium hover:underline"
-            >
+            <Link to="/login" className="text-[#4657F0] hover:underline">
               Login
             </Link>
           </p>

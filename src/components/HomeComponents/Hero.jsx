@@ -19,7 +19,7 @@ const Hero = () => {
       {/* Content */}
       <div className="relative z-10 text-center text-white px-4">
         <h1 className="text-4xl md:text-6xl font-bold mb-4">
-          Discover the World with <span className="text-[#4657F0]">ShopnoBhromon</span>
+          Discover the World with <span className="text-[#4657F0]">সপ্নভ্রমণ </span>
         </h1>
         <p className="text-lg md:text-xl mb-6 max-w-2xl mx-auto">
           Find your dream destination, enjoy the journey, and create unforgettable memories.
