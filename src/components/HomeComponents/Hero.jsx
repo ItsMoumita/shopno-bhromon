@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import CustomButton from "../ExtraComponents/CustomButton";
 
 const Hero = () => {
   return (
@@ -24,12 +25,7 @@ const Hero = () => {
         <p className="text-lg md:text-xl mb-6 max-w-2xl mx-auto">
           Find your dream destination, enjoy the journey, and create unforgettable memories.
         </p>
-        <Link
-          to="/tours"
-          className="inline-block px-8 py-3 text-lg font-semibold rounded bg-[#4657F0] hover:bg-[#2f3fd9] transition"
-        >
-          Discover Now
-        </Link>
+        <CustomButton to="/packages" label="Discover Now" />
       </div>
     </section>
   );

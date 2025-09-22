@@ -4,7 +4,6 @@ import { RiMenuAddLine } from "react-icons/ri";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../context/AuthContext";
 import { Link, NavLink } from "react-router";
-import { ThemeToggle } from "../ExtraComponents/ThemeToggle";
 
 const menu = [
   { name: "Home", path: "/" },
@@ -17,12 +16,13 @@ const menu = [
 const Navbar = () => {
   const { user, setUser, logOut } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
 
   const logOuthandle = () => {
     logOut()
       .then(() => {
         setUser(null);
-        setIsMenuOpen(false);
+        setDropdownOpen(false);
         Swal.fire({
           icon: "success",
           title: "Logout Successfully",
@@ -34,17 +34,15 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-10 left-1/2 transform -translate-x-1/2 
-                w-[95%] max-w-7xl bg-white dark:bg-[#12121c] 
-                shadow z-50 transition-colors duration-300 rounded-lg ">
-      <div className=" flex justify-between items-center px-4">
+    <nav className="sticky top-0 bg-white dark:bg-[#12121c] shadow z-50">
+      <div className="max-w-7xl px-4 mx-auto flex justify-between items-center relative">
 
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <img
             src="/travel-logo.png"
             alt="Site Logo"
-            className="h-16 w-auto object-contain"
+            className="h-14 w-auto object-contain"
           />
         </Link>
 
@@ -55,10 +53,9 @@ const Navbar = () => {
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `px-4 py-5 transition-all duration-300 ease-in-out ${
-                  isActive
-                    ? "bg-gray-100 dark:bg-[#292b51] border-b-[3px] border-[#4657F0] text-black dark:text-[#fcfcfd]/80"
-                    : "text-gray-800 dark:text-[#fcfcfd] hover:text-[#4657F0]"
+                `px-4 py-5 transition-all ${isActive
+                  ? "bg-gray-100 dark:bg-[#292b51] border-b-[3px] border-[#4657F0] text-black dark:text-[#fcfcfd]/80"
+                  : "text-gray-800 dark:text-[#fcfcfd] hover:text-[#4657F0]"
                 }`
               }
             >
@@ -66,101 +63,190 @@ const Navbar = () => {
             </NavLink>
           ))}
 
-          {/* Auth Section */}
-          {user ? (
-            <button
-              onClick={logOuthandle}
-              className="ml-3 px-4 py-2 rounded bg-[#4657F0] text-white hover:bg-[#2f3fd9] transition-all duration-300"
+          {/* Admin Dashboard (only for jyoti@mimma.com) */}
+          {user?.email === "jyoti@mimma.com" && (
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) =>
+                `px-4 py-5 transition-all ${isActive
+                  ? "bg-gray-100 dark:bg-[#292b51] border-b-[3px] border-[#4657F0] text-black dark:text-[#fcfcfd]/80"
+                  : "text-gray-800 dark:text-[#fcfcfd] hover:text-[#4657F0]"
+                }`
+              }
             >
-              Logout
-            </button>
-          ) : (
+              Dashboard
+            </NavLink>
+          )}
+
+          {/* Auth Section */}
+          {!user ? (
             <>
               <NavLink
                 to="/login"
-                className="px-3 py-2 text-gray-700 dark:text-[#fcfcfd] hover:text-[#4657F0] transition-colors duration-300"
+                className="px-3 py-2 text-gray-700 dark:text-[#fcfcfd] hover:text-[#4657F0]"
               >
                 Login
               </NavLink>
               <NavLink
                 to="/register"
-                className="px-3 py-2 text-gray-700 dark:text-[#fcfcfd] hover:text-[#4657F0] transition-colors duration-300"
+                className="px-3 py-2 text-gray-700 dark:text-[#fcfcfd] hover:text-[#4657F0]"
               >
                 Register
               </NavLink>
             </>
+          ) : (
+            <>
+              <NavLink
+                to="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  logOuthandle();
+                }}
+                className="px-3 py-2 text-gray-700 dark:text-[#fcfcfd] hover:text-[#4657F0]"
+              >
+                Logout
+              </NavLink>
+              {/* Profile Picture with Dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => setDropdownOpen(true)}
+                onMouseLeave={() => setDropdownOpen(false)}
+              >
+                <img
+                  src={user.photoURL || "https://i.ibb.co/MBtjqXQ/male-placeholder-image.jpg"}
+                  alt="profile"
+                  className="h-10 w-10 rounded-full cursor-pointer border-2 border-[#4657F0]"
+                />
+
+                {/* Dropdown: Only Username */}
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-gray-50 dark:bg-[#1b1b2b] shadow-lg rounded-md py-2 z-[100]">
+                    <div className="px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
+                      {user.displayName || user.email}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+
+            </>
           )}
-          <ThemeToggle />
         </ul>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Toggle */}
         <div className="lg:hidden flex items-center">
           <button
             onClick={() => setIsMenuOpen((prev) => !prev)}
-            className="w-10 h-10 grid place-items-center focus:outline-none transition-transform duration-300"
+            className="w-10 h-10 grid place-items-center focus:outline-none"
           >
             {isMenuOpen ? (
-              <CgMenuMotion className="text-2xl text-[#4657F0] transform rotate-90 transition-transform duration-300" />
+              <CgMenuMotion className="text-2xl text-[#4657F0]" />
             ) : (
-              <RiMenuAddLine className="text-2xl text-[#4657F0] transition-transform duration-300" />
+              <RiMenuAddLine className="text-2xl text-[#4657F0]" />
             )}
           </button>
         </div>
-
-        {/* Mobile Menu */}
-        <div
-          className={`absolute top-full left-0 w-full bg-white dark:bg-[#12121c] shadow-lg z-50 overflow-hidden lg:hidden transition-all duration-500 ease-in-out ${
-            isMenuOpen ? "max-h-112 rounded-lg opacity-100 py-4" : "max-h-0 opacity-0"
-          }`}
-        >
-          {menu.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              onClick={() => setIsMenuOpen(false)}
-              className={({ isActive }) =>
-                `block px-3 py-3 rounded transition-all duration-300 ${
-                  isActive
-                    ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
-                    : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0]"
-                }`
-              }
-            >
-              {item.name}
-            </NavLink>
-          ))}
-
-          {/* Auth actions */}
-          {user ? (
-            <button
-              onClick={logOuthandle}
-              className="mt-3 px-4 py-2 rounded bg-[#4657F0] text-white hover:bg-[#2f3fd9] transition-all duration-300"
-            >
-              Logout
-            </button>
-          ) : (
-            <>
-              <NavLink
-                to="/login"
-                className="block px-3 py-3 text-gray-700 dark:text-gray-300 hover:text-[#4657F0] transition-colors duration-300"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Login
-              </NavLink>
-              <NavLink
-                to="/register"
-                className="block px-3 py-3 text-gray-700 dark:text-gray-300 hover:text-[#4657F0] transition-colors duration-300"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Register
-              </NavLink>
-            </>
-          )}
-          <div className="mt-3">
-            <ThemeToggle />
-          </div>
-        </div>
       </div>
+
+      {/* Mobile Menu */}
+     {isMenuOpen && (
+  <div className="lg:hidden bg-white dark:bg-[#12121c] shadow-md py-4 px-6 space-y-3">
+     {/* ✅ Profile for all logged-in users */}
+    {user && (
+        <div className="flex items-center gap-3 mb-2 mt-4 px-2">
+          <img
+            src={user.photoURL || "https://i.ibb.co/MBtjqXQ/male-placeholder-image.jpg"}
+            alt="profile"
+            className="h-9 w-9 rounded-full border-2 border-[#4657F0]"
+          />
+          <span className="text-gray-800 dark:text-gray-200 text-sm font-medium">
+            {user.displayName || user.email}
+          </span>
+        </div>
+    )}
+    {menu.map((item) => (
+      <NavLink
+        key={item.path}
+        to={item.path}
+        onClick={() => setIsMenuOpen(false)}
+        className={({ isActive }) =>
+          `block px-3 py-2 rounded-md transition-all ${
+            isActive
+              ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
+              : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
+          }`
+        }
+      >
+        {item.name}
+      </NavLink>
+    ))}
+
+    {/* ✅ Dashboard only for Admin */}
+    {user?.email === "jyoti@mimma.com" && (
+      <NavLink
+        to="/dashboard"
+        onClick={() => setIsMenuOpen(false)}
+        className={({ isActive }) =>
+          `block px-3 py-2 rounded-md transition-all ${
+            isActive
+              ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
+              : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
+          }`
+        }
+      >
+        Dashboard
+      </NavLink>
+    )}
+
+    {!user ? (
+      <>
+        <NavLink
+          to="/login"
+          onClick={() => setIsMenuOpen(false)}
+          className={({ isActive }) =>
+            `block px-3 py-2 rounded-md transition-all ${
+              isActive
+                ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
+                : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
+            }`
+          }
+        >
+          Login
+        </NavLink>
+        <NavLink
+          to="/register"
+          onClick={() => setIsMenuOpen(false)}
+          className={({ isActive }) =>
+            `block px-3 py-2 rounded-md transition-all ${
+              isActive
+                ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
+                : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
+            }`
+          }
+        >
+          Register
+        </NavLink>
+      </>
+    ) : (
+      <>
+        
+
+        {/* ✅ Logout styled like nav links */}
+        <NavLink
+          to="#"
+          onClick={(e) => {
+            e.preventDefault();
+            logOuthandle();
+            setIsMenuOpen(false);
+          }}
+          className="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937] transition-all"
+        >
+          Logout
+        </NavLink>
+      </>
+    )}
+  </div>
+)}
     </nav>
   );
 };
