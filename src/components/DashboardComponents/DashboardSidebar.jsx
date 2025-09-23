@@ -1,39 +1,138 @@
-import { FaTachometerAlt, FaRegHeart, FaMoneyBill, FaUserEdit, FaCog, FaSignOutAlt, FaRoute } from "react-icons/fa";
+import {
+  FaTachometerAlt,
+  FaRegHeart,
+  FaMoneyBill,
+  FaUserEdit,
+  FaSignOutAlt,
+  FaUsers,
+} from "react-icons/fa";
+import { TbPackages } from "react-icons/tb";
+import { Link, NavLink } from "react-router";
+import { IoMdClose } from "react-icons/io"; 
 
-const DashboardSidebar = () => {
+const DashboardSidebar = ({ isOpen, setIsOpen }) => {
   return (
-    <aside className="bg-white dark:bg-[#1f1f2e] shadow-md w-64 min-h-screen fixed left-0 top-0 z-30 flex flex-col justify-between">
+    <aside
+      className={`bg-white dark:bg-[#1f1f2e] shadow-md w-64 min-h-screen fixed top-0 left-0 z-30 flex flex-col justify-between transform transition-transform duration-300 ${
+        isOpen ? "translate-x-0" : "-translate-x-full"
+      } md:translate-x-0`}
+    >
+      {/* Logo + Close Button */}
       <div>
-        <h2 className="text-2xl font-bold text-[#4657F0] p-6">XploreElite</h2>
+        <div className="flex items-center justify-between px-4 pt-6 pb-4">
+          <Link to="/" className="flex items-center md:ml-4 gap-2">
+            <img
+              src="/travel-logo.png"
+              alt="Site Logo"
+              className="h-16 w-auto object-contain"
+            />
+          </Link>
+
+          {/* Close button - only show on small devices */}
+          <button
+            className="md:hidden text-gray-600 dark:text-gray-300 hover:text-red-500"
+            onClick={() => setIsOpen(false)}
+          >
+            <IoMdClose size={24} />
+          </button>
+        </div>
+
+        {/* Nav Links */}
         <nav className="space-y-3 px-4">
-          <a href="/dashboard" className="flex items-center gap-3 px-4 py-2 rounded-lg bg-[#4657F0] text-white">
+          <NavLink
+            to="/dashboard-home"
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-4 py-2 rounded-lg ${
+                isActive
+                  ? "bg-[#4657F0] text-white"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#292b51]"
+              }`
+            }
+          >
             <FaTachometerAlt /> Dashboard
-          </a>
-          <a href="/tours" className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#292b51]">
-            <FaRoute /> Tour
-          </a>
-          <a href="/recent" className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#292b51]">
-            <FaRegHeart /> Recent Tour
-          </a>
-          <a href="/favorites" className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#292b51]">
-            <FaRegHeart /> Favorite
-          </a>
-          <a href="/payment" className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#292b51]">
-            <FaMoneyBill /> Payment
-          </a>
-          <a href="/profile" className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#292b51]">
+          </NavLink>
+
+          <NavLink
+            to="/all-users"
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-4 py-2 rounded-lg ${
+                isActive
+                  ? "bg-[#4657F0] text-white"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#292b51]"
+              }`
+            }
+          >
+            <FaUsers /> All Users
+          </NavLink>
+
+          <NavLink
+            to="/packages"
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-4 py-2 rounded-lg ${
+                isActive
+                  ? "bg-[#4657F0] text-white"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#292b51]"
+              }`
+            }
+          >
+            <TbPackages /> Packages
+          </NavLink>
+
+          <NavLink
+            to="/resorts"
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-4 py-2 rounded-lg ${
+                isActive
+                  ? "bg-[#4657F0] text-white"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#292b51]"
+              }`
+            }
+          >
+            <FaRegHeart /> Resorts
+          </NavLink>
+
+          <NavLink
+            to="/payments"
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-4 py-2 rounded-lg ${
+                isActive
+                  ? "bg-[#4657F0] text-white"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#292b51]"
+              }`
+            }
+          >
+            <FaMoneyBill /> Payments
+          </NavLink>
+
+          <NavLink
+            to="/profile"
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-4 py-2 rounded-lg ${
+                isActive
+                  ? "bg-[#4657F0] text-white"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#292b51]"
+              }`
+            }
+          >
             <FaUserEdit /> Profile Edit
-          </a>
-          <a href="/settings" className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-[#292b51]">
-            <FaCog /> Settings
-          </a>
+          </NavLink>
         </nav>
       </div>
 
+      {/* Logout */}
       <div className="p-4">
-        <a href="/logout" className="flex items-center gap-3 text-red-500 hover:bg-red-100 px-4 py-2 rounded-lg">
+        <NavLink
+          to="/logout"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-4 py-2 rounded-lg ${
+              isActive
+                ? "bg-red-600 text-white"
+                : "text-red-500 hover:bg-red-100 dark:hover:bg-red-900"
+            }`
+          }
+        >
           <FaSignOutAlt /> Log Out
-        </a>
+        </NavLink>
       </div>
     </aside>
   );
