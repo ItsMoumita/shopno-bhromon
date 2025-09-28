@@ -3,8 +3,8 @@ import {
   FaRegHeart,
   FaMoneyBill,
   FaUserEdit,
-  FaSignOutAlt,
   FaUsers,
+  FaArrowAltCircleLeft
 } from "react-icons/fa";
 import { TbPackages } from "react-icons/tb";
 import { Link, NavLink } from "react-router";
@@ -20,7 +20,7 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
       {/* Logo + Close Button */}
       <div>
         <div className="flex items-center justify-between px-4 pt-6 pb-4">
-          <Link to="/" className="flex items-center md:ml-4 gap-2">
+          <Link to="/" className="flex items-center ml-18 gap-2">
             <img
               src="/travel-logo.png"
               alt="Site Logo"
@@ -40,7 +40,7 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
         {/* Nav Links */}
         <nav className="space-y-3 px-4">
           <NavLink
-            to="/dashboard-home"
+            to="/dashboard"
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-2 rounded-lg ${
                 isActive
@@ -53,7 +53,7 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
           </NavLink>
 
           <NavLink
-            to="/all-users"
+            to="/dashboard/all-users"
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-2 rounded-lg ${
                 isActive
@@ -66,7 +66,7 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
           </NavLink>
 
           <NavLink
-            to="/packages"
+            to="/dashboard/add-packages"
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-2 rounded-lg ${
                 isActive
@@ -75,11 +75,11 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
               }`
             }
           >
-            <TbPackages /> Packages
+            <TbPackages />Add Packages
           </NavLink>
 
           <NavLink
-            to="/resorts"
+            to="/dashboard/add-resorts"
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-2 rounded-lg ${
                 isActive
@@ -88,11 +88,11 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
               }`
             }
           >
-            <FaRegHeart /> Resorts
+            <FaRegHeart />Add Resorts
           </NavLink>
 
           <NavLink
-            to="/payments"
+            to="/dashboard/payments"
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-2 rounded-lg ${
                 isActive
@@ -105,7 +105,7 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
           </NavLink>
 
           <NavLink
-            to="/profile"
+            to="/dashboard/profile"
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-2 rounded-lg ${
                 isActive
@@ -122,16 +122,16 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
       {/* Logout */}
       <div className="p-4">
         <NavLink
-          to="/logout"
+          to="/"
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-2 rounded-lg ${
               isActive
                 ? "bg-red-600 text-white"
-                : "text-red-500 hover:bg-red-100 dark:hover:bg-red-900"
+                : "text-red-500 hover:bg-red-100 dark:hover:bg-red-900 dark:hover:text-white/80"
             }`
           }
         >
-          <FaSignOutAlt /> Log Out
+          <FaArrowAltCircleLeft />Back to Home
         </NavLink>
       </div>
     </aside>

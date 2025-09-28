@@ -10,6 +10,8 @@ import About from "../pages/About";
 import DashboardLayout from "../layouts/DashboardLayout";
 import { Component } from "lucide-react";
 import DashboardHome from "../pages/Dashboard Pages/DashboardHome";
+import AdminRoute from "../hooks/AdminRoute";
+import AllUsers from "../pages/Dashboard Pages/AllUsers";
 
 
 export const router = createBrowserRouter([
@@ -34,16 +36,21 @@ export const router = createBrowserRouter([
   },
   {
     path: "dashboard",
-    Component: DashboardLayout,
-    children: [
-      {
-        index: true,
-        Component: DashboardHome
-      }
-      //  {
-      //   path: "all-users",
-      //  Component: AllUsers
-      //  }
+    element:<AdminRoute></AdminRoute>,
+    children:[
+          {
+            index: true,
+            element: <DashboardLayout>
+                <DashboardHome></DashboardHome>
+            </DashboardLayout>
+          },
+          {
+            path: "all-users",
+            element: <DashboardLayout>
+                <AllUsers></AllUsers>
+            </DashboardLayout>
+          }
+      
     ]
 
   },
@@ -54,5 +61,6 @@ export const router = createBrowserRouter([
   {
         path: "register",
         Component: Register
+        
       },
 ]);

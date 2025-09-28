@@ -4,6 +4,7 @@ import { RiMenuAddLine } from "react-icons/ri";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../context/AuthContext";
 import { Link, NavLink } from "react-router";
+import { ThemeToggle } from "../ExtraComponents/ThemeToggle";
 
 const menu = [
   { name: "Home", path: "/" },
@@ -63,8 +64,8 @@ const Navbar = () => {
             </NavLink>
           ))}
 
-          {/* Admin Dashboard (only for jyoti@mimma.com) */}
-          {user?.email === "jyoti@mimma.com" && (
+          {/* Admin Dashboard (only visible if role is admin) */}
+          {user?.role === "admin" && (
             <NavLink
               to="/dashboard"
               className={({ isActive }) =>
@@ -93,6 +94,7 @@ const Navbar = () => {
               >
                 Register
               </NavLink>
+              <ThemeToggle></ThemeToggle>
             </>
           ) : (
             <>
@@ -106,6 +108,9 @@ const Navbar = () => {
               >
                 Logout
               </NavLink>
+              
+              <ThemeToggle></ThemeToggle>
+             
               {/* Profile Picture with Dropdown */}
               <div
                 className="relative"
@@ -149,104 +154,102 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-     {isMenuOpen && (
-  <div className="lg:hidden bg-white dark:bg-[#12121c] shadow-md py-4 px-6 space-y-3">
-     {/* ✅ Profile for all logged-in users */}
-    {user && (
-        <div className="flex items-center gap-3 mb-2 mt-4 px-2">
-          <img
-            src={user.photoURL || "https://i.ibb.co/MBtjqXQ/male-placeholder-image.jpg"}
-            alt="profile"
-            className="h-9 w-9 rounded-full border-2 border-[#4657F0]"
-          />
-          <span className="text-gray-800 dark:text-gray-200 text-sm font-medium">
-            {user.displayName || user.email}
-          </span>
+      {isMenuOpen && (
+        <div className="lg:hidden bg-white dark:bg-[#12121c] shadow-md py-4 px-6 space-y-3">
+          {/* ✅ Profile for all logged-in users */}
+          {user && (
+            <div className="flex items-center gap-3 mb-2 mt-4 px-2">
+              <img
+                src={user.photoURL || "https://i.ibb.co/MBtjqXQ/male-placeholder-image.jpg"}
+                alt="profile"
+                className="h-9 w-9 rounded-full border-2 border-[#4657F0]"
+              />
+              <span className="text-gray-800 dark:text-gray-200 text-sm font-medium">
+                {user.displayName || user.email}
+              </span>
+            </div>
+          )}
+          {menu.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              onClick={() => setIsMenuOpen(false)}
+              className={({ isActive }) =>
+                `block px-3 py-2 rounded-md transition-all ${isActive
+                  ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
+                  : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
+                }`
+              }
+            >
+              {item.name}
+            </NavLink>
+          ))}
+
+          {/* ✅ Dashboard only for Admin */}
+          {user?.role === "admin" && (
+            <NavLink
+              to="/dashboard"
+              onClick={() => setIsMenuOpen(false)}
+              className={({ isActive }) =>
+                `block px-3 py-2 rounded-md transition-all ${isActive
+                  ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
+                  : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
+                }`
+              }
+            >
+              Dashboard
+            </NavLink>
+          )}
+
+          {!user ? (
+            <>
+              <NavLink
+                to="/login"
+                onClick={() => setIsMenuOpen(false)}
+                className={({ isActive }) =>
+                  `block px-3 py-2 rounded-md transition-all ${isActive
+                    ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
+                    : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
+                  }`
+                }
+              >
+                Login
+              </NavLink>
+              <NavLink
+                to="/register"
+                onClick={() => setIsMenuOpen(false)}
+                className={({ isActive }) =>
+                  `block px-3 py-2 rounded-md transition-all ${isActive
+                    ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
+                    : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
+                  }`
+                }
+              >
+                Register
+              </NavLink>
+              <ThemeToggle></ThemeToggle>
+            </>
+          ) : (
+            <>
+
+
+              {/* ✅ Logout  */}
+              <NavLink
+                to="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  logOuthandle();
+                  setIsMenuOpen(false);
+                }}
+                className="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937] transition-all"
+              >
+                Logout
+              </NavLink>
+              <ThemeToggle></ThemeToggle>
+            </>
+          )}
         </div>
-    )}
-    {menu.map((item) => (
-      <NavLink
-        key={item.path}
-        to={item.path}
-        onClick={() => setIsMenuOpen(false)}
-        className={({ isActive }) =>
-          `block px-3 py-2 rounded-md transition-all ${
-            isActive
-              ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
-              : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
-          }`
-        }
-      >
-        {item.name}
-      </NavLink>
-    ))}
-
-    {/* ✅ Dashboard only for Admin */}
-    {user?.email === "jyoti@mimma.com" && (
-      <NavLink
-        to="/dashboard"
-        onClick={() => setIsMenuOpen(false)}
-        className={({ isActive }) =>
-          `block px-3 py-2 rounded-md transition-all ${
-            isActive
-              ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
-              : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
-          }`
-        }
-      >
-        Dashboard
-      </NavLink>
-    )}
-
-    {!user ? (
-      <>
-        <NavLink
-          to="/login"
-          onClick={() => setIsMenuOpen(false)}
-          className={({ isActive }) =>
-            `block px-3 py-2 rounded-md transition-all ${
-              isActive
-                ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
-                : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
-            }`
-          }
-        >
-          Login
-        </NavLink>
-        <NavLink
-          to="/register"
-          onClick={() => setIsMenuOpen(false)}
-          className={({ isActive }) =>
-            `block px-3 py-2 rounded-md transition-all ${
-              isActive
-                ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
-                : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
-            }`
-          }
-        >
-          Register
-        </NavLink>
-      </>
-    ) : (
-      <>
-        
-
-        {/* ✅ Logout styled like nav links */}
-        <NavLink
-          to="#"
-          onClick={(e) => {
-            e.preventDefault();
-            logOuthandle();
-            setIsMenuOpen(false);
-          }}
-          className="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937] transition-all"
-        >
-          Logout
-        </NavLink>
-      </>
-    )}
-  </div>
-)}
+      )}
     </nav>
   );
 };

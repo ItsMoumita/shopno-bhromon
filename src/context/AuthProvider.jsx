@@ -45,30 +45,47 @@ const createUser = (email, password) => {
     return signOut(auth);
   };
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    if (currentUser) {
+      await currentUser.reload();
 
+      try {
+        const token = await currentUser.getIdToken();
 
-      if (currentUser) {
-       
-        await currentUser.reload();
-        setUser({ ...currentUser });
-      } else {
-        setUser(null);
+        // ✅ Fetch user from  backend
+        const res = await axios.get(
+          `http://localhost:5000/api/users/${currentUser.email}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        // ✅ Merge Firebase user + DB user
+        setUser({
+          ...currentUser,       // Firebase data
+          ...res.data,          // DB data (includes role)
+        });
+
+      
+      } catch (err) {
+        console.error("❌ Error fetching user:", err);
+        setUser(currentUser); // fallback
       }
-       
-     axios.get("http://localhost:5173/", {
-        headers: {
-          Authorization: `Bearer ${currentUser?.accessToken}`,
-        }
-      })
+    } else {
+      setUser(null);
+    }
 
-      setLoading(false);
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+    setLoading(false);
+  });
+
+  return () => unsubscribe();
+}, []);
+
+
+
 
   if (loading) {
     return <Loading></Loading> 
