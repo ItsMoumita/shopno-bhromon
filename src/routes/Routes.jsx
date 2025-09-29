@@ -12,6 +12,8 @@ import { Component } from "lucide-react";
 import DashboardHome from "../pages/Dashboard Pages/DashboardHome";
 import AdminRoute from "../hooks/AdminRoute";
 import AllUsers from "../pages/Dashboard Pages/AllUsers";
+import AddPackage from "../pages/Dashboard Pages/AddPackage";
+import ManagePackages from "../pages/Dashboard Pages/ManagePackages";
 
 
 export const router = createBrowserRouter([
@@ -49,7 +51,19 @@ export const router = createBrowserRouter([
             element: <DashboardLayout>
                 <AllUsers></AllUsers>
             </DashboardLayout>
-          }
+          },
+          {
+            path: "add-packages",
+            element: <DashboardLayout>
+                <AddPackage></AddPackage>
+            </DashboardLayout>
+          },
+          {
+            path: "manage-packages",
+            element: <DashboardLayout>
+                <ManagePackages></ManagePackages>
+            </DashboardLayout>
+          },
       
     ]
 

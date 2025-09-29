@@ -9,6 +9,7 @@ import {
 import { TbPackages } from "react-icons/tb";
 import { Link, NavLink } from "react-router";
 import { IoMdClose } from "react-icons/io"; 
+import { TbDatabaseEdit } from "react-icons/tb";
 
 const DashboardSidebar = ({ isOpen, setIsOpen }) => {
   return (
@@ -76,6 +77,18 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
             }
           >
             <TbPackages />Add Packages
+          </NavLink>
+          <NavLink
+            to="/dashboard/manage-packages"
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-4 py-2 rounded-lg ${
+                isActive
+                  ? "bg-[#4657F0] text-white"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#292b51]"
+              }`
+            }
+          >
+            <TbDatabaseEdit />Manage Packages
           </NavLink>
 
           <NavLink
