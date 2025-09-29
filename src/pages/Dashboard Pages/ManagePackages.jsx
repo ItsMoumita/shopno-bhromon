@@ -1,130 +1,348 @@
-import { useEffect, useState } from "react";
+"use client";
+import { useEffect, useState, useRef, useId } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+
+function useOutsideClick(ref, handler) {
+  useEffect(() => {
+    const listener = (event) => {
+      if (!ref.current || ref.current.contains(event.target)) return;
+      handler(event);
+    };
+    document.addEventListener("mousedown", listener);
+    return () => document.removeEventListener("mousedown", listener);
+  }, [ref, handler]);
+}
 
 const ManagePackages = () => {
   const axiosSecure = useAxiosSecure();
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [active, setActive] = useState(null);
+  const [formData, setFormData] = useState({});
+  const [editMode, setEditMode] = useState(false);
+  const ref = useRef(null);
+  const id = useId();
 
-  // Fetch packages
   useEffect(() => {
-    const fetchPackages = async () => {
+    const fetchPkgs = async () => {
       try {
         setLoading(true);
         const res = await axiosSecure.get("/api/packages");
         setPackages(res.data);
       } catch (err) {
-        console.error("Error fetching packages:", err);
+        console.error("Error:", err);
       } finally {
         setLoading(false);
       }
     };
-    fetchPackages();
+    fetchPkgs();
   }, [axiosSecure]);
 
-  return (
-    <div className="p-6 bg-white dark:bg-[#1b1b2b] rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-gray-100">
-        Manage Packages
-      </h2>
+  useOutsideClick(ref, () => {
+    setActive(null);
+    setEditMode(false);
+  });
 
-      {/* Skeleton Loader */}
+  const openDetails = (pkg) => {
+    setFormData(pkg);
+    setActive(pkg);
+    setEditMode(false); // Always open in view mode
+  };
+
+  const handleSave = async () => {
+    try {
+      const { _id, ...updates } = formData;
+      await axiosSecure.put(`/api/packages/${_id}`, updates);
+      Swal.fire("✅ Updated!", "Package updated successfully", "success");
+      setPackages((prev) =>
+        prev.map((p) => (p._id === formData._id ? formData : p))
+      );
+      setEditMode(false);
+    } catch (err) {
+      Swal.fire("❌ Failed", "Could not update package", "error");
+      console.error(err);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This package will be deleted permanently!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axiosSecure.delete(`/api/packages/${id}`);
+          setPackages((prev) => prev.filter((p) => p._id !== id));
+          Swal.fire("Deleted!", "Package has been deleted.", "success");
+        } catch (err) {
+          Swal.fire("❌ Failed", "Could not delete package", "error");
+          console.error(err);
+        }
+      }
+    });
+  };
+
+  return (
+    <div className="p-6 min-h-screen bg-white dark:bg-[#12121c] text-gray-900 dark:text-white">
+      <h2 className="text-2xl font-bold mb-6 text-center">Manage Packages</h2>
+
       {loading ? (
-        <div className="space-y-4">
-          {[...Array(3)].map((_, idx) => (
-            <div key={idx} className="p-4 border rounded-md">
-              <Skeleton height={20} width="60%" />
-              <Skeleton height={15} width="80%" className="mt-2" />
-              <Skeleton height={15} width="40%" className="mt-2" />
+        <div className="space-y-3">
+          {[...Array(5)].map((_, idx) => (
+            <div key={idx} className="flex items-center gap-3 p-3 border rounded">
+              <Skeleton height={50} width={50} />
+              <Skeleton height={20} width="40%" />
+              <Skeleton height={20} width="20%" />
             </div>
           ))}
         </div>
-      ) : packages.length === 0 ? (
-        <p className="text-center text-gray-500">No packages found</p>
       ) : (
         <>
-          {/* ✅ Desktop Table */}
-          <div className="hidden md:block overflow-x-auto">
-            <table className="min-w-full border border-gray-200 dark:border-gray-700 shadow-sm rounded-lg overflow-hidden">
-              <thead className="bg-gray-100 dark:bg-[#292b51]">
-                <tr>
-                  <th className="px-4 py-2 text-left">Title</th>
-                  <th className="px-4 py-2">Destination</th>
-                  <th className="px-4 py-2">Price</th>
-                  <th className="px-4 py-2">Category</th>
-                  <th className="px-4 py-2">Duration</th>
-                  <th className="px-4 py-2">Availability</th>
-                  <th className="px-4 py-2">Validity</th>
-                  <th className="px-4 py-2">Itinerary</th>
-                  <th className="px-4 py-2">Created By</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {packages.map((pkg) => (
-                  <tr key={pkg._id} className="hover:bg-gray-50 dark:hover:bg-[#1b1b2b]">
-                    <td className="px-4 py-2 font-medium">{pkg.title}</td>
-                    <td className="px-4 py-2">{pkg.destination}</td>
-                    <td className="px-4 py-2 text-[#4657F0] font-semibold">
-                      ৳{pkg.price.toLocaleString()}
-                    </td>
-                    <td className="px-4 py-2">
-                      <span className="px-2 py-1 rounded text-xs bg-blue-100 text-blue-700 dark:bg-blue-800 dark:text-blue-200">
-                        {pkg.category}
-                      </span>
-                    </td>
-                    <td className="px-4 py-2">{pkg.duration} days</td>
-                    <td className="px-4 py-2">
-                      {pkg.availability ? (
-                        <span className="text-green-600 font-semibold">Available</span>
-                      ) : (
-                        <span className="text-red-500 font-semibold">Unavailable</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-2 text-sm">
-                      {new Date(pkg.validFrom).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
-                      <br />
-                      {new Date(pkg.validTill).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
-                    </td>
-                    <td className="px-4 py-2 text-xs max-w-[200px]">
-                      {pkg.itinerary?.map((d, i) => (
-                        <div key={i}>Day {d.day}: {d.activities}</div>
-                      ))}
-                    </td>
-                    <td className="px-4 py-2 text-xs">{pkg.createdBy}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          {/* Expanded overlay */}
+          <AnimatePresence>
+            {active && (
+              <>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 0.5 }}
+                  exit={{ opacity: 0 }}
+                  className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+                />
+                <div className="fixed inset-0 z-50 grid place-items-center p-4">
+                  {/* Close Button (fixed top-right) */}
+                  <button
+                    className="absolute top-5 right-5 p-2 h-10 w-10 bg-white dark:bg-neutral-800 rounded-full shadow z-50"
+                    onClick={() => {
+                      setActive(null);
+                      setEditMode(false);
+                    }}
+                  >
+                    ✕
+                  </button>
 
-          {/* ✅ Mobile Cards */}
-          <div className="md:hidden grid gap-4">
+                  {/* Expanded Card */}
+                  <motion.div
+                    ref={ref}
+                    layoutId={`card-${active._id}-${id}`}
+                    className="w-full max-w-lg bg-white dark:bg-neutral-900 rounded-2xl shadow-lg overflow-hidden relative"
+                  >
+                    <motion.img
+                      src={formData.coverImage}
+                      alt={formData.title}
+                      className="w-full h-60 object-cover"
+                      layoutId={`img-${active._id}-${id}`}
+                    />
+
+                    <div className="p-4 space-y-2">
+                      {/* Title */}
+                      {editMode ? (
+                        <input
+                          type="text"
+                          value={formData.title}
+                          onChange={(e) =>
+                            setFormData({ ...formData, title: e.target.value })
+                          }
+                          className="w-full p-2 border rounded text-black"
+                        />
+                      ) : (
+                        <h3 className="text-xl font-bold">{formData.title}</h3>
+                      )}
+
+                      {/* Description */}
+                      {editMode ? (
+                        <textarea
+                          value={formData.description}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              description: e.target.value,
+                            })
+                          }
+                          className="w-full p-2 border rounded text-black"
+                        />
+                      ) : (
+                        <p className="text-sm text-gray-600 dark:text-gray-300">
+                          {formData.description}
+                        </p>
+                      )}
+
+                      {/* Price */}
+                      {editMode ? (
+                        <input
+                          type="number"
+                          value={formData.price}
+                          onChange={(e) =>
+                            setFormData({ ...formData, price: e.target.value })
+                          }
+                          className="w-full p-2 border rounded text-black"
+                        />
+                      ) : (
+                        <p className="text-blue-600 font-semibold">
+                          ৳{formData.price?.toLocaleString()} · {formData.duration} days
+                        </p>
+                      )}
+
+                      {/* Destination */}
+                      {editMode ? (
+                        <input
+                          type="text"
+                          value={formData.destination}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              destination: e.target.value,
+                            })
+                          }
+                          className="w-full p-2 border rounded text-black"
+                        />
+                      ) : (
+                        <p className="text-xs">Destination: {formData.destination}</p>
+                      )}
+
+                      {/* Duration */}
+                      {editMode && (
+                        <input
+                          type="number"
+                          value={formData.duration}
+                          onChange={(e) =>
+                            setFormData({ ...formData, duration: e.target.value })
+                          }
+                          className="w-full p-2 border rounded text-black"
+                        />
+                      )}
+
+                      {/* Valid Dates */}
+                      {editMode ? (
+                        <>
+                          <input
+                            type="date"
+                            value={formData.validFrom?.split("T")[0]}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                validFrom: e.target.value,
+                              })
+                            }
+                            className="w-full p-2 border rounded text-black"
+                          />
+                          <input
+                            type="date"
+                            value={formData.validTill?.split("T")[0]}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                validTill: e.target.value,
+                              })
+                            }
+                            className="w-full p-2 border rounded text-black"
+                          />
+                        </>
+                      ) : (
+                        <p className="text-xs">
+                          Valid:{" "}
+                          {new Date(formData.validFrom).toLocaleDateString("en-GB")} -{" "}
+                          {new Date(formData.validTill).toLocaleDateString("en-GB")}
+                        </p>
+                      )}
+
+                      {/* Availability */}
+                      {editMode ? (
+                        <label className="flex items-center gap-2 text-sm">
+                          <input
+                            type="checkbox"
+                            checked={formData.availability}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                availability: e.target.checked,
+                              })
+                            }
+                          />
+                          Available
+                        </label>
+                      ) : (
+                        <p
+                          className={`text-sm font-semibold ${formData.availability
+                            ? "text-green-600"
+                            : "text-red-500"
+                            }`}
+                        >
+                          {formData.availability ? "Available" : "Unavailable"}
+                        </p>
+                      )}
+
+                      {/* Created By (always read only) */}
+                      <p className="text-xs mt-3">
+                        Created by: {formData.createdBy}
+                      </p>
+
+                      {/* Toggle Edit/Save */}
+                      {editMode ? (
+                        <button
+                          onClick={handleSave}
+                          className="w-full mt-2 p-2 rounded bg-green-500 text-white"
+                        >
+                          Save
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => setEditMode(true)}
+                          className="w-full mt-2 p-2 rounded bg-[#4657F0] text-white"
+                        >
+                          Edit
+                        </button>
+                      )}
+                    </div>
+                  </motion.div>
+                </div>
+              </>
+            )}
+          </AnimatePresence>
+
+          {/* List view (with Details + Delete buttons) */}
+          <ul className="space-y-3">
             {packages.map((pkg) => (
-              <div key={pkg._id} className="p-4 border rounded-lg shadow-sm bg-gray-50 dark:bg-[#1f1f2e]">
-                <h3 className="font-bold text-lg text-gray-800 dark:text-gray-100">{pkg.title}</h3>
-                <p className="text-gray-700 dark:text-gray-300">{pkg.destination}</p>
-                <p className="text-[#4657F0] font-semibold">৳{pkg.price.toLocaleString()}</p>
-                <p className="text-sm">{pkg.duration} days · {pkg.category}</p>
-                <p className="text-sm mt-1">
-                  Valid: {new Date(pkg.validFrom).toLocaleDateString("en-GB", { day: "numeric", month: "short"})} -{" "}
-                  {new Date(pkg.validTill).toLocaleDateString("en-GB", { day: "numeric", month: "short"})}
-                </p>
-                <div className="mt-2 text-sm">
-                  <p className={pkg.availability ? "text-green-600" : "text-red-500"}>
-                    {pkg.availability ? "Available" : "Unavailable"}
-                  </p>
-                  <div className="mt-1">
-                    {pkg.itinerary?.map((d, i) => (
-                      <div key={i} className="text-xs">Day {d.day}: {d.activities}</div>
-                    ))}
+              <motion.li
+                key={pkg._id}
+                className="flex justify-between items-center p-3 border rounded-lg bg-gray-50 dark:bg-neutral-900"
+              >
+                <div className="flex items-center gap-3">
+                  <motion.img
+                    src={pkg.coverImage}
+                    alt={pkg.title}
+                    className="h-14 w-14 rounded object-cover"
+                  />
+                  <div>
+                    <motion.h3 className="font-semibold">{pkg.title}</motion.h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {pkg.destination}
+                    </p>
                   </div>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">Created by: {pkg.createdBy}</p>
-              </div>
+                <div className="flex gap-2">
+                  <motion.button
+                    onClick={() => openDetails(pkg)}
+                    className="px-4 py-1 text-sm rounded-full font-bold bg-gray-200 hover:bg-[#4657F0] hover:text-white"
+                  >
+                    Details
+                  </motion.button>
+                  <motion.button
+                    onClick={() => handleDelete(pkg._id)}
+                    className="px-4 py-1 text-sm rounded-full font-bold bg-red-500 text-white hover:bg-red-700"
+                  >
+                    Delete
+                  </motion.button>
+                </div>
+              </motion.li>
             ))}
-          </div>
+          </ul>
         </>
       )}
     </div>

@@ -134,7 +134,7 @@ const AllUsers = () => {
                         {user?.role === "admin" && user.email !== u.email && (
                           <button
                             onClick={() => handleRoleChange(u.email, u.role)}
-                            className="ml-2 text-blue-500 hover:text-blue-700"
+                            className="ml-2 text-[#292b51] dark:text-white hover:text-[#4657F0]"
                           >
                             <FaPencilAlt size={14} />
                           </button>

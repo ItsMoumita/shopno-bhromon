@@ -34,23 +34,22 @@ const AddPackage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newPackage = {
-      title,
-      description,
-      destination,
-      duration: parseInt(duration),
-      price: parseFloat(price),
-      category,
-      coverImage,
-      validFrom,
-      validTill,
-      itinerary,
-      availability,
-      createdBy: user?.uid || user?.email,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-
+   const newPackage = {
+  title,
+  description,
+  destination,
+  duration: parseInt(duration),
+  price: parseFloat(price),
+  category,
+  coverImage,
+  validFrom,
+  validTill,
+  itinerary,
+  availability,
+  createdBy: user?.displayName || user?.email, // better than uid
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
     try {
       await axiosSecure.post("/api/packages", newPackage);
 

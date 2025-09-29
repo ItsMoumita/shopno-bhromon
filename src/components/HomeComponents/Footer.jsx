@@ -32,21 +32,21 @@ const Footer = () => {
             <a
               href="#"
               aria-label="Facebook"
-              className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-[#4657F0] hover:text-white transition-colors"
+              className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-[#4657F0] hover:text-white transition-colors"
             >
               <FaFacebookF size={18} />
             </a>
             <a
               href="#"
               aria-label="Instagram"
-              className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-[#4657F0] hover:text-white transition-colors"
+              className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-[#4657F0] hover:text-white transition-colors"
             >
               <FaInstagram size={18} />
             </a>
             <a
               href="#"
               aria-label="LinkedIn"
-              className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-[#4657F0] hover:text-white transition-colors"
+              className="w-9 h-9 flex items-center justify-center rounded-full bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-[#4657F0] hover:text-white transition-colors"
             >
               <FaLinkedinIn size={18} />
             </a>
