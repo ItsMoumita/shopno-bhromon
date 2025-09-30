@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import { FaPencilAlt } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Aos from "aos";
 
 const COLORS = ["#4657F0", "#00C49F", "#FF7F50", "#4FC3F7", "#FF8042"];
 
@@ -51,6 +52,15 @@ const AllUsers = () => {
     value: roleCounts[role],
   }));
 
+  useEffect(() => {
+  Aos.init({
+    duration: 800, // duration of animation in ms
+    offset: 100,   // offset (in px) from the original trigger point
+    easing: "ease-in-out", // easing type
+    once: true,    // whether animation should happen only once
+  });
+}, []);
+
   const handleRoleChange = async (email, currentRole) => {
     Swal.fire({
       title: "Change Role",
@@ -75,8 +85,10 @@ const AllUsers = () => {
     });
   };
 
+
+
   return (
-    <div
+    <div data-aos="zoom-in"
       className="flex flex-col min-h-[calc(100vh-94px)]"
     >
       {/* Main content grows */}

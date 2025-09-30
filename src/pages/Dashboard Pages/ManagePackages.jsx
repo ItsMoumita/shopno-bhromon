@@ -90,7 +90,7 @@ const ManagePackages = () => {
   };
 
   return (
-    <div className="p-6 min-h-screen bg-white dark:bg-[#12121c] text-gray-900 dark:text-white">
+    <div data-aos="zoom-in" className="p-6 min-h-screen rounded-lg bg-white dark:bg-[#12121c] text-gray-900 dark:text-white">
       <h2 className="text-2xl font-bold mb-6 text-center">Manage Packages</h2>
 
       {loading ? (
@@ -131,7 +131,7 @@ const ManagePackages = () => {
                   <motion.div
                     ref={ref}
                     layoutId={`card-${active._id}-${id}`}
-                    className="w-full max-w-lg bg-white dark:bg-neutral-900 rounded-2xl shadow-lg overflow-hidden relative"
+                    className="w-full max-w-lg bg-white dark:bg-[#292b51] dark:text-white rounded-2xl shadow-lg overflow-hidden relative"
                   >
                     <motion.img
                       src={formData.coverImage}
@@ -140,7 +140,7 @@ const ManagePackages = () => {
                       layoutId={`img-${active._id}-${id}`}
                     />
 
-                    <div className="p-4 space-y-2">
+                    <div className="p-4 space-y-2 dark:text-white">
                       {/* Title */}
                       {editMode ? (
                         <input
@@ -149,7 +149,7 @@ const ManagePackages = () => {
                           onChange={(e) =>
                             setFormData({ ...formData, title: e.target.value })
                           }
-                          className="w-full p-2 border rounded text-black"
+                          className="w-full p-2 border rounded text-black dark:text-white"
                         />
                       ) : (
                         <h3 className="text-xl font-bold">{formData.title}</h3>
@@ -165,7 +165,7 @@ const ManagePackages = () => {
                               description: e.target.value,
                             })
                           }
-                          className="w-full p-2 border rounded text-black"
+                          className="w-full p-2 border rounded text-black dark:text-white"
                         />
                       ) : (
                         <p className="text-sm text-gray-600 dark:text-gray-300">
@@ -181,7 +181,7 @@ const ManagePackages = () => {
                           onChange={(e) =>
                             setFormData({ ...formData, price: e.target.value })
                           }
-                          className="w-full p-2 border rounded text-black"
+                          className="w-full p-2 border rounded text-black dark:text-white"
                         />
                       ) : (
                         <p className="text-blue-600 font-semibold">
@@ -200,7 +200,7 @@ const ManagePackages = () => {
                               destination: e.target.value,
                             })
                           }
-                          className="w-full p-2 border rounded text-black"
+                          className="w-full p-2 border rounded text-black dark:text-white"
                         />
                       ) : (
                         <p className="text-xs">Destination: {formData.destination}</p>
@@ -214,7 +214,7 @@ const ManagePackages = () => {
                           onChange={(e) =>
                             setFormData({ ...formData, duration: e.target.value })
                           }
-                          className="w-full p-2 border rounded text-black"
+                          className="w-full p-2 border rounded text-black dark:text-white"
                         />
                       )}
 
@@ -230,7 +230,7 @@ const ManagePackages = () => {
                                 validFrom: e.target.value,
                               })
                             }
-                            className="w-full p-2 border rounded text-black"
+                            className="w-full p-2 border rounded text-black dark:text-white"
                           />
                           <input
                             type="date"
@@ -241,7 +241,7 @@ const ManagePackages = () => {
                                 validTill: e.target.value,
                               })
                             }
-                            className="w-full p-2 border rounded text-black"
+                            className="w-full p-2 border rounded text-black dark:text-white"
                           />
                         </>
                       ) : (
@@ -311,7 +311,7 @@ const ManagePackages = () => {
             {packages.map((pkg) => (
               <motion.li
                 key={pkg._id}
-                className="flex justify-between items-center p-3 border rounded-lg bg-gray-50 dark:bg-neutral-900"
+                className="flex justify-between items-center p-3 border rounded-lg bg-gray-50 dark:bg-[#12121c]"
               >
                 <div className="flex items-center gap-3">
                   <motion.img
@@ -329,7 +329,7 @@ const ManagePackages = () => {
                 <div className="flex gap-2">
                   <motion.button
                     onClick={() => openDetails(pkg)}
-                    className="px-4 py-1 text-sm rounded-full font-bold bg-gray-200 hover:bg-[#4657F0] hover:text-white"
+                    className="px-4 py-1 text-sm rounded-full font-bold bg-gray-200 dark:bg-[#292b51] hover:bg-[#4657F0] hover:text-white"
                   >
                     Details
                   </motion.button>

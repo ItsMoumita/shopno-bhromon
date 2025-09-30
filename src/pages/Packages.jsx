@@ -2,6 +2,9 @@
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { FiSearch } from "react-icons/fi";
+import { Link } from "react-router";
+import FancyButton from "../components/ExtraComponents/FancyButton";
+import { BiCategoryAlt } from "react-icons/bi";
 
 const categories = ["Adventure", "Family", "Luxury", "Honeymoon"];
 const sortOptions = [
@@ -96,7 +99,7 @@ const Packages = () => {
         {/* Responsive layout */}
         <div className="grid md:grid-cols-[280px_1fr] gap-8">
           {/* Sidebar Filters */}
-          <div className="space-y-8 bg-white dark:bg-[#1b1b2b] p-6 rounded-lg shadow-md h-fit 
+          <div data-aos="fade-right" className="space-y-8 bg-white dark:bg-[#1b1b2b] p-6 rounded-lg shadow-md h-fit 
                 md:sticky top-24">
             {/* Header */}
             <div className="flex justify-between items-center">
@@ -151,7 +154,7 @@ const Packages = () => {
 
             {/* Category Filter */}
             <div>
-              <h4 className="font-semibold mb-3">🏷 Categories</h4>
+              <h4 className="font-semibold mb-3 flex items-center gap-2"><BiCategoryAlt size={18} /> Categories</h4>
               <div className="flex flex-wrap gap-2">
                 {categories.map((cat) => (
                   <button
@@ -205,11 +208,11 @@ const Packages = () => {
           </div>
 
           {/* Packages Grid */}
-          <div>
+          <div data-aos="fade-left">
             {filteredPackages.length === 0 ? (
               <p className="text-center text-gray-500">No packages found</p>
             ) : (
-              <div className="grid sm:grid-cols-1  lg:grid-cols-2 gap-6">
+              <div  className="grid sm:grid-cols-1  lg:grid-cols-2 gap-6">
                 {filteredPackages.map((pkg) => (
                   <div
                     key={pkg._id}
@@ -232,9 +235,8 @@ const Packages = () => {
                         {pkg.category}
                       </span>
                       <div className="mt-auto pt-5">
-                        <button className="w-full py-2 bg-[#4657F0] text-white rounded-md font-medium hover:bg-[#2f3fd9] transition">
-                          View Details
-                        </button>
+                        
+                        <FancyButton to={`/package/${pkg._id}`} label="View Details" />
                       </div>
                     </div>
                   </div>

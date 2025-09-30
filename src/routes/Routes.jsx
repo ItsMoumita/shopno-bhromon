@@ -14,6 +14,7 @@ import AdminRoute from "../hooks/AdminRoute";
 import AllUsers from "../pages/Dashboard Pages/AllUsers";
 import AddPackage from "../pages/Dashboard Pages/AddPackage";
 import ManagePackages from "../pages/Dashboard Pages/ManagePackages";
+import PackageDetails from "../pages/PackageDetails";
 
 
 export const router = createBrowserRouter([
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
       {
         path: "packages",
         Component: Packages
+      },
+      {
+        path: "package/:id",
+        Component: PackageDetails
       },
       {
         path: "about",

@@ -84,7 +84,7 @@ const AddPackage = () => {
   };
 
   return (
-    <div className="p-6 max-w-3xl mx-auto bg-white dark:bg-[#1b1b2b] shadow-md rounded-lg">
+    <div data-aos="zoom-in" className="p-6 max-w-3xl mx-auto bg-white dark:bg-[#1b1b2b] shadow-md rounded-lg">
       <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100 text-center">
         Add New Package
       </h2>
