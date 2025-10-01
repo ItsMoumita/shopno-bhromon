@@ -311,9 +311,9 @@ const ManagePackages = () => {
             {packages.map((pkg) => (
               <motion.li
                 key={pkg._id}
-                className="flex justify-between items-center p-3 border rounded-lg bg-gray-50 dark:bg-[#12121c]"
+                className="flex justify-between items-center p-3 border border-[#4657F0]/20 rounded-lg bg-gray-50 dark:bg-[#12121c]"
               >
-                <div className="flex items-center gap-3">
+                <div className="max-w-2/3 flex items-center gap-3">
                   <motion.img
                     src={pkg.coverImage}
                     alt={pkg.title}
@@ -326,7 +326,7 @@ const ManagePackages = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-col md:flex-row gap-2 ">
                   <motion.button
                     onClick={() => openDetails(pkg)}
                     className="px-4 py-1 text-sm rounded-full font-bold bg-gray-200 dark:bg-[#292b51] hover:bg-[#4657F0] hover:text-white"

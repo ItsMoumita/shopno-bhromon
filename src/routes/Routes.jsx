@@ -15,6 +15,10 @@ import AllUsers from "../pages/Dashboard Pages/AllUsers";
 import AddPackage from "../pages/Dashboard Pages/AddPackage";
 import ManagePackages from "../pages/Dashboard Pages/ManagePackages";
 import PackageDetails from "../pages/PackageDetails";
+import AddResorts from "../pages/Dashboard Pages/AddResorts";
+import Resorts from "../pages/Resorts";
+import ManageResorts from "../pages/Dashboard Pages/ManageResorts";
+import ResortDetails from "../pages/ResortDetails";
 
 
 export const router = createBrowserRouter([
@@ -37,7 +41,15 @@ export const router = createBrowserRouter([
       {
         path: "about",
         Component: About
-      }
+      },
+      {
+        path: "resorts",
+        Component: Resorts
+      },
+      {
+        path: "/resort/:id",
+        Component: ResortDetails
+      },
 
     ]
   },
@@ -67,6 +79,18 @@ export const router = createBrowserRouter([
             path: "manage-packages",
             element: <DashboardLayout>
                 <ManagePackages></ManagePackages>
+            </DashboardLayout>
+          },
+          {
+            path: "add-resorts",
+            element: <DashboardLayout>
+                <AddResorts></AddResorts>
+            </DashboardLayout>
+          },
+          {
+            path: "manage-resorts",
+            element: <DashboardLayout>
+                <ManageResorts></ManageResorts>
             </DashboardLayout>
           },
       
