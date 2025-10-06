@@ -93,13 +93,13 @@ const Packages = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-[#12121c] text-gray-900 dark:text-gray-100">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <h2 className="text-3xl font-bold mb-8 text-center">
-          ✈️ Explore Our Tour Packages
+          ✈️ Explore Our Tour <span className="text-[#4657F0]">Packages</span>
         </h2>
 
         {/* Responsive layout */}
         <div className="grid md:grid-cols-[280px_1fr] gap-8">
           {/* Sidebar Filters */}
-          <div data-aos="fade-right" className="space-y-8 bg-white dark:bg-[#1b1b2b] p-6 rounded-lg shadow-md h-fit 
+          <div data-aos="fade-right" className="space-y-8 bg-white dark:bg-[#1b1b2b] p-6 rounded-lg shadow-md  h-fit 
                 md:sticky top-24">
             {/* Header */}
             <div className="flex justify-between items-center">
@@ -216,7 +216,7 @@ const Packages = () => {
                 {filteredPackages.map((pkg) => (
                   <div
                     key={pkg._id}
-                    className="flex flex-col rounded-lg bg-white dark:bg-[#1b1b2b] overflow-hidden shadow-md hover:shadow-xl transition"
+                    className="flex flex-col rounded-lg bg-white dark:bg-[#1b1b2b] overflow-hidden shadow-sm hover:shadow-[#2f3fd9]/80 transition"
                   >
                     <img
                       src={pkg.coverImage}

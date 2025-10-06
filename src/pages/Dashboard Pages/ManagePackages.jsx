@@ -1,4 +1,4 @@
-"use client";
+
 import { useEffect, useState, useRef, useId } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
@@ -10,7 +10,7 @@ function useOutsideClick(ref, handler) {
   useEffect(() => {
     const listener = (event) => {
       if (!ref.current || ref.current.contains(event.target)) return;
-      handler(event);
+      handler();
     };
     document.addEventListener("mousedown", listener);
     return () => document.removeEventListener("mousedown", listener);
@@ -90,13 +90,19 @@ const ManagePackages = () => {
   };
 
   return (
-    <div data-aos="zoom-in" className="p-6 min-h-screen rounded-lg bg-white dark:bg-[#12121c] text-gray-900 dark:text-white">
+    <div
+      data-aos="zoom-in"
+      className="p-6 min-h-screen rounded-lg bg-white dark:bg-[#12121c] text-gray-900 dark:text-white"
+    >
       <h2 className="text-2xl font-bold mb-6 text-center">Manage Packages</h2>
 
       {loading ? (
         <div className="space-y-3">
           {[...Array(5)].map((_, idx) => (
-            <div key={idx} className="flex items-center gap-3 p-3 border rounded">
+            <div
+              key={idx}
+              className="flex items-center gap-3 p-3 border rounded"
+            >
               <Skeleton height={50} width={50} />
               <Skeleton height={20} width="40%" />
               <Skeleton height={20} width="20%" />
@@ -141,163 +147,159 @@ const ManagePackages = () => {
                     />
 
                     <div className="p-4 space-y-2 dark:text-white">
-                      {/* Title */}
-                      {editMode ? (
-                        <input
-                          type="text"
-                          value={formData.title}
-                          onChange={(e) =>
-                            setFormData({ ...formData, title: e.target.value })
-                          }
-                          className="w-full p-2 border rounded text-black dark:text-white"
-                        />
-                      ) : (
-                        <h3 className="text-xl font-bold">{formData.title}</h3>
-                      )}
-
-                      {/* Description */}
-                      {editMode ? (
-                        <textarea
-                          value={formData.description}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              description: e.target.value,
-                            })
-                          }
-                          className="w-full p-2 border rounded text-black dark:text-white"
-                        />
-                      ) : (
-                        <p className="text-sm text-gray-600 dark:text-gray-300">
-                          {formData.description}
-                        </p>
-                      )}
-
-                      {/* Price */}
-                      {editMode ? (
-                        <input
-                          type="number"
-                          value={formData.price}
-                          onChange={(e) =>
-                            setFormData({ ...formData, price: e.target.value })
-                          }
-                          className="w-full p-2 border rounded text-black dark:text-white"
-                        />
-                      ) : (
-                        <p className="text-blue-600 font-semibold">
-                          ৳{formData.price?.toLocaleString()} · {formData.duration} days
-                        </p>
-                      )}
-
-                      {/* Destination */}
-                      {editMode ? (
-                        <input
-                          type="text"
-                          value={formData.destination}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              destination: e.target.value,
-                            })
-                          }
-                          className="w-full p-2 border rounded text-black dark:text-white"
-                        />
-                      ) : (
-                        <p className="text-xs">Destination: {formData.destination}</p>
-                      )}
-
-                      {/* Duration */}
-                      {editMode && (
-                        <input
-                          type="number"
-                          value={formData.duration}
-                          onChange={(e) =>
-                            setFormData({ ...formData, duration: e.target.value })
-                          }
-                          className="w-full p-2 border rounded text-black dark:text-white"
-                        />
-                      )}
-
-                      {/* Valid Dates */}
                       {editMode ? (
                         <>
-                          <input
-                            type="date"
-                            value={formData.validFrom?.split("T")[0]}
-                            onChange={(e) =>
-                              setFormData({
-                                ...formData,
-                                validFrom: e.target.value,
-                              })
-                            }
-                            className="w-full p-2 border rounded text-black dark:text-white"
-                          />
-                          <input
-                            type="date"
-                            value={formData.validTill?.split("T")[0]}
-                            onChange={(e) =>
-                              setFormData({
-                                ...formData,
-                                validTill: e.target.value,
-                              })
-                            }
-                            className="w-full p-2 border rounded text-black dark:text-white"
-                          />
+                          <div>
+                            <label className="block font-semibold mb-1">Title</label>
+                            <input
+                              type="text"
+                              value={formData.title}
+                              onChange={(e) =>
+                                setFormData({ ...formData, title: e.target.value })
+                              }
+                              className="w-full p-2 border rounded text-black dark:text-white"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block font-semibold mb-1">Description</label>
+                            <textarea
+                              value={formData.description}
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  description: e.target.value,
+                                })
+                              }
+                              className="w-full p-2 border rounded text-black dark:text-white"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block font-semibold mb-1">Price (BDT)</label>
+                            <input
+                              type="number"
+                              value={formData.price}
+                              onChange={(e) =>
+                                setFormData({ ...formData, price: e.target.value })
+                              }
+                              className="w-full p-2 border rounded text-black dark:text-white"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block font-semibold mb-1">Destination</label>
+                            <input
+                              type="text"
+                              value={formData.destination}
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  destination: e.target.value,
+                                })
+                              }
+                              className="w-full p-2 border rounded text-black dark:text-white"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block font-semibold mb-1">Duration (days)</label>
+                            <input
+                              type="number"
+                              value={formData.duration}
+                              onChange={(e) =>
+                                setFormData({ ...formData, duration: e.target.value })
+                              }
+                              className="w-full p-2 border rounded text-black dark:text-white"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block font-semibold mb-1">Valid From</label>
+                            <input
+                              type="date"
+                              value={formData.validFrom?.split("T")[0]}
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  validFrom: e.target.value,
+                                })
+                              }
+                              className="w-full p-2 border rounded text-black dark:text-white"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block font-semibold mb-1">Valid Till</label>
+                            <input
+                              type="date"
+                              value={formData.validTill?.split("T")[0]}
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  validTill: e.target.value,
+                                })
+                              }
+                              className="w-full p-2 border rounded text-black dark:text-white"
+                            />
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={formData.availability}
+                              onChange={(e) =>
+                                setFormData({ ...formData, availability: e.target.checked })
+                              }
+                            />
+                            <label className="font-semibold">Available</label>
+                          </div>
+
+                          <div>
+                            <label className="block font-semibold mb-1">Created By</label>
+                            <p className="p-2 bg-gray-100 dark:bg-[#292b51] rounded">
+                              {formData.createdBy}
+                            </p>
+                          </div>
+
+                          <button
+                            onClick={handleSave}
+                            className="w-full mt-2 p-2 rounded bg-green-500 text-white"
+                          >
+                            Save
+                          </button>
                         </>
                       ) : (
-                        <p className="text-xs">
-                          Valid:{" "}
-                          {new Date(formData.validFrom).toLocaleDateString("en-GB")} -{" "}
-                          {new Date(formData.validTill).toLocaleDateString("en-GB")}
-                        </p>
-                      )}
-
-                      {/* Availability */}
-                      {editMode ? (
-                        <label className="flex items-center gap-2 text-sm">
-                          <input
-                            type="checkbox"
-                            checked={formData.availability}
-                            onChange={(e) =>
-                              setFormData({
-                                ...formData,
-                                availability: e.target.checked,
-                              })
-                            }
-                          />
-                          Available
-                        </label>
-                      ) : (
-                        <p
-                          className={`text-sm font-semibold ${formData.availability
-                            ? "text-green-600"
-                            : "text-red-500"
+                        <>
+                          <h3 className="text-xl font-bold">{formData.title}</h3>
+                          <p className="text-sm text-gray-600 dark:text-gray-300">
+                            {formData.description}
+                          </p>
+                          <p className="text-blue-600 font-semibold">
+                            ৳{formData.price?.toLocaleString()} · {formData.duration} days
+                          </p>
+                          <p className="text-xs">Destination: {formData.destination}</p>
+                          <p className="text-xs">
+                            Valid:{" "}
+                            {new Date(formData.validFrom).toLocaleDateString("en-GB")} -{" "}
+                            {new Date(formData.validTill).toLocaleDateString("en-GB")}
+                          </p>
+                          <p
+                            className={`text-sm font-semibold ${
+                              formData.availability ? "text-green-600" : "text-red-500"
                             }`}
-                        >
-                          {formData.availability ? "Available" : "Unavailable"}
-                        </p>
-                      )}
+                          >
+                            {formData.availability ? "Available" : "Unavailable"}
+                          </p>
+                          <p className="text-xs mt-3">Created by: {formData.createdBy}</p>
 
-                      {/* Created By (always read only) */}
-                      <p className="text-xs mt-3">
-                        Created by: {formData.createdBy}
-                      </p>
-
-                      {/* Toggle Edit/Save */}
-                      {editMode ? (
-                        <button
-                          onClick={handleSave}
-                          className="w-full mt-2 p-2 rounded bg-green-500 text-white"
-                        >
-                          Save
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => setEditMode(true)}
-                          className="w-full mt-2 p-2 rounded bg-[#4657F0] text-white"
-                        >
-                          Edit
-                        </button>
+                          <button
+                            onClick={() => setEditMode(true)}
+                            className="w-full mt-2 p-2 rounded bg-[#4657F0] text-white"
+                          >
+                            Edit
+                          </button>
+                        </>
                       )}
                     </div>
                   </motion.div>

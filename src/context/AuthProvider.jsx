@@ -18,6 +18,7 @@ import Loading from "../components/ExtraComponents/Loading";
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+const [roleLoading, setRoleLoading] = useState(true); // new state
 
 
 
@@ -45,6 +46,8 @@ const createUser = (email, password) => {
     return signOut(auth);
   };
 
+
+
 useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
     if (currentUser) {
@@ -53,7 +56,9 @@ useEffect(() => {
       try {
         const token = await currentUser.getIdToken();
 
-        // ✅ Fetch user from  backend
+        // Start role loading
+        setRoleLoading(true);
+
         const res = await axios.get(
           `http://localhost:5000/api/users/${currentUser.email}`,
           {
@@ -63,19 +68,20 @@ useEffect(() => {
           }
         );
 
-        // ✅ Merge Firebase user + DB user
         setUser({
-          ...currentUser,       // Firebase data
-          ...res.data,          // DB data (includes role)
+          ...currentUser,
+          ...res.data,
         });
 
-      
+        setRoleLoading(false); // role loaded
       } catch (err) {
         console.error("❌ Error fetching user:", err);
-        setUser(currentUser); // fallback
+        setUser(currentUser);
+        setRoleLoading(false);
       }
     } else {
       setUser(null);
+      setRoleLoading(false);
     }
 
     setLoading(false);
@@ -86,9 +92,8 @@ useEffect(() => {
 
 
 
-
-  if (loading) {
-    return <Loading></Loading> 
+  if (loading || roleLoading) {
+    return <Loading></Loading>;
   }
 
   const googleProvider = new GoogleAuthProvider();
@@ -110,6 +115,8 @@ const googleSignIn = () => {
     updateUser,
   
   };
+
+  console.log(user);
     return (
         <div>
             <AuthContext.Provider value={userInfo}>

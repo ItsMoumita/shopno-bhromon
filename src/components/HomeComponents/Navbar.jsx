@@ -15,7 +15,7 @@ const menu = [
 ];
 
 const Navbar = () => {
-  const { user, setUser, logOut } = useContext(AuthContext);
+  const { user, setUser, logOut , roleLoading } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
@@ -34,6 +34,7 @@ const Navbar = () => {
       .catch((err) => console.error("Logout failed:", err));
   };
 
+  // console.log(user.role);
   return (
     <nav className="sticky top-0 bg-white dark:bg-[#12121c] shadow z-50">
       <div className="max-w-7xl px-4 mx-auto flex justify-between items-center relative">
@@ -63,6 +64,7 @@ const Navbar = () => {
               {item.name}
             </NavLink>
           ))}
+             
 
           {/* Admin Dashboard (only visible if role is admin) */}
           {user?.role === "admin" && (

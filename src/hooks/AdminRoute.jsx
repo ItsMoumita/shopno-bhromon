@@ -8,6 +8,8 @@ const AdminRoute = () => {
   if (!user) return <Navigate to="/login" />;
   if (user.role !== "admin") return <Navigate to="/" />;
 
+  console.log(user.role);
+
   return <Outlet />; // renders nested children
 };
 

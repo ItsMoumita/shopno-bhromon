@@ -20,7 +20,6 @@ import {
     MdOutlineAccessTime,
 } from "react-icons/md";
 import Loading from "../components/ExtraComponents/Loading";
-import FancyButton from "../components/ExtraComponents/FancyButton";
 import CustomButton from "../components/ExtraComponents/CustomButton";
 
 // Map amenity names to icons (optional for badges)

@@ -10,6 +10,7 @@ import {
   FaCalendarAlt,
 } from "react-icons/fa";
 import CustomButton from "../components/ExtraComponents/CustomButton";
+import Loading from "../components/ExtraComponents/Loading";
 
 export default function PackageDetails() {
   const { id } = useParams();
@@ -29,7 +30,7 @@ export default function PackageDetails() {
   }, [axiosSecure, id]);
 
   if (!pkg) {
-    return <p className="text-center mt-20 text-gray-500">Loading...</p>;
+    return <Loading></Loading>;
   }
 
   // Simple inline AnimatedBadge element
