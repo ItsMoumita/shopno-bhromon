@@ -5,13 +5,14 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../../context/AuthContext";
 import { Link, NavLink } from "react-router";
 import { ThemeToggle } from "../ExtraComponents/ThemeToggle";
+import { BsCart4 } from "react-icons/bs";
 
 const menu = [
   { name: "Home", path: "/" },
   { name: "Packages", path: "/packages" },
   { name: "Resorts", path: "/resorts" },
   { name: "About Us", path: "/about" },
-  { name: "Contact", path: "/contact" },
+  // { name: "Cart", path: "/cart" },
 ];
 
 const Navbar = () => {
@@ -100,6 +101,8 @@ const Navbar = () => {
             </>
           ) : (
             <>
+             
+
               <NavLink
                 to="#"
                 onClick={(e) => {
@@ -134,14 +137,29 @@ const Navbar = () => {
                   </div>
                 )}
               </div>
-
+                 <NavLink
+                to="/cart"
+                className="px-3 font-bold py-2 text-gray-700 dark:text-[#fcfcfd] hover:text-[#4657F0]"
+              >
+                <BsCart4  size={25}/>
+              </NavLink>
 
             </>
           )}
         </ul>
 
         {/* Mobile Toggle */}
-        <div className="lg:hidden flex items-center">
+        <div className="lg:hidden flex items-center gap-4">
+           {user && (
+           
+               <NavLink
+                to="/cart"
+                className="font-bold text-gray-700 dark:text-[#fcfcfd] hover:text-[#4657F0]"
+              >
+                <BsCart4  size={25}/>
+              </NavLink>
+        
+          )}
           <button
             onClick={() => setIsMenuOpen((prev) => !prev)}
             className="w-10 h-10 grid place-items-center focus:outline-none"
@@ -155,9 +173,17 @@ const Navbar = () => {
         </div>
       </div>
 
+
+     {/* mobile cart  */}
+
+    
+
+
       {/* Mobile Menu */}
+
       {isMenuOpen && (
         <div className="lg:hidden bg-white dark:bg-[#12121c] shadow-md py-4 px-6 space-y-3">
+
           {/* ✅ Profile for all logged-in users */}
           {user && (
             <div className="flex items-center gap-3 mb-2 mt-4 px-2">
@@ -172,6 +198,7 @@ const Navbar = () => {
             </div>
           )}
           {menu.map((item) => (
+            
             <NavLink
               key={item.path}
               to={item.path}

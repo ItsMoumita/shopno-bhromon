@@ -1,6 +1,8 @@
 
+import Gallery from '../components/HomeComponents/Gallery';
 import Hero from '../components/HomeComponents/Hero';
 import RecentPackagesCarousel from '../components/HomeComponents/RecentPackagesCarousel';
+import RecentResortsCarousel from '../components/HomeComponents/RecentResortsCarousel';
 
 const Home = () => {
   
@@ -8,6 +10,8 @@ const Home = () => {
         <div>
             <Hero></Hero>
             <RecentPackagesCarousel></RecentPackagesCarousel>
+            <RecentResortsCarousel></RecentResortsCarousel>
+            <Gallery></Gallery>
         </div>
     );
 };

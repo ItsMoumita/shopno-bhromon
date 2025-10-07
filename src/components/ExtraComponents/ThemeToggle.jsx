@@ -1,4 +1,4 @@
-"use client";
+
 
 import { Moon, SunDim } from "lucide-react";
 import { useState, useRef, useEffect } from "react";

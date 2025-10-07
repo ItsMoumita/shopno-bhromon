@@ -83,7 +83,7 @@ const Resorts = () => {
 
       <div className="flex flex-col md:flex-row gap-6">
         {/* Filters */}
-        <aside data-aos="fade-right" className="md:w-64 bg-white dark:bg-[#1b1b2b] p-6 rounded-lg shadow-md flex-shrink-0">
+        <aside data-aos="fade-right" className="md:w-64 bg-white dark:bg-[#1b1b2b] p-6 rounded-lg shadow-md flex-shrink-0 sticky top-25 h-fit">
           {/* Search */}
           <div className="mb-6">
             <label className="block mb-2 font-semibold">Search</label>

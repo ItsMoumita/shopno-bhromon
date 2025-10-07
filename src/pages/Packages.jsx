@@ -1,4 +1,4 @@
-"use client";
+
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { FiSearch } from "react-icons/fi";
