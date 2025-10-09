@@ -19,6 +19,9 @@ import AddResorts from "../pages/Dashboard Pages/AddResorts";
 import Resorts from "../pages/Resorts";
 import ManageResorts from "../pages/Dashboard Pages/ManageResorts";
 import ResortDetails from "../pages/ResortDetails";
+import CheckoutPage from "../pages/CheckoutPage";
+import Bookings from "../pages/Bookings";
+import AllBookings from "../pages/Dashboard Pages/AllBookings";
 
 
 export const router = createBrowserRouter([
@@ -49,6 +52,14 @@ export const router = createBrowserRouter([
       {
         path: "/resort/:id",
         Component: ResortDetails
+      },
+      {
+        path: "/checkout",
+        Component: CheckoutPage
+      },
+      {
+        path: "/bookings",
+        Component: Bookings
       },
 
     ]
@@ -91,6 +102,13 @@ export const router = createBrowserRouter([
             path: "manage-resorts",
             element: <DashboardLayout>
                 <ManageResorts></ManageResorts>
+            </DashboardLayout>
+          },
+      
+          {
+            path: "all-bookings",
+            element: <DashboardLayout>
+                <AllBookings></AllBookings>
             </DashboardLayout>
           },
       

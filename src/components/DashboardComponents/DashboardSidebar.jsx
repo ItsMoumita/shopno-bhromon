@@ -118,7 +118,7 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
           </NavLink>
 
           <NavLink
-            to="/dashboard/payments"
+            to="/dashboard/all-bookings"
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-2 rounded-lg ${
                 isActive
@@ -127,7 +127,7 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
               }`
             }
           >
-            <FaMoneyBill /> Payments
+            <FaMoneyBill /> All Bookings
           </NavLink>
 
           <NavLink

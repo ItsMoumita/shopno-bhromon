@@ -8,10 +8,10 @@ const Private = ({ children }) => {
     const { user, loading } = React.useContext(AuthContext);
      const location = useLocation();
     if (loading) {
-        return <div >
+        return <Loading></Loading>;
             
-              <Loading></Loading>
-        </div>
+        
+       
     }
 
     if (user && user?.email) {

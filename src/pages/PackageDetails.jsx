@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import {
   FaMapMarkerAlt,
@@ -16,6 +16,7 @@ export default function PackageDetails() {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
   const [pkg, setPkg] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPackage = async () => {
@@ -32,6 +33,20 @@ export default function PackageDetails() {
   if (!pkg) {
     return <Loading></Loading>;
   }
+
+ const handleBook = () => {
+  navigate("/checkout", {
+    state: {
+      itemType: "package",
+      itemTitle: pkg.title,
+      itemId: pkg._id,
+      guests: 1,
+      startDate: null
+    }
+  });
+};
+
+
 
   // Simple inline AnimatedBadge element
   const AnimatedBadge = ({ text, icon, borderColor = "via-sky-500" }) => (
@@ -148,7 +163,7 @@ export default function PackageDetails() {
 
         {/* CTA */}
         <div data-aos="zoom-in" className="space-x-6">
-          <CustomButton label="Book Now" onClick={() => alert("Booking feature coming soon!")} />
+          <CustomButton label="Book Now" onClick={handleBook} />
           <CustomButton label="Back" to="/packages" />
         </div>
       </div>

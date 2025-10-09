@@ -83,7 +83,7 @@ export default function RecentPackagesCarousel() {
   return (
     <div   className="w-full py-12 md:py-20 bg-gray-50 dark:bg-[#12121c]">
       <div className="max-w-7xl mx-auto px-4">
-        <h2 data-aos="zoom-in" className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white">
+        <h2 data-aos="zoom-in" className="text-4xl md:text-5xl font-bold text-center mb-12 text-gray-900 dark:text-white">
           Recently Added <span className="text-[#4657F0]">Packages</span>
         </h2>
 

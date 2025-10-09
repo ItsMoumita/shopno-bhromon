@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { FaStarHalfAlt } from "react-icons/fa";
 
@@ -42,6 +42,7 @@ export default function ResortDetails() {
     const axiosSecure = useAxiosSecure();
     const [resort, setResort] = useState(null);
     const [selectedImg, setSelectedImg] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchResort = async () => {
@@ -103,6 +104,20 @@ export default function ResortDetails() {
         </div>
     );
 
+
+
+  const handleReserve = (room) => {
+  navigate("/checkout", {
+    state: {
+      itemType: "resort",
+      itemId: resort._id,
+      itemTitle: resort.name,
+      nights: 1,
+      guests: room.capacity || 1,
+      startDate: null
+    }
+  });
+}
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-[#12121c] py-8 px-4">
             {/* Keyframes for animated gradient */}
@@ -221,7 +236,7 @@ export default function ResortDetails() {
                     )}
 
                     {/* CTA button below badges */}
-                    <CustomButton label="Book Resort" link="#" />
+                    {/* <CustomButton label="Book Resort" link="#" /> */}
                 </div>
             </div>
 
@@ -255,7 +270,7 @@ export default function ResortDetails() {
                                         ৳{Number(room.price || 0).toLocaleString()} / night
                                     </p>
 
-                                    <CustomButton label="Reserve" link="#" />
+                                    <CustomButton label="Reserve" onClick={() => handleReserve(room)} />
                                 </div>
                             ))}
                         </div>

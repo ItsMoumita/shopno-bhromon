@@ -137,20 +137,20 @@ export default function Gallery() {
 
   return (
     <section className="bg-gray-50 dark:bg-[#12121c] py-10 px-4">
-      <div className="max-w-7xl mx-auto">
+      <div  data-aos="zoom-in" className="max-w-7xl mx-auto">
         {/* Title + Description */}
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Discover Our Resorts Gallery
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
+            Discover Our <span className="text-[#4657F0]">Resorts Gallery</span>
           </h2>
           <p className="mt-2 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            A curated selection of recent resorts — hover any image to see details. 
+            A curated selection of recent resorts — hover any image to see details.
           </p>
         </div>
 
         {/* Loading */}
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (
               <div key={i} className="rounded-xl bg-gray-200 dark:bg-neutral-800 h-40 animate-pulse" />
             ))}
@@ -161,7 +161,7 @@ export default function Gallery() {
 
             {/* Small device: See more / Show less */}
             {isSmall && galleryItems.length > SMALL_SHOW_COUNT && (
-              <div className="mt-6 text-center">
+              <div  className="mt-6 text-center">
                
                 <FancyButton label={showAll ? "Show less" : "See more"} onClick={() => setShowAll((s) => !s)}> </FancyButton>
               </div>

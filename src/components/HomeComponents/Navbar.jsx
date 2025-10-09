@@ -5,14 +5,14 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../../context/AuthContext";
 import { Link, NavLink } from "react-router";
 import { ThemeToggle } from "../ExtraComponents/ThemeToggle";
-import { BsCart4 } from "react-icons/bs";
+
 
 const menu = [
   { name: "Home", path: "/" },
   { name: "Packages", path: "/packages" },
   { name: "Resorts", path: "/resorts" },
   { name: "About Us", path: "/about" },
-  // { name: "Cart", path: "/cart" },
+  { name: "Bookings", path: "/bookings" },
 ];
 
 const Navbar = () => {
@@ -137,12 +137,7 @@ const Navbar = () => {
                   </div>
                 )}
               </div>
-                 <NavLink
-                to="/cart"
-                className="px-3 font-bold py-2 text-gray-700 dark:text-[#fcfcfd] hover:text-[#4657F0]"
-              >
-                <BsCart4  size={25}/>
-              </NavLink>
+                
 
             </>
           )}
@@ -150,16 +145,7 @@ const Navbar = () => {
 
         {/* Mobile Toggle */}
         <div className="lg:hidden flex items-center gap-4">
-           {user && (
            
-               <NavLink
-                to="/cart"
-                className="font-bold text-gray-700 dark:text-[#fcfcfd] hover:text-[#4657F0]"
-              >
-                <BsCart4  size={25}/>
-              </NavLink>
-        
-          )}
           <button
             onClick={() => setIsMenuOpen((prev) => !prev)}
             className="w-10 h-10 grid place-items-center focus:outline-none"

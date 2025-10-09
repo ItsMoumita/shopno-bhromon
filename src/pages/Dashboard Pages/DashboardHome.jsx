@@ -1,10 +1,11 @@
 import React from 'react';
+import KPIRow from '../../components/DashboardComponents/KPIRow';
 
 const DashboardHome = () => {
     return (
-        <div>
-            home      
-        </div>
+        <>
+          {/* <KPIRow></KPIRow> */}
+        </>
     );
 };
 
