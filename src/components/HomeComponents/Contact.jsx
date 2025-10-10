@@ -52,7 +52,7 @@ export default function Contact() {
   };
 
   return (
-    <section className="bg-gray-50 dark:bg-[#12121c] py-12 px-4">
+    <section data-aos="zoom-in" className="bg-gray-50 dark:bg-[#12121c] py-12 px-4">
          <h1 data-aos="zoom-in" className="text-4xl md:text-5xl text-center font-extrabold text-gray-900 dark:text-white mb-3">
                 <span className="text-[#4657F0]">Contact</span> Us
               </h1>

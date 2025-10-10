@@ -130,18 +130,7 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
             <FaMoneyBill /> All Bookings
           </NavLink>
 
-          <NavLink
-            to="/dashboard/profile"
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-2 rounded-lg ${
-                isActive
-                  ? "bg-[#4657F0] text-white"
-                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#292b51]"
-              }`
-            }
-          >
-            <FaUserEdit /> Profile Edit
-          </NavLink>
+        
         </nav>
       </div>
 

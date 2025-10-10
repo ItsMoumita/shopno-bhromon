@@ -105,7 +105,7 @@ export default function RecentResortsCarousel() {
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <div className="w-full max-w-7xl mx-auto p-4">
+      <div data-aos="zoom-in" className="w-full max-w-7xl mx-auto p-4">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-black dark:text-white">
             Explore Top <span className="text-[#4657F0]">Resorts</span>

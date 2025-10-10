@@ -3,80 +3,112 @@ import React, { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useLocation, useNavigate } from "react-router";
-import useAxiosSecure from "../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import Loading from "../components/ExtraComponents/Loading";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import CustomButton from "../components/ExtraComponents/CustomButton";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 function CheckoutForm({ clientSecret, item }) {
-  console.log(item, clientSecret);
   const stripe = useStripe();
   const elements = useElements();
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
   const [processing, setProcessing] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!stripe || !elements) return;
+
     setProcessing(true);
+    setError(null);
 
     const card = elements.getElement(CardElement);
-    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card,
-        billing_details: {
-          name: item.userName || item.userEmail,
-          email: item.userEmail,
+    const { error: paymentError, paymentIntent } = await stripe.confirmCardPayment(
+      clientSecret,
+      {
+        payment_method: {
+          card,
+          billing_details: {
+            name: item.userName || item.userEmail,
+            email: item.userEmail,
+          },
         },
-      },
-    });
+      }
+    );
 
-    if (error) {
-      console.error("Stripe error:", error);
-      Swal.fire("Payment Failed", error.message || "Try again", "error");
+    if (paymentError) {
+      console.error("Stripe error:", paymentError);
+      setError(paymentError.message);
+      Swal.fire("Payment Failed", paymentError.message, "error");
       setProcessing(false);
       return;
     }
 
     if (paymentIntent && paymentIntent.status === "succeeded") {
       try {
-        // Confirm booking on backend
-        const resp = await axiosSecure.post("/api/bookings/confirm", {
+        await axiosSecure.post("/api/bookings/confirm", {
           paymentIntentId: paymentIntent.id,
           itemType: item.itemType,
           itemId: item.itemId,
           nights: item.nights,
           guests: item.guests,
-          startDate: item.startDate || null,
-          note: item.note || "",
+          startDate: item.startDate,
         });
-
-        Swal.fire("Success", "Booking confirmed!", "success");
+        Swal.fire("Success!", "Your booking is confirmed!", "success");
         navigate("/bookings");
       } catch (err) {
-        console.error("Failed to record booking:", err);
-        Swal.fire("Error", "Payment succeeded but booking failed", "error");
+        console.error("Booking confirmation failed:", err);
+        Swal.fire("Error", "Payment succeeded, but booking failed to save.", "error");
       } finally {
         setProcessing(false);
       }
     } else {
-      Swal.fire("Payment not completed", "Try again", "error");
+      Swal.fire("Payment Issue", "Payment was not successful. Please try again.", "warning");
       setProcessing(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4">
-      <div className="p-4 border rounded bg-white dark:bg-[#1b1b2b]">
-        <CardElement options={{ style: { base: { fontSize: "16px" } } }} />
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
+        <label className="block text-sm font-semibold mb-2 text-gray-800 dark:text-gray-200">
+          Card Details
+        </label>
+        <div className="p-4 border rounded-lg bg-gray-50 dark:bg-[#1f1f2e] border-gray-300 dark:border-gray-700">
+          <CardElement
+            options={{
+              style: {
+                base: {
+                  fontSize: "16px",
+                  color: "#32325d",
+                  "::placeholder": { color: "#aab7c4" },
+                },
+                invalid: {
+                  color: "#fa755a",
+                  iconColor: "#fa755a",
+                },
+              },
+            }}
+          />
+        </div>
       </div>
 
-      <button disabled={!stripe || processing} className="w-full py-2 bg-[#4657F0] text-white rounded">
-        {processing ? "Processing..." : `Pay ${item.currency ? item.currency.toUpperCase() : ""} ${ (item.amount/100).toFixed(2) }`}
-      </button>
+      {error && <p className="text-red-500 text-sm">{error}</p>}
+
+      {/* <button
+        type="submit"
+        disabled={!stripe || processing}
+        className="w-full py-3 bg-[#4657F0] text-white rounded-lg font-semibold hover:bg-[#2f3fd9] transition-all disabled:opacity-50"
+      >
+        {processing ? "Processing..." : `Pay ${item.currency?.toUpperCase()} ${(item.amount / 100).toFixed(2)}`}
+      </button> */}
+
+       <CustomButton  type="submit"
+        disabled={!stripe || processing} label={processing ? "Processing..." : `Pay ${item.currency?.toUpperCase()} ${(item.amount / 100).toFixed(2)}`}></CustomButton>
     </form>
   );
 }
@@ -86,18 +118,15 @@ export default function CheckoutPage() {
   const axiosSecure = useAxiosSecure();
   const [clientSecret, setClientSecret] = useState(null);
   const [item, setItem] = useState(null);
+  const { state } = location;
 
-  // item details passed through location.state
-  // e.g. { itemType: "package", itemId, nights, guests, startDate }
-  const state = location.state || {};
   useEffect(() => {
-    if (!state.itemType || !state.itemId) {
-      // redirect back if missing
-      console.error("Missing item in state");
+    if (!state?.itemType || !state?.itemId) {
+      console.error("Missing booking item details.");
       return;
     }
 
-    async function createIntent() {
+    const createIntent = async () => {
       try {
         const res = await axiosSecure.post("/api/create-payment-intent", {
           itemType: state.itemType,
@@ -105,35 +134,63 @@ export default function CheckoutPage() {
           nights: state.nights,
           guests: state.guests,
           startDate: state.startDate,
-           itemTitle: state.itemTitle,
         });
         setClientSecret(res.data.clientSecret);
         setItem({
           ...state,
           amount: res.data.amount,
           currency: res.data.currency || "usd",
-         
         });
       } catch (err) {
-        console.error("create payment intent failed:", err);
+        console.error("Failed to create payment intent:", err);
+        Swal.fire("Error", "Could not initialize payment.", "error");
       }
-    }
+    };
     createIntent();
   }, [axiosSecure, state]);
 
   if (!clientSecret || !item) {
-    return <Loading></Loading>;
+    return <Loading />;
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#12121c] p-6">
-      <div className="max-w-3xl mx-auto">
-        <h1 className="text-2xl font-bold mb-2">Checkout</h1>
-        <p className="mb-4 text-gray-600">Pay for {item.itemType} {item.itemTitle || ""}</p>
+    <div className="min-h-screen bg-gray-50 dark:bg-[#12121c] py-10 px-4">
+      <div className="max-w-3xl mx-auto space-y-8 mt-8">
+        {/* Order Summary */}
+        <div className="bg-white dark:bg-[#1b1b2b] p-8 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Order Summary</h2>
+          <div className="space-y-3">
+            <div className="flex justify-between">
+              <span className="text-gray-600 dark:text-gray-400">Item:</span>
+              <span className="font-semibold">{item.itemTitle || item.itemType}</span>
+            </div>
+            {item.guests && (
+              <div className="flex justify-between">
+                <span className="text-gray-600 dark:text-gray-400">Guests:</span>
+                <span className="font-semibold">{item.guests}</span>
+              </div>
+            )}
+            {item.nights && (
+              <div className="flex justify-between">
+                <span className="text-gray-600 dark:text-gray-400">Nights:</span>
+                <span className="font-semibold">{item.nights}</span>
+              </div>
+            )}
+            <div className="border-t border-gray-200 dark:border-gray-700 my-4"></div>
+            <div className="flex justify-between text-lg font-bold">
+              <span>Total:</span>
+              <span>{item.currency?.toUpperCase()} {(item.amount / 100).toFixed(2)}</span>
+            </div>
+          </div>
+        </div>
 
-        <Elements stripe={stripePromise} options={{ clientSecret }}>
-          <CheckoutForm clientSecret={clientSecret} item={item} />
-        </Elements>
+        {/* Payment Form */}
+        <div className="bg-white dark:bg-[#1b1b2b] p-8 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Payment Details</h2>
+          <Elements stripe={stripePromise} options={{ clientSecret }}>
+            <CheckoutForm clientSecret={clientSecret} item={item} />
+          </Elements>
+        </div>
       </div>
     </div>
   );

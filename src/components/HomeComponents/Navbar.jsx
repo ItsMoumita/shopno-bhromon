@@ -50,7 +50,7 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Menu */}
-        <ul className="hidden lg:flex items-center gap-6 text-md font-semibold uppercase tracking-wide">
+        <ul className="hidden lg:flex items-center gap-2 text-sm xl:text-base font-semibold uppercase tracking-wide">
           {menu.map((item) => (
             <NavLink
               key={item.path}

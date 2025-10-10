@@ -1,10 +1,12 @@
 import React from 'react';
 import KPIRow from '../../components/DashboardComponents/KPIRow';
+import RecentBookings from '../../components/DashboardComponents/RecentBookings';
 
 const DashboardHome = () => {
     return (
         <>
-          {/* <KPIRow></KPIRow> */}
+          <KPIRow></KPIRow>
+          <RecentBookings></RecentBookings>
         </>
     );
 };

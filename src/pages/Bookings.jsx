@@ -96,8 +96,8 @@ export default function Bookings() {
 
   if (loading) {
     return (
-      <div className="p-6">
-        <h2 className="text-2xl font-bold mb-6">My Bookings</h2>
+      <div className="max-w-6xl mx-auto p-6">
+        <h2 className="text-3xl font-bold mb-8 text-center">My <span className="text-[#4657F0]">Bookings</span></h2>
         <div className="space-y-4">
           {[...Array(4)].map((_, i) => (
             <div key={i} className="flex items-center gap-4 p-4 bg-white dark:bg-[#1b1b2b] rounded shadow">
@@ -118,7 +118,7 @@ export default function Bookings() {
   return (
     <div className="p-6 min-h-screen bg-gray-50 dark:bg-[#12121c] text-gray-900 dark:text-white">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-2xl font-bold mb-6">My Bookings</h2>
+        <h2 data-aos="zoom-in" className="text-3xl font-bold mb-8 text-center">My <span className="text-[#4657F0]">Bookings</span></h2>
 
         {bookings.length === 0 ? (
           <div className="p-6 bg-white dark:bg-[#1b1b2b] rounded">
@@ -133,7 +133,7 @@ export default function Bookings() {
             </div>
           </div>
         ) : (
-          <ul className="space-y-4">
+          <ul data-aos="zoom-in" className="space-y-4">
             {bookings.map((b) => {
               const item = itemsMap[b.itemId] || {};
               const title = b.itemTitle || item.title || (b.itemType === "package" ? "Package" : "Resort");
@@ -145,7 +145,7 @@ export default function Bookings() {
               return (
                 <li
                   key={b._id}
-                  className="flex items-center justify-between p-4 bg-white dark:bg-[#1b1b2b] rounded-lg shadow"
+                  className="flex flex-col md:flex-row items-center justify-between p-4 bg-white dark:bg-[#1b1b2b] rounded-lg shadow"
                 >
                   <div className="flex items-center gap-4">
                     <img
@@ -167,7 +167,7 @@ export default function Bookings() {
                     <div className="text-right mr-2">
                       <div className="text-sm text-gray-500 dark:text-gray-400">Amount</div>
                       <div className="font-semibold">৳{Number(amount).toLocaleString()}</div>
-                      <div className="text-xs text-gray-500 mt-1">{b.status}</div>
+                      {/* <div className="text-xs text-gray-500 mt-1">{b.status}</div> */}
                     </div>
 
                     <Link
