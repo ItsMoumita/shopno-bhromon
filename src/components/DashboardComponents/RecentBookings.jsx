@@ -126,7 +126,7 @@ export default function RecentBookings({ limit = 10 }) {
 
   return (
     <div className="mt-8 py-6 space-y-8 md:space-y-16 px-6">
-      <h1 className="text-2xl font-bold text-gray-900 mb-4">Recent Bookings</h1>
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Recent Bookings</h1>
 
       {bookings.length === 0 ? <p>No bookings found</p> : (
         <ul className="space-y-4">
@@ -152,7 +152,7 @@ export default function RecentBookings({ limit = 10 }) {
 
                  <div className=" space-x-4">
                   
-                  <Link to={b.itemType === "package" ? `/package/${b.itemId}` : `/resort/${b.itemId}`} className="px-3 py-1 bg-gray-200 rounded">View</Link>
+                  <Link to={b.itemType === "package" ? `/package/${b.itemId}` : `/resort/${b.itemId}`} className="px-3 py-1 bg-gray-200 text-gray-900 rounded">View</Link>
                   <button onClick={()=>handleDelete(b._id)} className="px-3 py-1 bg-red-500 text-white rounded">Delete</button>
                  </div>
 

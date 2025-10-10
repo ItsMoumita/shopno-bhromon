@@ -128,7 +128,7 @@ export default function AdminBookings() {
   return (
     <div className="p-6 min-h-screen bg-gray-50 dark:bg-[#12121c] text-gray-900 dark:text-white">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-2xl font-bold mb-6">All Bookings (Admin)</h1>
+        <h1 className="text-2xl font-bold mb-6">All Bookings </h1>
 
         {loading ? (
           <div className="space-y-4">
@@ -169,14 +169,14 @@ export default function AdminBookings() {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-4 mt-4 md:mt-0">
-                      <div className="text-right">
+                    <div className="flex flex-col  lg:items-center gap-4 mt-4 md:mt-0">
+                      <div className="lg:text-right">
                         <div className="text-sm text-gray-500 dark:text-gray-400">Amount</div>
                         <div className="font-semibold">{formatCurrency(amount)}</div>
-                        <div className="text-xs text-gray-500 mt-1">{b.status}</div>
                       </div>
 
-                      <Link
+                     <div className="space-x-4">
+                       <Link
                         to={b.itemType === "package" ? `/package/${b.itemId}` : `/resort/${b.itemId}`}
                         className="px-3 py-1 bg-gray-200 dark:bg-[#292b51] rounded text-sm font-medium hover:bg-gray-300 dark:hover:bg-[#3a3a45]"
                       >
@@ -189,6 +189,7 @@ export default function AdminBookings() {
                       >
                         Delete
                       </button>
+                     </div>
                     </div>
                   </li>
                 );

@@ -409,9 +409,9 @@ const ManageResorts = () => {
             {resorts.map((resort) => (
               <li
                 key={resort._id}
-                className="flex justify-between items-center p-4 border border-[#4657F0]/20 rounded-lg bg-gray-50 dark:bg-neutral-900"
+                className="flex justify-between items-center p-4 border border-[#4657F0]/20 rounded-lg bg-gray-50 dark:bg-[#12121c]"
               >
-                <div className="flex items-center gap-3">
+                <div className="max-w-2/3  flex items-center gap-3">
                   <img
                     src={resort.coverImage}
                     alt={resort.name}
@@ -424,10 +424,10 @@ const ManageResorts = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-col lg:flex-row gap-2">
                   <button
                     onClick={() => openDetails(resort)}
-                    className="px-4 py-1 text-sm rounded-full font-bold bg-gray-200 hover:bg-[#4657F0] hover:text-white"
+                    className="px-4 py-1 text-sm rounded-full font-bold bg-gray-200 dark:bg-[#292b51] hover:bg-[#4657F0] hover:text-white"
                   >
                     Details
                   </button>

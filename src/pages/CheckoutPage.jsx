@@ -18,6 +18,19 @@ function CheckoutForm({ clientSecret, item }) {
 
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState(null);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+
+  useEffect(() => {
+    const checkDark = () =>
+      setIsDarkMode(document.documentElement.classList.contains("dark"));
+    checkDark();
+
+    const observer = new MutationObserver(checkDark);
+    observer.observe(document.documentElement, { attributes: true });
+    return () => observer.disconnect();
+  }, []);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -84,8 +97,11 @@ function CheckoutForm({ clientSecret, item }) {
               style: {
                 base: {
                   fontSize: "16px",
-                  color: "#32325d",
-                  "::placeholder": { color: "#aab7c4" },
+                  color: isDarkMode ? "#ffffff" : "#32325d", // ✅ text color changes with mode
+                  iconColor: isDarkMode ? "#ffffff" : "#32325d",
+                  "::placeholder": {
+                    color: isDarkMode ? "#a3a3a3" : "#aab7c4", // ✅ placeholder adjusts
+                  },
                 },
                 invalid: {
                   color: "#fa755a",
@@ -99,13 +115,7 @@ function CheckoutForm({ clientSecret, item }) {
 
       {error && <p className="text-red-500 text-sm">{error}</p>}
 
-      {/* <button
-        type="submit"
-        disabled={!stripe || processing}
-        className="w-full py-3 bg-[#4657F0] text-white rounded-lg font-semibold hover:bg-[#2f3fd9] transition-all disabled:opacity-50"
-      >
-        {processing ? "Processing..." : `Pay ${item.currency?.toUpperCase()} ${(item.amount / 100).toFixed(2)}`}
-      </button> */}
+      
 
        <CustomButton  type="submit"
         disabled={!stripe || processing} label={processing ? "Processing..." : `Pay ${item.currency?.toUpperCase()} ${(item.amount / 100).toFixed(2)}`}></CustomButton>
@@ -185,9 +195,9 @@ export default function CheckoutPage() {
         </div>
 
         {/* Payment Form */}
-        <div className="bg-white dark:bg-[#1b1b2b] p-8 rounded-lg shadow-lg">
+        <div className="bg-white dark:bg-[#1b1b2b] p-8 rounded-lg shadow-lg ">
           <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Payment Details</h2>
-          <Elements stripe={stripePromise} options={{ clientSecret }}>
+          <Elements  stripe={stripePromise} options={{ clientSecret }}>
             <CheckoutForm clientSecret={clientSecret} item={item} />
           </Elements>
         </div>

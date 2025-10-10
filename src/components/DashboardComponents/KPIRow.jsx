@@ -116,7 +116,7 @@ export default function KPIRow() {
 
   return (
     <section className="bg-gray-50 dark:bg-[#12121c] p-4 md:p-6 rounded-lg overflow-hidden box-border">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4">
+      <div className="grid grid-col-1 md:grid-col-2 lg:grid-col-3 items-start md:items-center justify-between gap-4 mb-4">
         <div>
           <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Admin Overview</h3>
           <p className="text-sm text-gray-600 dark:text-gray-300">Key metrics at a glance</p>

@@ -145,7 +145,7 @@ export default function Bookings() {
               return (
                 <li
                   key={b._id}
-                  className="flex flex-col md:flex-row items-center justify-between p-4 bg-white dark:bg-[#1b1b2b] rounded-lg shadow"
+                  className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-4 bg-white dark:bg-[#1b1b2b] rounded-lg shadow"
                 >
                   <div className="flex items-center gap-4">
                     <img
@@ -163,14 +163,15 @@ export default function Bookings() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3">
-                    <div className="text-right mr-2">
+                  <div className="flex lg:items-center flex-col gap-3">
+                    <div className="lg:text-right mr-2">
                       <div className="text-sm text-gray-500 dark:text-gray-400">Amount</div>
                       <div className="font-semibold">৳{Number(amount).toLocaleString()}</div>
                       {/* <div className="text-xs text-gray-500 mt-1">{b.status}</div> */}
                     </div>
 
-                    <Link
+                    <div className="space-x-4">
+                      <Link
                       to={b.itemType === "package" ? `/package/${b.itemId}` : `/resort/${b.itemId}`}
                       className="px-3 py-1 bg-gray-200 dark:bg-[#292b51] rounded text-sm font-medium hover:bg-[#e5e7eb] dark:hover:bg-[#3a3a45]"
                     >
@@ -183,6 +184,7 @@ export default function Bookings() {
                     >
                       Delete
                     </button>
+                    </div>
                   </div>
                 </li>
               );
