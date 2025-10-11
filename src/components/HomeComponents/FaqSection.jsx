@@ -58,7 +58,7 @@ const faqData = [
 
 const AccordionItem = ({ item, isOpen, onToggle }) => {
   return (
-    <div className="border-b border-gray-200 dark:border-gray-700 last:border-b-0">
+    <div data-aos="zoom-in" className="border-b border-gray-200 dark:border-gray-700 last:border-b-0">
       <button
         className="flex items-center justify-between w-full p-4 text-left focus:outline-none hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
         onClick={onToggle}
