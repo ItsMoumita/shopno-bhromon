@@ -5,6 +5,7 @@ import { MdEmail } from "react-icons/md";
 import { FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../context/AuthContext";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -23,11 +24,26 @@ const Login = () => {
     try {
       const result = await signIn(email, password);
       setUser(result.user);
-      console.log("Login successful ✅", result.user);
+       // SweetAlert success
+    Swal.fire({
+      title: "Login Successful!",
+      text: `Welcome back, ${result.user.displayName || "User"} ✅`,
+      icon: "success",
+      confirmButtonColor: "#4657F0",
+    });
 
-      navigate("/"); // redirect home after login
-    } catch (err) {
-      console.error("Login error:", err.message);
+    navigate(location.state?.from || "/", { replace: true }); 
+  } catch (err) {
+    console.error("Login error:", err.message);
+
+    // SweetAlert error
+    Swal.fire({
+      title: "Login Failed",
+      text: err.message,
+      icon: "error",
+      confirmButtonColor: "#4657F0",
+    });
+
     }
   };
 
@@ -111,7 +127,7 @@ const Login = () => {
                 onClick={togglePassword}
                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
               >
-                {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+                {passwordVisible ? <FaEye />: <FaEyeSlash />}
               </button>
             </div>
           </div>

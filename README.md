@@ -58,25 +58,7 @@ A full-stack travel booking application built with the MERN stack (MongoDB, Expr
 
 ---
 
-## 📂 Folder Structure
-/
-├── public/ # Public assets
-├── src/
-│ ├── components/ # Reusable UI components (Navbar, Footer, FancyButton, etc.)
-│ ├── pages/ # Main pages (Home, Packages, Resorts, Contact, etc.)
-│ │ └── Dashboard Pages/ # Admin-only pages (DashboardHome, ManagePackages, etc.)
-│ ├── context/ # React Context (AuthContext)
-│ ├── hooks/ # Custom hooks (useAxiosSecure)
-│ ├── firebase/ # Firebase configuration
-│ └── main.jsx # App entry point
-├── .env # Environment variables for frontend
-├── package.json
-└── README.md
 
-text
-
-
----
 
 ## 🔌 API Endpoints
 

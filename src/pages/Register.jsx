@@ -41,23 +41,23 @@ const Register = () => {
 
       // ✅ SweetAlert after success
       Swal.fire({
-        icon: "success",
-        title: "Registration Successful 🎉",
-        text: "Welcome to Shopnobhromon!",
-        showConfirmButton: false,
-        timer: 2000,
-      });
+           title: "Registration Successful 🎉",
+           text: `Welcome back, ${result.user.displayName || "User"} ✅`,
+           icon: "success",
+           confirmButtonColor: "#4657F0",
+         });
 
       navigate("/"); // ✅ Navigate home after signup
     } catch (err) {
       console.error("Registration failed:", err.message);
 
       // ❌ SweetAlert for error
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: err.message,
-      });
+     Swal.fire({
+      title: "Registration Failed",
+      text: err.message,
+      icon: "error",
+      confirmButtonColor: "#4657F0",
+    });
     }
   };
 

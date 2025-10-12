@@ -18,6 +18,7 @@ import Aos from "aos";
 const COLORS = ["#4657F0", "#00C49F", "#FF7F50", "#4FC3F7", "#FF8042"];
 
 
+
 const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
@@ -98,7 +99,7 @@ const AllUsers = () => {
         </h2>
 
         {/* Chart */}
-        <ResponsiveContainer width="100%" height={250}>
+        <ResponsiveContainer width="100%" height={300}>
           <PieChart >
             <Pie
               data={chartData}
