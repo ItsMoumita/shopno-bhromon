@@ -1,44 +1,13 @@
-
-import React, { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCoverflow, Autoplay, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
-const ChevronLeftIcon = ({ className }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24" height="24"
-    viewBox="0 0 24 24"
-    fill="none" stroke="currentColor"
-    strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-    className={className}
-  >
-    <path d="m15 18-6-6 6-6" />
-  </svg>
-);
-
-const ChevronRightIcon = ({ className }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24" height="24"
-    viewBox="0 0 24 24"
-    fill="none" stroke="currentColor"
-    strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-    className={className}
-  >
-    <path d="m9 18 6-6-6-6" />
-  </svg>
-);
-
-const Badge = ({ children, className }) => (
-  <div
-    className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium ${className}`}
-  >
-    {children}
-  </div>
-);
-
 const ResortCard = ({ resort }) => (
-  <div className="relative w-72 h-96 flex-shrink-0 rounded-lg overflow-hidden shadow-xl group mx-2">
+  <div className="relative w-full h-96 flex-shrink-0 rounded-lg overflow-hidden shadow-xl group">
     <img
       src={resort.coverImage}
       alt={resort.name}
@@ -56,9 +25,8 @@ const ResortCard = ({ resort }) => (
         ৳{resort.pricePerNight?.toLocaleString()} / night
       </p>
       <p className="mt-2 font-semibold text-[#FFD700]">
-         ⭐ {resort.rating?.toFixed(1) || "N/A"}
+        ⭐ {resort.rating?.toFixed(1) || "N/A"}
       </p>
-     
     </div>
   </div>
 );
@@ -66,15 +34,11 @@ const ResortCard = ({ resort }) => (
 export default function RecentResortsCarousel() {
   const axiosSecure = useAxiosSecure();
   const [resorts, setResorts] = useState([]);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const autoplayIntervalRef = useRef(null);
-  const autoplayDelay = 3000;
 
   useEffect(() => {
     const fetchResorts = async () => {
       try {
-        const res = await axiosSecure.get("/api/resorts?limit=6");
+        const res = await axiosSecure.get("/api/resorts?limit=10");
         setResorts(res.data);
       } catch (err) {
         console.error("Failed to fetch resorts:", err);
@@ -83,29 +47,9 @@ export default function RecentResortsCarousel() {
     fetchResorts();
   }, [axiosSecure]);
 
-  useEffect(() => {
-    if (!isPaused && resorts.length > 0) {
-      autoplayIntervalRef.current = setInterval(() => {
-        setActiveIndex((prev) => (prev + 1) % resorts.length);
-      }, autoplayDelay);
-    }
-    return () => clearInterval(autoplayIntervalRef.current);
-  }, [isPaused, resorts]);
-
-  const changeSlide = (newIndex) => {
-    setActiveIndex((newIndex + resorts.length) % resorts.length);
-    if (autoplayIntervalRef.current) {
-      clearInterval(autoplayIntervalRef.current);
-    }
-  };
-
   return (
-    <section
-      className="w-full flex flex-col items-center justify-center font-sans overflow-hidden py-12 md:py-20 bg-gray-50 dark:bg-[#12121c]"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-    >
-      <div data-aos="zoom-in" className="w-full max-w-7xl mx-auto p-4">
+    <section className="w-full flex flex-col items-center justify-center font-sans overflow-hidden py-12 md:py-20 bg-gray-50 dark:bg-[#12121c]">
+      <div data-aos="zoom-in" className="w-full max-w-7xl mx-auto px-4">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-black dark:text-white">
             Explore Top <span className="text-[#4657F0]">Resorts</span>
@@ -115,51 +59,38 @@ export default function RecentResortsCarousel() {
           </p>
         </header>
 
-        <div  className="relative w-full h-[280px] md:h-[400px] flex items-center justify-center overflow-hidden pt-12">
-          <motion.div 
-            className="flex w-full justify-center"
-            animate={{ x: `-${activeIndex * 300}px` }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          >
-            {resorts.map((resort, index) => (
-              <ResortCard key={resort._id} resort={resort} />
-            ))}
-          </motion.div>
-
-          {/* Left Arrow */}
-          <button
-            onClick={() => changeSlide(activeIndex - 1)}
-            className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 border border-gray-300 dark:border-white/20 text-gray-700 dark:text-white transition-colors"
-            aria-label="Previous"
-          >
-            <ChevronLeftIcon className="w-6 h-6" />
-          </button>
-
-          {/* Right Arrow */}
-          <button
-            onClick={() => changeSlide(activeIndex + 1)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 border border-gray-300 dark:border-white/20 text-gray-700 dark:text-white transition-colors"
-            aria-label="Next"
-          >
-            <ChevronRightIcon className="w-6 h-6" />
-          </button>
-        </div>
-
-        {/* Pagination Dots */}
-        <div  className="mt-6 flex items-center justify-center gap-2">
-          {resorts.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => changeSlide(idx)}
-              className={`h-2 rounded-full transition-all duration-300 focus:outline-none ${
-                activeIndex === idx
-                  ? "w-6 bg-[#4657F0]"
-                  : "w-2 bg-gray-300 dark:bg-neutral-600 hover:bg-gray-400 dark:hover:bg-neutral-500"
-              }`}
-              aria-label={`Go to slide ${idx + 1}`}
-            />
+        <Swiper
+          effect="coverflow"
+          grabCursor={true}
+          centeredSlides={true}
+          loop={true}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
+          coverflowEffect={{
+            rotate: 50,   // increase for more angled sides
+            stretch: 0,   // distance between center and side slides
+            depth: 200,   // 3D depth effect
+            modifier: 1,
+            slideShadows: true, // add shadows for 3D effect
+          }}
+          pagination={{ clickable: true }}
+          modules={[EffectCoverflow, Pagination, Autoplay]}
+          slidesPerView={3} // center + 2 sides visible
+          breakpoints={{
+            640: { slidesPerView: 1.3 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+          }}
+          className="mySwiper w-full max-w-[1000px]"
+        >
+          {resorts.map((resort) => (
+            <SwiperSlide key={resort._id} className="flex justify-center">
+              <ResortCard resort={resort} />
+            </SwiperSlide>
           ))}
-        </div>
+        </Swiper>
       </div>
     </section>
   );

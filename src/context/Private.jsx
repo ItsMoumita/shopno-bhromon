@@ -1,7 +1,7 @@
 import React, { } from 'react';
 import { Navigate, useLocation } from 'react-router';
-import Loading from '../component/Loading';
 import { AuthContext } from './AuthContext';
+import Loading from '../components/ExtraComponents/Loading';
 
 
 const Private = ({ children }) => {
@@ -21,3 +21,5 @@ const Private = ({ children }) => {
 }
 
 export default Private;
+
+

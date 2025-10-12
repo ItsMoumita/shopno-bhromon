@@ -141,7 +141,7 @@ export default function Gallery() {
         {/* Title + Description */}
         <div className="text-center mb-8">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
-            Discover Our <span className="text-[#4657F0]">Resorts Gallery</span>
+           <span className="text-[#4657F0]"> Discover </span> Us
           </h2>
           <p className="mt-2 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             A curated selection of recent resorts — hover any image to see details.

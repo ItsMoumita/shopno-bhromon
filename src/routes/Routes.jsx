@@ -22,6 +22,8 @@ import ResortDetails from "../pages/ResortDetails";
 import CheckoutPage from "../pages/CheckoutPage";
 import Bookings from "../pages/Bookings";
 import AllBookings from "../pages/Dashboard Pages/AllBookings";
+import Private from "../context/Private";
+
 
 
 export const router = createBrowserRouter([
@@ -55,11 +57,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/checkout",
-        Component: CheckoutPage
+        element: <Private><CheckoutPage></CheckoutPage></Private>
       },
       {
         path: "/bookings",
-        Component: Bookings
+        element: <Private><Bookings></Bookings></Private>
       },
 
     ]
