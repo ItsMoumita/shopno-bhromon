@@ -97,9 +97,9 @@ export default function FaqSection() {
 
   return (
     <div className=" flex items-center justify-center bg-gray-50 dark:bg-[#12121c] py-12 px-4">
-      <div className="mt-6 md:mt-12 w-full max-w-2xl mx-auto">
+      <div className="mt-6 md:mt-12 w-full max-w-3xl mx-auto">
         <div className="p-4">
-          <h1 data-aos="zoom-in" className="text-3xl md:text-4xl text-center font-extrabold text-gray-900 dark:text-white mb-6 md:mb-8">
+          <h1 data-aos="zoom-in" className="text-4xl md:text-5xl text-center font-bold text-gray-900 dark:text-white mb-6 md:mb-8">
             Frequently <span className="text-[#4657F0]">Asked Questions</span>
           </h1>
           <div data-aos="zoom-in" className="border border-gray-200 dark:border-gray-700 rounded-lg">

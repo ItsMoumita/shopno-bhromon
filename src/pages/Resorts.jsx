@@ -112,22 +112,7 @@ const Resorts = () => {
               />
             </div>
 
-            {/* Category */}
-            <div className="mb-6">
-              <label className="block mb-2 font-semibold">Category</label>
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full p-2 border border-[#4657F0] rounded focus:outline-none focus:ring-2 focus:ring-[#4657F0] dark:bg-[#12121c] dark:text-white"
-              >
-                <option value="">All Categories</option>
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
-                ))}
-              </select>
-            </div>
+           
 
             {/* Price Range */}
             <div className="mb-6">
