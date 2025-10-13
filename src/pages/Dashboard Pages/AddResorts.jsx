@@ -65,7 +65,7 @@ const AddResorts = () => {
     };
 
     try {
-      await axiosSecure.post("/api/resorts", newResort);
+      await axiosSecure.post("/resorts", newResort);
       Swal.fire("✅ Success!", "Resort added successfully", "success");
       setForm({
         name: "",

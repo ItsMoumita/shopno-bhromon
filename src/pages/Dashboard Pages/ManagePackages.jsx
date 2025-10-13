@@ -31,7 +31,7 @@ const ManagePackages = () => {
     const fetchPkgs = async () => {
       try {
         setLoading(true);
-        const res = await axiosSecure.get("/api/packages");
+        const res = await axiosSecure.get("/packages");
         setPackages(res.data);
       } catch (err) {
         console.error("Error:", err);
@@ -56,7 +56,7 @@ const ManagePackages = () => {
   const handleSave = async () => {
     try {
       const { _id, ...updates } = formData;
-      await axiosSecure.put(`/api/packages/${_id}`, updates);
+      await axiosSecure.put(`/packages/${_id}`, updates);
       Swal.fire("✅ Updated!", "Package updated successfully", "success");
       setPackages((prev) =>
         prev.map((p) => (p._id === formData._id ? formData : p))
@@ -78,7 +78,7 @@ const ManagePackages = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axiosSecure.delete(`/api/packages/${id}`);
+          await axiosSecure.delete(`/packages/${id}`);
           setPackages((prev) => prev.filter((p) => p._id !== id));
           Swal.fire("Deleted!", "Package has been deleted.", "success");
         } catch (err) {

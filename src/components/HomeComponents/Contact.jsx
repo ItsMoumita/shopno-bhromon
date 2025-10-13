@@ -34,7 +34,7 @@ export default function Contact() {
     try {
       setSubmitting(true);
       // Try to post to your backend contact endpoint (create one if needed)
-      await axiosSecure.post("/api/contact", {
+      await axiosSecure.post("/contact", {
         name: form.name,
         email: form.email,
         message: form.message,

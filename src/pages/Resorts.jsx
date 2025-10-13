@@ -31,7 +31,7 @@ const Resorts = () => {
     const fetchResorts = async () => {
       try {
         setLoading(true);
-        const res = await axiosSecure.get("/api/resorts");
+        const res = await axiosSecure.get("/resorts");
         setResorts(res.data);
         setFilteredResorts(res.data);
       } catch (err) {

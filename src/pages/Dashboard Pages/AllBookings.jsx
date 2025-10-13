@@ -33,7 +33,7 @@ export default function AdminBookings() {
       setLoading(true);
       try {
         // Fetch bookings (admin route)
-        const res = await axiosSecure.get(`/api/bookings?page=${page}&limit=${limit}`);
+        const res = await axiosSecure.get(`/bookings?page=${page}&limit=${limit}`);
         const data = res.data;
         const bookingList = Array.isArray(data) ? data : data.bookings || [];
         if (!mounted) return;
@@ -57,7 +57,7 @@ export default function AdminBookings() {
         await Promise.all(
           itemEntries.map(async ([itemId, itemType]) => {
             try {
-              const endpoint = itemType === "package" ? `/api/packages/${itemId}` : `/api/resorts/${itemId}`;
+              const endpoint = itemType === "package" ? `/packages/${itemId}` : `/resorts/${itemId}`;
               const r = await axiosSecure.get(endpoint);
               const it = r.data || {};
               newItemsMap[itemId] = {
@@ -81,7 +81,7 @@ export default function AdminBookings() {
           emails.map(async (email) => {
             try {
               // encode email for URL safety
-              const r = await axiosSecure.get(`/api/users/${encodeURIComponent(email)}`);
+              const r = await axiosSecure.get(`/users/${encodeURIComponent(email)}`);
               const u = r.data || {};
               newUsersMap[email] = { name: u.name || u.displayName || u.email || email };
             } catch (err) {
@@ -116,7 +116,7 @@ export default function AdminBookings() {
     if (!result.isConfirmed) return;
 
     try {
-      await axiosSecure.delete(`/api/bookings/${bookingId}`);
+      await axiosSecure.delete(`/bookings/${bookingId}`);
       setBookings((prev) => prev.filter((b) => b._id !== bookingId));
       Swal.fire("Deleted", "Booking deleted successfully", "success");
     } catch (err) {

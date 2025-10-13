@@ -31,7 +31,7 @@ const AllUsers = () => {
     const fetchUsers = async () => {
       try {
         setLoading(true);
-        const res = await axiosSecure.get(`/api/users?page=${page}&limit=5`);
+        const res = await axiosSecure.get(`/users?page=${page}&limit=5`);
         setUsers(res.data.users);
         setPages(res.data.pages);
       } catch (err) {
@@ -74,7 +74,7 @@ const AllUsers = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axiosSecure.put( `/api/users/${encodeURIComponent(email)}/role`, { role: result.value });
+          await axiosSecure.put( `/users/${encodeURIComponent(email)}/role`, { role: result.value });
           Swal.fire("Updated ✅", `Role changed to ${result.value}`, "success");
           setUsers((prev) =>
             prev.map((u) => (u.email === email ? { ...u, role: result.value } : u))

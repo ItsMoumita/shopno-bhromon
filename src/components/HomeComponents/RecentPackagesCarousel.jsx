@@ -48,7 +48,7 @@ export default function RecentPackagesCarousel() {
   useEffect(() => {
     const fetchRecent = async () => {
       try {
-        const res = await axiosSecure.get("/api/packages?limit=6");
+        const res = await axiosSecure.get("/packages?limit=6");
         setRecentPackages(res.data);
       } catch (err) {
         console.error("❌ Failed to fetch:", err);

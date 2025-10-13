@@ -48,7 +48,7 @@ export default function ResortDetails() {
     useEffect(() => {
         const fetchResort = async () => {
             try {
-                const res = await axiosSecure.get(`/api/resorts/${id}`);
+                const res = await axiosSecure.get(`/resorts/${id}`);
                 setResort(res.data);
                 setSelectedImg(res.data?.coverImage || "");
             } catch (err) {

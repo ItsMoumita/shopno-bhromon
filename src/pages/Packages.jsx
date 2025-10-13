@@ -45,7 +45,7 @@ const Packages = () => {
     const fetchPackages = async () => {
       try {
         setLoading(true);
-        const res = await axiosSecure.get("/api/packages");
+        const res = await axiosSecure.get("/packages");
         setPackages(res.data);
         setFilteredPackages(res.data);
       } catch (err) {

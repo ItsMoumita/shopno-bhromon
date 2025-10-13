@@ -38,7 +38,7 @@ const Register = () => {
       setUser(result.user);
 
       const user = { name: fullName, email, profilePic: photoURL };
-      await axios.post("https://travel-server-liard-ten.vercel.app/api/users", user);
+      await axios.post("https://travel-server-liard-ten.vercel.app/users", user);
 
       // ✅ SweetAlert after success
       Swal.fire({
@@ -72,7 +72,7 @@ const Register = () => {
         email: result.user.email,
         profilePic: result.user.photoURL,
       };
-      await axios.post("https://travel-server-liard-ten.vercel.app/api/users", user);
+      await axios.post("https://travel-server-liard-ten.vercel.app/users", user);
 
       Swal.fire({
         icon: "success",

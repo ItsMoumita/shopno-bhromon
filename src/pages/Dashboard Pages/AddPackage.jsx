@@ -52,7 +52,7 @@ const AddPackage = () => {
     };
 
     try {
-      await axiosSecure.post("/api/packages", newPackage);
+      await axiosSecure.post("/packages", newPackage);
 
       Swal.fire({
         icon: "success",

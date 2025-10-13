@@ -107,7 +107,7 @@ export default function Gallery() {
       try {
         setLoading(true);
         // fetch latest 6 resorts (backend should support ?limit=6)
-        const res = await axiosSecure.get("/api/resorts?limit=6");
+        const res = await axiosSecure.get("/resorts?limit=6");
         const resorts = res.data || [];
 
         // Flatten each resort into images (cover + gallery)

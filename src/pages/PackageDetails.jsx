@@ -22,7 +22,7 @@ export default function PackageDetails() {
   useEffect(() => {
     const fetchPackage = async () => {
       try {
-        const res = await axiosSecure.get(`/api/packages/${id}`);
+        const res = await axiosSecure.get(`/packages/${id}`);
         setPkg(res.data);
       } catch (err) {
         console.error("Error fetching package details:", err);

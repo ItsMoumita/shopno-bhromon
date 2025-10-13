@@ -63,32 +63,32 @@ A full-stack travel booking application built with the MERN stack (MongoDB, Expr
 ## 🔌 API Endpoints
 
 ### User & Authentication
--   `POST /api/users` - Create a new user in the database after registration.
--   `GET /api/users` - Get a list of all users (Admin only).
--   `GET /api/users/:email` - Get a single user by email.
--   `PUT /api/users/:email/role` - Update a user's role (Admin only).
+-   `POST /users` - Create a new user in the database after registration.
+-   `GET /users` - Get a list of all users (Admin only).
+-   `GET /users/:email` - Get a single user by email.
+-   `PUT /users/:email/role` - Update a user's role (Admin only).
 
 ### Packages
--   `POST /api/packages` - Add a new package (Admin only).
--   `GET /api/packages` - Get all packages (with optional `limit` for carousel).
--   `GET /api/packages/:id` - Get a single package by ID.
--   `PUT /api/packages/:id` - Update a package (Admin only).
--   `DELETE /api/packages/:id` - Delete a package (Admin only).
+-   `POST /packages` - Add a new package (Admin only).
+-   `GET /packages` - Get all packages (with optional `limit` for carousel).
+-   `GET /packages/:id` - Get a single package by ID.
+-   `PUT /packages/:id` - Update a package (Admin only).
+-   `DELETE /packages/:id` - Delete a package (Admin only).
 
 ### Resorts
--   `POST /api/posts` - Add a new resort (Admin only).
--   `GET /api/resorts` - Get all resorts (with optional `limit` for carousel).
--   `GET /api/resorts/:id` - Get a single resort by ID.
--   `PUT /api/resorts/:id` - Update a resort (Admin only).
--   `DELETE /api/resorts/:id` - Delete a resort (Admin only).
+-   `POST /posts` - Add a new resort (Admin only).
+-   `GET /resorts` - Get all resorts (with optional `limit` for carousel).
+-   `GET /resorts/:id` - Get a single resort by ID.
+-   `PUT /resorts/:id` - Update a resort (Admin only).
+-   `DELETE /resorts/:id` - Delete a resort (Admin only).
 
 ### Bookings & Payments
--   `POST /api/create-payment-intent` - Create a Stripe payment intent.
--   `POST /api/bookings/confirm` - Confirm a booking after successful payment.
--   `GET /api/bookings/user` - Get all bookings for the logged-in user.
--   `GET /api/bookings` - Get all bookings (Admin only).
--   `PUT /api/bookings/:id/status` - Update booking status (Admin only).
--   `DELETE /api/bookings/:id` - Delete a booking (Admin or Owner).
+-   `POST /create-payment-intent` - Create a Stripe payment intent.
+-   `POST /bookings/confirm` - Confirm a booking after successful payment.
+-   `GET /bookings/user` - Get all bookings for the logged-in user.
+-   `GET /bookings` - Get all bookings (Admin only).
+-   `PUT /bookings/:id/status` - Update booking status (Admin only).
+-   `DELETE /bookings/:id` - Delete a booking (Admin or Owner).
 
 ### Admin Dashboard
--   `GET /api/admin/overview` - Get KPI data for the admin dashboard.
+-   `GET /admin/overview` - Get KPI data for the admin dashboard.

@@ -22,7 +22,7 @@ export default function RecentBookings({ limit = 10 }) {
     const fetch = async () => {
       setLoading(true);
       try {
-        const res = await axiosSecure.get(`/api/bookings?limit=${limit}`);
+        const res = await axiosSecure.get(`/bookings?limit=${limit}`);
         const data = res.data;
         // if endpoint returns {bookings,...} handle both cases
         const list = Array.isArray(data) ? data : (data.bookings || []);
@@ -41,7 +41,7 @@ export default function RecentBookings({ limit = 10 }) {
         const newItems = {};
         await Promise.all(entries.map(async ([itemId, itemType]) => {
           try {
-            const endpoint = itemType === "package" ? `/api/packages/${itemId}` : `/api/resorts/${itemId}`;
+            const endpoint = itemType === "package" ? `/packages/${itemId}` : `/resorts/${itemId}`;
             const r = await axiosSecure.get(endpoint);
             const it = r.data || {};
             newItems[itemId] = {
@@ -57,7 +57,7 @@ export default function RecentBookings({ limit = 10 }) {
         const newUsers = {};
         await Promise.all(emails.map(async (email) => {
           try {
-            const r = await axiosSecure.get(`/api/users/${encodeURIComponent(email)}`);
+            const r = await axiosSecure.get(`/users/${encodeURIComponent(email)}`);
             const u = r.data || {};
             newUsers[email] = { name: u.name || u.displayName || u.email };
           } catch (err) {
@@ -88,7 +88,7 @@ export default function RecentBookings({ limit = 10 }) {
     });
     if (!confirmed.isConfirmed) return;
     try {
-      await axiosSecure.delete(`/api/bookings/${id}`);
+      await axiosSecure.delete(`/bookings/${id}`);
       setBookings((prev) => prev.filter((b)=>b._id !== id));
       Swal.fire("Deleted", "Booking removed", "success");
     } catch (err) {
@@ -99,7 +99,7 @@ export default function RecentBookings({ limit = 10 }) {
 
   const handleStatus = async (id, status) => {
     try {
-      await axiosSecure.put(`/api/bookings/${id}/status`, { status });
+      await axiosSecure.put(`/bookings/${id}/status`, { status });
       setBookings((prev) => prev.map(b => b._id === id ? { ...b, status } : b));
     } catch (err) {
       console.error(err);

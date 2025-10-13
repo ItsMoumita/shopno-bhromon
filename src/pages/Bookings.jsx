@@ -22,7 +22,7 @@ export default function Bookings() {
     const fetchBookings = async () => {
       try {
         setLoading(true);
-        const res = await axiosSecure.get("/api/bookings/user");
+        const res = await axiosSecure.get("/bookings/user");
         if (!mounted) return;
         const data = res.data || [];
         setBookings(data);
@@ -42,8 +42,8 @@ export default function Bookings() {
             try {
               const endpoint =
                 itemType === "package"
-                  ? `/api/packages/${itemId}`
-                  : `/api/resorts/${itemId}`;
+                  ? `/packages/${itemId}`
+                  : `/resorts/${itemId}`;
               const r = await axiosSecure.get(endpoint);
               const item = r.data || {};
               map[itemId] = {
@@ -86,7 +86,7 @@ export default function Bookings() {
     if (!confirmed.isConfirmed) return;
 
     try {
-      await axiosSecure.delete(`/api/bookings/${bookingId}`);
+      await axiosSecure.delete(`/bookings/${bookingId}`);
       setBookings((prev) => prev.filter((b) => b._id !== bookingId));
       Swal.fire("Deleted", "Booking has been cancelled.", "success");
     } catch (err) {
@@ -125,8 +125,8 @@ export default function Bookings() {
         <h2 data-aos="zoom-in" className="text-3xl font-bold mb-8 text-center">My <span className="text-[#4657F0]">Bookings</span></h2>
 
         {bookings.length === 0 ? (
-          <div className="p-6 bg-white dark:bg-[#1b1b2b] rounded">
-            <p className="text-gray-600 dark:text-gray-300">You have no bookings yet.</p>
+          <div className="p-6 bg-white dark:bg-[#1b1b2b] rounded  text-center space-x-8">
+            <p className="text-gray-600 dark:text-gray-300 ml-6">You have no bookings yet.</p>
             <div className="mt-4">
               <button
                 onClick={() => navigate("/packages")}

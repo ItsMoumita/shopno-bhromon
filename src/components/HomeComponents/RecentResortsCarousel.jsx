@@ -38,7 +38,7 @@ export default function RecentResortsCarousel() {
   useEffect(() => {
     const fetchResorts = async () => {
       try {
-        const res = await axiosSecure.get("/api/resorts?limit=10");
+        const res = await axiosSecure.get("/resorts?limit=10");
         setResorts(res.data);
       } catch (err) {
         console.error("Failed to fetch resorts:", err);

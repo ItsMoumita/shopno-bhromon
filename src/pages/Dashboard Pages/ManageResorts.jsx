@@ -31,7 +31,7 @@ const ManageResorts = () => {
     const fetchResorts = async () => {
       try {
         setLoading(true);
-        const res = await axiosSecure.get("/api/resorts");
+        const res = await axiosSecure.get("/resorts");
         setResorts(res.data);
       } catch (err) {
         console.error("Error fetching resorts:", err);
@@ -82,7 +82,7 @@ const ManageResorts = () => {
         policies: policiesObj,
       };
 
-      await axiosSecure.put(`/api/resorts/${_id}`, updates);
+      await axiosSecure.put(`/resorts/${_id}`, updates);
       Swal.fire("✅ Updated!", "Resort updated successfully", "success");
       setResorts((prev) =>
         prev.map((r) => (r._id === _id ? { ...formData, amenities: amenitiesArr, policies: policiesObj } : r))
@@ -105,7 +105,7 @@ const ManageResorts = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axiosSecure.delete(`/api/resorts/${id}`);
+          await axiosSecure.delete(`/resorts/${id}`);
           setResorts((prev) => prev.filter((r) => r._id !== id));
           Swal.fire("Deleted!", "Resort has been removed.", "success");
         } catch (err) {

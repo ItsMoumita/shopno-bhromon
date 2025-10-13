@@ -64,7 +64,7 @@ function CheckoutForm({ clientSecret, item }) {
 
     if (paymentIntent && paymentIntent.status === "succeeded") {
       try {
-        await axiosSecure.post("/api/bookings/confirm", {
+        await axiosSecure.post("/bookings/confirm", {
           paymentIntentId: paymentIntent.id,
           itemType: item.itemType,
           itemId: item.itemId,
@@ -139,7 +139,7 @@ export default function CheckoutPage() {
 
     const createIntent = async () => {
       try {
-        const res = await axiosSecure.post("/api/create-payment-intent", {
+        const res = await axiosSecure.post("/create-payment-intent", {
           itemType: state.itemType,
           itemId: state.itemId,
           nights: state.nights,

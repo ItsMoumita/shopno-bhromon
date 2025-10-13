@@ -92,7 +92,7 @@ export default function KPIRow() {
   const fetchOverview = async (d = days) => {
     setLoading(true);
     try {
-      const res = await axiosSecure.get(`/api/admin/overview?days=${d}`);
+      const res = await axiosSecure.get(`/admin/overview?days=${d}`);
       setOverview(res.data);
       setLastUpdated(new Date());
     } catch (err) {
