@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import CustomButton from "../components/ExtraComponents/CustomButton";
 import Loading from "../components/ExtraComponents/Loading";
+import { Helmet } from "react-helmet-async";
 
 export default function PackageDetails() {
   const { id } = useParams();
@@ -63,6 +64,10 @@ export default function PackageDetails() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#12121c]">
+     <Helmet>
+      <title>{pkg.title} | সপ্নভ্রমণ</title>
+     </Helmet>
+
       <div className="max-w-7xl mx-auto px-4">
       {/* Keyframes once (scoped into JSX) */}
       <style>

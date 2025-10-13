@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { getAuth } from "firebase/auth";
 
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:5000", 
+  baseURL: "https://travel-server-liard-ten.vercel.app", 
 });
 
 const useAxiosSecure = () => {

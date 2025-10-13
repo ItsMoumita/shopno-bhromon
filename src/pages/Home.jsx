@@ -1,4 +1,5 @@
 
+import { Helmet } from 'react-helmet-async';
 import Contact from '../components/HomeComponents/Contact';
 import FaqSection from '../components/HomeComponents/FaqSection';
 import Gallery from '../components/HomeComponents/Gallery';
@@ -10,6 +11,9 @@ const Home = () => {
   
     return (
         <div>
+            <Helmet>
+                <title>Home | সপ্নভ্রমণ</title>
+            </Helmet>
             <Hero></Hero>
             <RecentPackagesCarousel></RecentPackagesCarousel>
             <RecentResortsCarousel></RecentResortsCarousel>

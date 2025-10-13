@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import Loading from "../components/ExtraComponents/Loading";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import CustomButton from "../components/ExtraComponents/CustomButton";
+import { Helmet } from "react-helmet-async";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -165,6 +166,9 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#12121c] py-10 px-4">
+      <Helmet>
+        <title>Checkout | সপ্নভ্রমণ</title>
+      </Helmet>
       <div className="max-w-3xl mx-auto space-y-8 mt-8">
         {/* Order Summary */}
         <div className="bg-white dark:bg-[#1b1b2b] p-8 rounded-lg shadow-lg">

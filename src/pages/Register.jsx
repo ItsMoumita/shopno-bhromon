@@ -8,6 +8,7 @@ import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import Swal from "sweetalert2"; 
+import { Helmet } from "react-helmet-async";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -37,7 +38,7 @@ const Register = () => {
       setUser(result.user);
 
       const user = { name: fullName, email, profilePic: photoURL };
-      await axios.post("http://localhost:5000/api/users", user);
+      await axios.post("https://travel-server-liard-ten.vercel.app/api/users", user);
 
       // ✅ SweetAlert after success
       Swal.fire({
@@ -71,7 +72,7 @@ const Register = () => {
         email: result.user.email,
         profilePic: result.user.photoURL,
       };
-      await axios.post("http://localhost:5000/api/users", user);
+      await axios.post("https://travel-server-liard-ten.vercel.app/api/users", user);
 
       Swal.fire({
         icon: "success",
@@ -94,6 +95,9 @@ const Register = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-[#12121c] px-4">
+      <Helmet>
+        <title>Register | সপ্নভ্রমণ</title>
+      </Helmet>
       <div className="w-full max-w-md bg-white dark:bg-black border border-gray-200 dark:border-gray-800 rounded-lg shadow-sm p-6">
         <h1 className="text-2xl font-semibold text-center text-gray-900 dark:text-gray-100 mb-4">
           Create Account

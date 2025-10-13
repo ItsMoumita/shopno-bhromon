@@ -1,10 +1,12 @@
-
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { FiSearch } from "react-icons/fi";
 import { Link } from "react-router";
 import FancyButton from "../components/ExtraComponents/FancyButton";
 import { BiCategoryAlt } from "react-icons/bi";
+import { Helmet } from "react-helmet-async";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const categories = ["Adventure", "Family", "Luxury", "Honeymoon"];
 const sortOptions = [
@@ -18,6 +20,7 @@ const Packages = () => {
   const axiosSecure = useAxiosSecure();
   const [packages, setPackages] = useState([]);
   const [filteredPackages, setFilteredPackages] = useState([]);
+  const [loading, setLoading] = useState(true); // ✅ Skeleton state
 
   // --------- Filters ---------
   const [search, setSearch] = useState("");
@@ -41,11 +44,14 @@ const Packages = () => {
   useEffect(() => {
     const fetchPackages = async () => {
       try {
+        setLoading(true);
         const res = await axiosSecure.get("/api/packages");
         setPackages(res.data);
         setFilteredPackages(res.data);
       } catch (err) {
         console.error("Error fetching packages:", err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchPackages();
@@ -74,8 +80,7 @@ const Packages = () => {
 
     // Duration Filter
     if (duration) {
-      if (duration === "4")
-        data = data.filter((pkg) => pkg.duration >= 4);
+      if (duration === "4") data = data.filter((pkg) => pkg.duration >= 4);
       else data = data.filter((pkg) => pkg.duration === parseInt(duration));
     }
 
@@ -91,6 +96,10 @@ const Packages = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#12121c] text-gray-900 dark:text-gray-100">
+      <Helmet>
+        <title>Tour Packages | সপ্নভ্রমণ</title>
+      </Helmet>
+
       <div className="max-w-7xl mx-auto px-4 py-8">
         <h2 className="text-3xl font-bold mb-8 text-center">
           ✈️ Explore Our Tour <span className="text-[#4657F0]">Packages</span>
@@ -99,8 +108,10 @@ const Packages = () => {
         {/* Responsive layout */}
         <div className="grid md:grid-cols-[280px_1fr] gap-8">
           {/* Sidebar Filters */}
-          <div data-aos="fade-right" className="space-y-8 bg-white dark:bg-[#1b1b2b] p-6 rounded-lg shadow-md  h-fit 
-                md:sticky top-24">
+          <div
+            data-aos="fade-right"
+            className="space-y-8 bg-white dark:bg-[#1b1b2b] p-6 rounded-lg shadow-md h-fit md:sticky top-24"
+          >
             {/* Header */}
             <div className="flex justify-between items-center">
               <h3 className="font-bold text-gray-800 dark:text-white">Filter</h3>
@@ -154,7 +165,9 @@ const Packages = () => {
 
             {/* Category Filter */}
             <div>
-              <h4 className="font-semibold mb-3 flex items-center gap-2"><BiCategoryAlt size={18} /> Categories</h4>
+              <h4 className="font-semibold mb-3 flex items-center gap-2">
+                <BiCategoryAlt size={18} /> Categories
+              </h4>
               <div className="flex flex-wrap gap-2">
                 {categories.map((cat) => (
                   <button
@@ -209,10 +222,33 @@ const Packages = () => {
 
           {/* Packages Grid */}
           <div data-aos="fade-left">
-            {filteredPackages.length === 0 ? (
+            {loading ? (
+              // ✅ Skeleton Loader
+              <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-6">
+                {Array(6)
+                  .fill(0)
+                  .map((_, idx) => (
+                    <div
+                      key={idx}
+                      className="flex flex-col rounded-lg bg-white dark:bg-[#1b1b2b] overflow-hidden shadow-sm p-5"
+                    >
+                      <Skeleton height={180} />
+                      <div className="mt-4 space-y-2">
+                        <Skeleton width="80%" height={20} />
+                        <Skeleton width="60%" height={15} />
+                        <Skeleton width="50%" height={15} />
+                        <Skeleton width="40%" height={15} />
+                      </div>
+                      <div className="mt-auto pt-5">
+                        <Skeleton width="100%" height={35} borderRadius={8} />
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            ) : filteredPackages.length === 0 ? (
               <p className="text-center text-gray-500">No packages found</p>
             ) : (
-              <div  className="grid sm:grid-cols-1  lg:grid-cols-2 gap-6">
+              <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-6">
                 {filteredPackages.map((pkg) => (
                   <div
                     key={pkg._id}
@@ -235,7 +271,6 @@ const Packages = () => {
                         {pkg.category}
                       </span>
                       <div className="mt-auto pt-5">
-                        
                         <FancyButton to={`/package/${pkg._id}`} label="View Details" />
                       </div>
                     </div>

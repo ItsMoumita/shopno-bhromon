@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import { Helmet } from "react-helmet-async";
 
 const PLACEHOLDER = "https://placehold.co/120x90/efefef/333333?text=No+Image";
 
@@ -117,6 +118,9 @@ export default function Bookings() {
 
   return (
     <div className="p-6 min-h-screen bg-gray-50 dark:bg-[#12121c] text-gray-900 dark:text-white">
+      <Helmet>
+        <title>My Bookings | সপ্নভ্রমণ</title>
+      </Helmet>
       <div className="max-w-6xl mx-auto">
         <h2 data-aos="zoom-in" className="text-3xl font-bold mb-8 text-center">My <span className="text-[#4657F0]">Bookings</span></h2>
 

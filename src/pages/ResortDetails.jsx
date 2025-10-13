@@ -21,6 +21,7 @@ import {
 } from "react-icons/md";
 import Loading from "../components/ExtraComponents/Loading";
 import CustomButton from "../components/ExtraComponents/CustomButton";
+import { Helmet } from "react-helmet-async";
 
 // Map amenity names to icons (optional for badges)
 const amenityIcon = (name) => {
@@ -120,6 +121,10 @@ export default function ResortDetails() {
 }
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-[#12121c] py-8 px-4">
+         <Helmet>
+            <title>{name} | সপ্নভ্রমণ</title>
+         </Helmet>
+
             {/* Keyframes for animated gradient */}
             <style>
                 {`

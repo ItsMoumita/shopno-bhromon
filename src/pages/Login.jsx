@@ -6,6 +6,7 @@ import { FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -62,6 +63,9 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-[#12121c] px-4">
+      <Helmet>
+        <title>Login | সপ্নভ্রমণ</title>
+      </Helmet>
       {/* Back Home */}
       <div className="mb-6">
         <Link

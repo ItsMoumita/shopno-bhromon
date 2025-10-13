@@ -6,7 +6,6 @@ import { AuthContext } from "../../context/AuthContext";
 import { Link, NavLink } from "react-router";
 import { ThemeToggle } from "../ExtraComponents/ThemeToggle";
 
-
 const menu = [
   { name: "Home", path: "/" },
   { name: "Packages", path: "/packages" },
@@ -16,7 +15,7 @@ const menu = [
 ];
 
 const Navbar = () => {
-  const { user, setUser, logOut , roleLoading } = useContext(AuthContext);
+  const { user, setUser, logOut, roleLoading } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
@@ -35,11 +34,12 @@ const Navbar = () => {
       .catch((err) => console.error("Logout failed:", err));
   };
 
-  // console.log(user.role);
+  // Wait for role to load before rendering admin link
+  if (roleLoading) return null;
+
   return (
     <nav className="sticky top-0 bg-white dark:bg-[#12121c] shadow z-50">
       <div className="max-w-7xl px-4 mx-auto flex justify-between items-center relative">
-
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <img
@@ -56,25 +56,26 @@ const Navbar = () => {
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `px-4 py-5 transition-all ${isActive
-                  ? "bg-gray-100 dark:bg-[#292b51] border-b-[3px] border-[#4657F0] text-black dark:text-[#fcfcfd]/80"
-                  : "text-gray-800 dark:text-[#fcfcfd] hover:text-[#4657F0]"
+                `px-4 py-5 transition-all ${
+                  isActive
+                    ? "bg-gray-100 dark:bg-[#292b51] border-b-[3px] border-[#4657F0] text-black dark:text-[#fcfcfd]/80"
+                    : "text-gray-800 dark:text-[#fcfcfd] hover:text-[#4657F0]"
                 }`
               }
             >
               {item.name}
             </NavLink>
           ))}
-             
 
-          {/* Admin Dashboard (only visible if role is admin) */}
+          {/* Admin Dashboard */}
           {user?.role === "admin" && (
             <NavLink
               to="/dashboard"
               className={({ isActive }) =>
-                `px-4 py-5 transition-all ${isActive
-                  ? "bg-gray-100 dark:bg-[#292b51] border-b-[3px] border-[#4657F0] text-black dark:text-[#fcfcfd]/80"
-                  : "text-gray-800 dark:text-[#fcfcfd] hover:text-[#4657F0]"
+                `px-4 py-5 transition-all ${
+                  isActive
+                    ? "bg-gray-100 dark:bg-[#292b51] border-b-[3px] border-[#4657F0] text-black dark:text-[#fcfcfd]/80"
+                    : "text-gray-800 dark:text-[#fcfcfd] hover:text-[#4657F0]"
                 }`
               }
             >
@@ -97,12 +98,10 @@ const Navbar = () => {
               >
                 Register
               </NavLink>
-              <ThemeToggle></ThemeToggle>
+              <ThemeToggle />
             </>
           ) : (
             <>
-             
-
               <NavLink
                 to="#"
                 onClick={(e) => {
@@ -113,9 +112,7 @@ const Navbar = () => {
               >
                 Logout
               </NavLink>
-              
-              <ThemeToggle></ThemeToggle>
-             
+              <ThemeToggle />
               {/* Profile Picture with Dropdown */}
               <div
                 className="relative"
@@ -123,12 +120,13 @@ const Navbar = () => {
                 onMouseLeave={() => setDropdownOpen(false)}
               >
                 <img
-                  src={user.photoURL || "https://i.ibb.co/MBtjqXQ/male-placeholder-image.jpg"}
+                  src={
+                    user.photoURL ||
+                    "https://i.ibb.co/MBtjqXQ/male-placeholder-image.jpg"
+                  }
                   alt="profile"
                   className="h-10 w-10 rounded-full cursor-pointer border-2 border-[#4657F0]"
                 />
-
-                {/* Dropdown: Only Username */}
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-gray-50 dark:bg-[#1b1b2b] shadow-lg rounded-md py-2 z-[100]">
                     <div className="px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
@@ -137,15 +135,12 @@ const Navbar = () => {
                   </div>
                 )}
               </div>
-                
-
             </>
           )}
         </ul>
 
         {/* Mobile Toggle */}
         <div className="lg:hidden flex items-center gap-4">
-           
           <button
             onClick={() => setIsMenuOpen((prev) => !prev)}
             className="w-10 h-10 grid place-items-center focus:outline-none"
@@ -159,22 +154,16 @@ const Navbar = () => {
         </div>
       </div>
 
-
-     {/* mobile cart  */}
-
-    
-
-
       {/* Mobile Menu */}
-
       {isMenuOpen && (
         <div className="lg:hidden bg-white dark:bg-[#12121c] shadow-md py-4 px-6 space-y-3">
-
-          {/* ✅ Profile for all logged-in users */}
           {user && (
             <div className="flex items-center gap-3 mb-2 mt-4 px-2">
               <img
-                src={user.photoURL || "https://i.ibb.co/MBtjqXQ/male-placeholder-image.jpg"}
+                src={
+                  user.photoURL ||
+                  "https://i.ibb.co/MBtjqXQ/male-placeholder-image.jpg"
+                }
                 alt="profile"
                 className="h-9 w-9 rounded-full border-2 border-[#4657F0]"
               />
@@ -184,15 +173,15 @@ const Navbar = () => {
             </div>
           )}
           {menu.map((item) => (
-            
             <NavLink
               key={item.path}
               to={item.path}
               onClick={() => setIsMenuOpen(false)}
               className={({ isActive }) =>
-                `block px-3 py-2 rounded-md transition-all ${isActive
-                  ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
-                  : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
+                `block px-3 py-2 rounded-md transition-all ${
+                  isActive
+                    ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
+                    : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
                 }`
               }
             >
@@ -200,15 +189,16 @@ const Navbar = () => {
             </NavLink>
           ))}
 
-          {/* ✅ Dashboard only for Admin */}
+          {/* Dashboard for Admin */}
           {user?.role === "admin" && (
             <NavLink
               to="/dashboard"
               onClick={() => setIsMenuOpen(false)}
               className={({ isActive }) =>
-                `block px-3 py-2 rounded-md transition-all ${isActive
-                  ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
-                  : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
+                `block px-3 py-2 rounded-md transition-all ${
+                  isActive
+                    ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
+                    : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
                 }`
               }
             >
@@ -221,34 +211,21 @@ const Navbar = () => {
               <NavLink
                 to="/login"
                 onClick={() => setIsMenuOpen(false)}
-                className={({ isActive }) =>
-                  `block px-3 py-2 rounded-md transition-all ${isActive
-                    ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
-                    : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
-                  }`
-                }
+                className="block px-3 py-2 rounded-md transition-all text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
               >
                 Login
               </NavLink>
               <NavLink
                 to="/register"
                 onClick={() => setIsMenuOpen(false)}
-                className={({ isActive }) =>
-                  `block px-3 py-2 rounded-md transition-all ${isActive
-                    ? "bg-gray-100 dark:bg-[#292b51] border-l-4 border-[#4657F0] text-[#4657F0] font-semibold"
-                    : "text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
-                  }`
-                }
+                className="block px-3 py-2 rounded-md transition-all text-gray-700 dark:text-gray-300 hover:text-[#4657F0] hover:bg-gray-50 dark:hover:bg-[#1f2937]"
               >
                 Register
               </NavLink>
-              <ThemeToggle></ThemeToggle>
+              <ThemeToggle />
             </>
           ) : (
             <>
-
-
-              {/* ✅ Logout  */}
               <NavLink
                 to="#"
                 onClick={(e) => {
@@ -260,7 +237,7 @@ const Navbar = () => {
               >
                 Logout
               </NavLink>
-              <ThemeToggle></ThemeToggle>
+              <ThemeToggle />
             </>
           )}
         </div>

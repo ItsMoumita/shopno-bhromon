@@ -3,7 +3,7 @@ import axios from "axios";
 
 const useAxiosPublic = () => {
   const instance = axios.create({
-    baseURL: "http://localhost:5173",
+    baseURL: "https://travel-server-liard-ten.vercel.app",
   });
 
   return instance;
