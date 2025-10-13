@@ -1,5 +1,3 @@
-
-
 import { Moon, SunDim } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { flushSync } from "react-dom";
@@ -8,24 +6,24 @@ const supportsVT = () =>
   typeof document !== "undefined" && "startViewTransition" in document;
 
 export const ThemeToggle = ({ className = "" }) => {
-  const [isDark, setIsDark] = useState(false);
+  // Initialize state directly from the class on the <html> element
+  const [isDark, setIsDark] = useState(() => 
+    document.documentElement.classList.contains('dark')
+  );
   const buttonRef = useRef(null);
 
+  // This effect now only syncs the icon if the theme changes from another source
   useEffect(() => {
-    const html = document.documentElement;
-    const stored = localStorage.getItem("theme");
-    const next = stored
-      ? stored === "dark"
-      : window.matchMedia("(prefers-color-scheme: dark)").matches;
-    html.classList.toggle("dark", next);
-    html.dataset.theme = next ? "dark" : "light";
-    setIsDark(next);
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
   }, []);
 
-  const apply = (dark) => {
-    const html = document.documentElement;
-    html.classList.toggle("dark", dark);
-    html.dataset.theme = dark ? "dark" : "light";
+  const applyTheme = (dark) => {
+    document.documentElement.classList.toggle("dark", dark);
+    document.documentElement.dataset.theme = dark ? "dark" : "light";
     setIsDark(dark);
     try {
       localStorage.setItem("theme", dark ? "dark" : "light");
@@ -35,12 +33,12 @@ export const ThemeToggle = ({ className = "" }) => {
   const changeTheme = async () => {
     const nextDark = !isDark;
     if (!buttonRef.current || !supportsVT()) {
-      apply(nextDark);
+      applyTheme(nextDark);
       return;
     }
 
     await document.startViewTransition(() => {
-      flushSync(() => apply(nextDark));
+      flushSync(() => applyTheme(nextDark));
     }).ready;
 
     const { top, left, width, height } =
@@ -71,7 +69,7 @@ export const ThemeToggle = ({ className = "" }) => {
     <button
       ref={buttonRef}
       onClick={changeTheme}
-      className={`p-2 rounded-full text-gray-700 hover:text-[#4657F0] dark:text-[#fcfcfd] hover:bg-[var(--secondary)]/30 transition ${className}`}
+      className={`p-2 rounded-full text-gray-700 hover:text-[#4657F0] dark:text-[#fcfcfd] hover:bg-gray-100 dark:hover:bg-gray-800 transition ${className}`}
       aria-label="Toggle theme"
       title="Toggle theme"
     >
