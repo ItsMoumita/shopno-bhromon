@@ -91,7 +91,7 @@ const Resorts = () => {
 
       <div className="max-w-7xl mx-auto px-8">
         <h1 className="text-3xl font-bold mb-8 text-center">
-          Explore Resorts
+          Explore <span className="text-[#4657F0]">Resorts</span>
         </h1>
 
         <div className="flex flex-col md:flex-row gap-6">
