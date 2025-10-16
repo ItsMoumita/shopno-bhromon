@@ -33,7 +33,6 @@ export default function Contact() {
 
     try {
       setSubmitting(true);
-      // Try to post to your backend contact endpoint (create one if needed)
       await axiosSecure.post("/contact", {
         name: form.name,
         email: form.email,
@@ -44,7 +43,6 @@ export default function Contact() {
       setForm({ name: "", email: "", message: "" });
     } catch (err) {
       console.error("Contact submit error:", err);
-      // If backend not available, still inform user (optional)
       Swal.fire("Failed to send message", "Please try again later.", "error");
     } finally {
       setSubmitting(false);
@@ -113,13 +111,7 @@ export default function Contact() {
                   />
                 </div>
 
-                {/* <button
-                  type="submit"
-                  disabled={submitting}
-                  className="mt-4 inline-block w-full md:w-40 py-2 bg-gray-900 text-white rounded-md font-semibold hover:bg-[#111827] transition disabled:opacity-60"
-                >
-                  {submitting ? "Sending..." : "Send"}
-                </button> */}
+                
                 <FancyButton label= {submitting ? "Sending..." : "Send"}   onClick={handleSubmit} />
               </form>
             </div>
@@ -150,15 +142,7 @@ export default function Contact() {
                   </div>
                 </div>
 
-                {/* <div className="flex items-center gap-3">
-                  <span className="p-2 bg-white/10 rounded">
-                    <HiOutlineLocationMarker className="w-5 h-5" />
-                  </span>
-                  <div>
-                    <div className="text-sm">Address</div>
-                    <div className="font-medium">14 Greenroad St., Dhaka</div>
-                  </div>
-                </div> */}
+                
 
                 <div className="flex items-center gap-3">
                   <span className="p-2 bg-white/10 rounded">

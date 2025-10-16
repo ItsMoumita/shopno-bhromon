@@ -6,7 +6,6 @@ const Story = () => {
     <section className="w-full bg-gray-50 dark:bg-[#19191e] py-16">
       <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 items-center gap-12">
         
-        {/* Right Side - Text (comes first on small, second on md+) */}
         <div data-aos="fade-left" className="order-1 lg:order-2 flex flex-col items-center lg:items-start text-center lg:text-left">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
             Our Story ✨
@@ -41,7 +40,6 @@ const Story = () => {
           </button>
         </div>
 
-        {/* Left Side - Image (comes second on small, first on md+) */}
         <div data-aos="fade-right" className="order-2 lg:order-1 h-[450px] overflow-hidden rounded-lg shadow-lg ">
           <img
             src={storyImg}

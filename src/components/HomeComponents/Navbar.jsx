@@ -34,7 +34,6 @@ const Navbar = () => {
       .catch((err) => console.error("Logout failed:", err));
   };
 
-  // Wait for role to load before rendering admin link
   if (roleLoading) return null;
 
   return (

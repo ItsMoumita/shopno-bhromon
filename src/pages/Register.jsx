@@ -48,11 +48,11 @@ const Register = () => {
            confirmButtonColor: "#4657F0",
          });
 
-      navigate("/"); // ✅ Navigate home after signup
+      navigate("/"); // Navigate home after signup
     } catch (err) {
       console.error("Registration failed:", err.message);
 
-      // ❌ SweetAlert for error
+      //  SweetAlert for error
      Swal.fire({
       title: "Registration Failed",
       text: err.message,

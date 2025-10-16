@@ -69,15 +69,15 @@ export default function RecentResortsCarousel() {
             disableOnInteraction: false,
           }}
           coverflowEffect={{
-            rotate: 50,   // increase for more angled sides
-            stretch: 0,   // distance between center and side slides
-            depth: 200,   // 3D depth effect
+            rotate: 50,  
+            stretch: 0,  
+            depth: 200,   
             modifier: 1,
-            slideShadows: true, // add shadows for 3D effect
+            slideShadows: true, 
           }}
           pagination={{ clickable: true }}
           modules={[EffectCoverflow, Pagination, Autoplay]}
-          slidesPerView={3} // center + 2 sides visible
+          slidesPerView={3}
           breakpoints={{
             640: { slidesPerView: 1.3 },
             768: { slidesPerView: 2 },

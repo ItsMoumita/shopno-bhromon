@@ -1,4 +1,4 @@
-"use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -31,7 +31,7 @@ function useCountUp(end = 0, duration = 900) {
     };
     rafRef.current = requestAnimationFrame(step);
     return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   }, [end, duration]);
 
   return display;
@@ -44,7 +44,7 @@ const fmtNum = (n) => {
   return rounded.toLocaleString();
 };
 
-/* Tile component (responsive, no overflow) */
+/* Tile component */
 const Tile = ({ icon, label, endValue, delta }) => {
   const display = useCountUp(Number(endValue) || 0, 900);
   const positive = typeof delta === "number" ? delta >= 0 : null;
@@ -67,7 +67,7 @@ const Tile = ({ icon, label, endValue, delta }) => {
         </div>
       </div>
 
-      {/* delta badge - positioned inside tile so no overflow */}
+      {/* delta badge  */}
       {typeof delta === "number" && (
         <div
           className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-full ${
@@ -105,7 +105,6 @@ export default function KPIRow() {
 
   useEffect(() => {
     fetchOverview(days);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [days]);
 
   const btns = [

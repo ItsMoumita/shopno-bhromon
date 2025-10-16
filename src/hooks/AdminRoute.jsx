@@ -10,7 +10,7 @@ const AdminRoute = () => {
 
   console.log(user.role);
 
-  return <Outlet />; // renders nested children
+  return <Outlet />;
 };
 
 export default AdminRoute;

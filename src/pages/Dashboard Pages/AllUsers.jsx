@@ -55,10 +55,10 @@ const AllUsers = () => {
 
   useEffect(() => {
   Aos.init({
-    duration: 800, // duration of animation in ms
-    offset: 100,   // offset (in px) from the original trigger point
-    easing: "ease-in-out", // easing type
-    once: true,    // whether animation should happen only once
+    duration: 800, 
+    offset: 100,  
+    easing: "ease-in-out", 
+    once: true,    
   });
 }, []);
 

@@ -39,14 +39,13 @@ const Hero = () => {
       {/* Background Video */}
       <video
         className="absolute top-0 left-0 w-full h-full object-cover"
-        src="/hero-video.mp4" // 👈 put your video inside /public folder
+        src="/hero-video.mp4" 
         autoPlay
         muted
         loop
         playsInline
       ></video>
 
-      {/* Dark overlay for readability */}
       <div className="absolute inset-0 bg-black/50"></div>
 
       {/* Content */}

@@ -30,7 +30,7 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
             />
           </Link>
 
-          {/* Close button - only show on small devices */}
+       
           <button
             className="md:hidden text-gray-600 dark:text-gray-300 hover:text-red-500"
             onClick={() => setIsOpen(false)}

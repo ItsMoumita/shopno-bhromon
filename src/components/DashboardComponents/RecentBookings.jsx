@@ -24,12 +24,10 @@ export default function RecentBookings({ limit = 10 }) {
       try {
         const res = await axiosSecure.get(`/bookings?limit=${limit}`);
         const data = res.data;
-        // if endpoint returns {bookings,...} handle both cases
         const list = Array.isArray(data) ? data : (data.bookings || []);
         if (!mounted) return;
         setBookings(list);
 
-        // build unique itemId -> itemType and unique emails
         const itemMap = {};
         const emailSet = new Set();
         list.forEach((b) => {

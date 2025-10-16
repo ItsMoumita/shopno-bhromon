@@ -59,10 +59,9 @@ export default function RecentPackagesCarousel() {
     fetchRecent();
   }, [axiosSecure]);
 
-  // Duplicate items for smooth loop
   const loopPackages = [...recentPackages, ...recentPackages];
 
-  // Start autoplay animation
+  // autoplay animation
   useEffect(() => {
     if (!loading && recentPackages.length > 0) {
       controls.start({

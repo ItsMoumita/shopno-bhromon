@@ -48,9 +48,9 @@ const ManageResorts = () => {
   });
 
   const openDetails = (resort) => {
-    // Prepare amenities as comma separated string for input
+    
     const amenitiesStr = Array.isArray(resort.amenities) ? resort.amenities.join(", ") : "";
-    // Prepare policies object safely
+    
     const policies = resort.policies || {};
     setFormData({
       ...resort,
@@ -68,9 +68,9 @@ const ManageResorts = () => {
   const handleSave = async () => {
     try {
       const { _id, amenities, policies, ...rest } = formData;
-      // Convert amenities string back to array
+      
       const amenitiesArr = amenities.split(",").map((a) => a.trim()).filter(Boolean);
-      // Prepare policies object
+      
       const policiesObj = {
         cancellation: policies.cancellation,
         children: policies.children,

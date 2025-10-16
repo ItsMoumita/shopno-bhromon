@@ -46,7 +46,7 @@ const AddPackage = () => {
       validTill,
       itinerary,
       availability,
-      createdBy: user?.displayName || user?.email, // better than uid
+      createdBy: user?.displayName || user?.email, 
       createdAt: new Date(),
       updatedAt: new Date(),
     };

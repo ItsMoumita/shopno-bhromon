@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import FancyButton from "../ExtraComponents/FancyButton";
 
-// Heart icon (same as Sera UI)
 const HeartIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +22,6 @@ const HeartIcon = () => (
   </svg>
 );
 
-// Sera UI GridItem (unchanged look/behavior)
 const GridItem = ({ item }) => {
   const [isHovered, setIsHovered] = useState(false);
   return (
@@ -87,15 +85,12 @@ export default function Gallery() {
   const [galleryItems, setGalleryItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // State for small-device "see more"
   const [isSmall, setIsSmall] = useState(false);
   const [showAll, setShowAll] = useState(false);
 
-  // How many to show on small devices before "See more"
   const SMALL_SHOW_COUNT = 4;
 
   useEffect(() => {
-    // detect small device (mobile)
     const onResize = () => setIsSmall(window.innerWidth < 768); // md breakpoint
     onResize();
     window.addEventListener("resize", onResize);
@@ -106,11 +101,10 @@ export default function Gallery() {
     const fetchGallery = async () => {
       try {
         setLoading(true);
-        // fetch latest 6 resorts (backend should support ?limit=6)
         const res = await axiosSecure.get("/resorts?limit=6");
         const resorts = res.data || [];
 
-        // Flatten each resort into images (cover + gallery)
+       
         const items = resorts.flatMap((resort) => {
           const images = [resort.coverImage, ...(resort.gallery || [])].filter(Boolean);
           return images.map((img, i) => ({
@@ -132,7 +126,6 @@ export default function Gallery() {
     fetchGallery();
   }, [axiosSecure]);
 
-  // Determine which items to display
   const visibleItems = isSmall && !showAll ? galleryItems.slice(0, SMALL_SHOW_COUNT) : galleryItems;
 
   return (

@@ -9,7 +9,7 @@ const DashboardNavbar = ({ isOpen, setIsOpen }) => {
   return (
     <header className="flex items-center bg-white dark:bg-[#1f1f2e] shadow-md px-4 md:px-6 py-4 fixed top-0 left-0 md:left-64 right-0 h-16 z-20">
       
-      {/* ✅ Mobile Menu Button + Logo (hidden on large) */}
+      {/*  Mobile Menu Button + Logo  */}
       <div className="md:hidden flex items-center gap-4">
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -26,7 +26,7 @@ const DashboardNavbar = ({ isOpen, setIsOpen }) => {
         </Link>
       </div>
 
-      {/* ✅ Right side: ml-auto flushes it to the far right */}
+      
       <div className="flex items-center gap-6 ml-auto">
         <div className="hidden sm:flex items-center gap-2 text-gray-600 dark:text-gray-300">
           <FaEnvelope className="text-[#4657F0]" />

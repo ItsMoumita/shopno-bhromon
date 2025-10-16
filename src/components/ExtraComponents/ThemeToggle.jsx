@@ -6,13 +6,11 @@ const supportsVT = () =>
   typeof document !== "undefined" && "startViewTransition" in document;
 
 export const ThemeToggle = ({ className = "" }) => {
-  // Initialize state directly from the class on the <html> element
   const [isDark, setIsDark] = useState(() => 
     document.documentElement.classList.contains('dark')
   );
   const buttonRef = useRef(null);
 
-  // This effect now only syncs the icon if the theme changes from another source
   useEffect(() => {
     const observer = new MutationObserver(() => {
       setIsDark(document.documentElement.classList.contains('dark'));

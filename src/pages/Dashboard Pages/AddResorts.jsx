@@ -24,13 +24,12 @@ const AddResorts = () => {
 
   const [roomTypes, setRoomTypes] = useState([{ type: "", price: "", capacity: "" }]);
 
-  // Handle form input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Room types (dynamic fields)
+  // Room types
   const handleRoomChange = (index, field, value) => {
     const updatedRooms = [...roomTypes];
     updatedRooms[index][field] = value;
@@ -60,7 +59,7 @@ const AddResorts = () => {
         children: form.childrenPolicy,
         pets: form.pets,
       },
-      createdBy: "Admin User", // Replace with logged-in Admin info
+      createdBy: "Admin User", 
       createdAt: new Date(),
     };
 

@@ -50,7 +50,7 @@ const ManagePackages = () => {
   const openDetails = (pkg) => {
     setFormData(pkg);
     setActive(pkg);
-    setEditMode(false); // Always open in view mode
+    setEditMode(false);
   };
 
   const handleSave = async () => {
@@ -122,7 +122,7 @@ const ManagePackages = () => {
                   className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
                 />
                 <div className="fixed inset-0 z-50 grid place-items-center p-4">
-                  {/* Close Button (fixed top-right) */}
+                  {/* Close Button */}
                   <button
                     className="absolute top-5 right-5 p-2 h-10 w-10 bg-white dark:bg-neutral-800 rounded-full shadow z-50"
                     onClick={() => {

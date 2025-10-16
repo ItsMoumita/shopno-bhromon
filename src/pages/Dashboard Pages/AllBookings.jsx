@@ -10,18 +10,15 @@ const PLACEHOLDER = "https://placehold.co/120x90/efefef/333333?text=No+Image";
 function formatCurrency(num) {
   return `৳${Number(num || 0).toLocaleString()}`;
 }
-// function formatDate(iso) {
-//   return iso ? new Date(iso).toLocaleString() : "-";
-// }
 
 export default function AdminBookings() {
   const axiosSecure = useAxiosSecure();
   const [bookings, setBookings] = useState([]);
-  const [itemsMap, setItemsMap] = useState({}); // itemId -> { image, title, location }
-  const [usersMap, setUsersMap] = useState({}); // email -> { name }
+  const [itemsMap, setItemsMap] = useState({}); 
+  const [usersMap, setUsersMap] = useState({}); 
   const [loading, setLoading] = useState(true);
 
-  // pagination
+  
   const [page, setPage] = useState(1);
   const [pages, setPages] = useState(1);
   const limit = 10;
@@ -32,7 +29,7 @@ export default function AdminBookings() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // Fetch bookings (admin route)
+        // Fetch bookings 
         const res = await axiosSecure.get(`/bookings?page=${page}&limit=${limit}`);
         const data = res.data;
         const bookingList = Array.isArray(data) ? data : data.bookings || [];
@@ -40,12 +37,11 @@ export default function AdminBookings() {
         setBookings(bookingList);
         setPages(data.pages || 1);
 
-        // Build maps of unique itemIds -> itemType (from bookings)
+       
         const itemTypeMap = {};
         const emailSet = new Set();
         bookingList.forEach((b) => {
           if (b.itemId) {
-            // prefer booking.itemType if present
             itemTypeMap[b.itemId] = b.itemType || itemTypeMap[b.itemId] || "package";
           }
           if (b.userEmail) emailSet.add(b.userEmail);
@@ -66,7 +62,6 @@ export default function AdminBookings() {
                 location: it.location || it.destination || "",
               };
             } catch (err) {
-              // fallback to booking's itemTitle if present or placeholder
               newItemsMap[itemId] = { image: PLACEHOLDER, title: "", location: "" };
             }
           })
@@ -74,13 +69,11 @@ export default function AdminBookings() {
         if (!mounted) return;
         setItemsMap((prev) => ({ ...prev, ...newItemsMap }));
 
-        // Fetch user names for unique emails
         const emails = Array.from(emailSet);
         const newUsersMap = {};
         await Promise.all(
           emails.map(async (email) => {
             try {
-              // encode email for URL safety
               const r = await axiosSecure.get(`/users/${encodeURIComponent(email)}`);
               const u = r.data || {};
               newUsersMap[email] = { name: u.name || u.displayName || u.email || email };

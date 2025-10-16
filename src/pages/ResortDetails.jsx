@@ -84,7 +84,6 @@ export default function ResortDetails() {
         location || ""
     )}&output=embed`;
 
-    // Inline Animated Badge (Sera UI style), no external component
     const badgeColors = [
         "via-pink-500",
         "via-indigo-500",
@@ -221,7 +220,7 @@ export default function ResortDetails() {
                         </div>
                     </div>
 
-                    {/* Amenities as animated badges (inside right card) */}
+                    {/* Amenities   */}
                     {amenities.length > 0 && (
                         <div className="pt-2 mb-6 md:mb-12">
                             <h3 className="text-sm font-semibold mb-2 text-gray-800 dark:text-gray-200">
@@ -240,8 +239,7 @@ export default function ResortDetails() {
                         </div>
                     )}
 
-                    {/* CTA button below badges */}
-                    {/* <CustomButton label="Book Resort" link="#" /> */}
+                    
                 </div>
             </div>
 
@@ -282,7 +280,7 @@ export default function ResortDetails() {
                     </section>
                 )}
 
-                {/* Policies styled like Itinerary (left accent list) */}
+                {/* Policies  */}
                 <section className="bg-white dark:bg-[#1b1b2b] p-6 rounded-xl shadow-md">
                     <h2 className="text-xl font-bold mb-3 text-[#4657F0]">Policies</h2>
                     <ul className="space-y-3 text-gray-700 dark:text-gray-300">
@@ -307,7 +305,7 @@ export default function ResortDetails() {
                     </ul>
                 </section>
 
-                {/* Embedded Google Map (no external link button) */}
+                {/* Embedded Google Map */}
                 <section className="bg-white dark:bg-[#1b1b2b] p-6 rounded-xl shadow-md">
                     <h2 className="text-xl font-bold mb-3 text-[#4657F0]">Location Map</h2>
                     <p className="text-gray-700 dark:text-gray-300 mb-3">{location}</p>

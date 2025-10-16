@@ -13,7 +13,7 @@ const AboutBanner = () => {
 
       {/* Content */}
       <div className="relative z-10 text-center text-white mt-15">
-        {/* Breadcrumb */}
+     
         <p className="text-md mb-2">
           <Link to="/" className="hover:text-[#4657F0] transition">
             Home

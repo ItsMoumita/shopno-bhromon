@@ -14,7 +14,6 @@ export default function Bookings() {
   const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  // itemsMap: { [itemId]: { image, title, location } }
   const [itemsMap, setItemsMap] = useState({});
 
   useEffect(() => {
@@ -27,7 +26,6 @@ export default function Bookings() {
         const data = res.data || [];
         setBookings(data);
 
-        // Build unique item list to fetch
         const unique = {};
         data.forEach((b) => {
           if (b.itemId && !unique[b.itemId]) unique[b.itemId] = b.itemType;
@@ -36,7 +34,6 @@ export default function Bookings() {
         const entries = Object.entries(unique);
         const map = {};
 
-        // Fetch item details in parallel (packages or resorts)
         await Promise.all(
           entries.map(async ([itemId, itemType]) => {
             try {
@@ -55,7 +52,6 @@ export default function Bookings() {
                 location: item.location || item.destination || "",
               };
             } catch (err) {
-              // fallback to placeholder
               map[itemId] = { image: PLACEHOLDER, title: "", location: "" };
             }
           })
@@ -171,7 +167,7 @@ export default function Bookings() {
                     <div className="lg:text-right mr-2">
                       <div className="text-sm text-gray-500 dark:text-gray-400">Amount</div>
                       <div className="font-semibold">৳{Number(amount).toLocaleString()}</div>
-                      {/* <div className="text-xs text-gray-500 mt-1">{b.status}</div> */}
+                     
                     </div>
 
                     <div className="space-x-4">
@@ -186,7 +182,7 @@ export default function Bookings() {
                       onClick={() => handleDelete(b._id)}
                       className="px-3 py-1 bg-red-500 text-white rounded text-sm font-medium hover:bg-red-600"
                     >
-                      Delete
+                      Cancel
                     </button>
                     </div>
                   </div>

@@ -25,6 +25,7 @@ const Login = () => {
     try {
       const result = await signIn(email, password);
       setUser(result.user);
+      
        // SweetAlert success
     Swal.fire({
       title: "Login Successful!",

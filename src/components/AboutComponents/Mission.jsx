@@ -17,7 +17,7 @@ const Mission = () => {
           the world with confidence, joy, and unforgettable memories.
         </p>
 
-        {/* 3 Cards */}
+        {/* Cards */}
         <div className="grid md:grid-cols-3 gap-8">
           {/* Mission */}
           <div

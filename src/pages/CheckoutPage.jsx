@@ -1,4 +1,4 @@
-// src/pages/Checkout.jsx
+
 import React, { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
@@ -98,10 +98,10 @@ function CheckoutForm({ clientSecret, item }) {
               style: {
                 base: {
                   fontSize: "16px",
-                  color: isDarkMode ? "#ffffff" : "#32325d", // ✅ text color changes with mode
+                  color: isDarkMode ? "#ffffff" : "#32325d", 
                   iconColor: isDarkMode ? "#ffffff" : "#32325d",
                   "::placeholder": {
-                    color: isDarkMode ? "#a3a3a3" : "#aab7c4", // ✅ placeholder adjusts
+                    color: isDarkMode ? "#a3a3a3" : "#aab7c4", 
                   },
                 },
                 invalid: {

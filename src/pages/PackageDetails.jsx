@@ -49,7 +49,7 @@ export default function PackageDetails() {
 
 
 
-  // Simple inline AnimatedBadge element
+  //  AnimatedBadge element
   const AnimatedBadge = ({ text, icon, borderColor = "via-sky-500" }) => (
     <div
       className={`rounded-full p-[1px] bg-gradient-to-r from-transparent ${borderColor} to-transparent [background-size:400%_100%]`}
@@ -69,7 +69,7 @@ export default function PackageDetails() {
      </Helmet>
 
       <div className="max-w-7xl mx-auto px-4">
-      {/* Keyframes once (scoped into JSX) */}
+      {/* Keyframes once  */}
       <style>
         {`
           @keyframes move-bg {
