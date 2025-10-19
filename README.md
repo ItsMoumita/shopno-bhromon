@@ -23,6 +23,13 @@ A full-stack travel booking application built with the MERN stack (MongoDB, Expr
 
 ---
 
+## 👤 Admin Access
+
+- **Email:** admin@gmail.com
+- - **Password:** admin123
+
+---
+
 ## 🚀 Detailed Features
 
 ### For All Users
