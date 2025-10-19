@@ -14,9 +14,9 @@ import { auth } from "../firebase/firebase.init";
 import Loading from "../components/ExtraComponents/Loading";
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [roleLoading, setRoleLoading] = useState(true);
+  const [user, setUser] = useState(null); 
+  const [loading, setLoading] = useState(true); 
+  const [roleLoading, setRoleLoading] = useState(true); 
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -25,57 +25,80 @@ const AuthProvider = ({ children }) => {
 
   const signIn = async (email, password) => {
     setLoading(true);
+   
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    if (auth.currentUser) {
-      await auth.currentUser.reload();
-    }
+    
     return userCredential;
   };
 
-  const updateUser = (updatedData) => updateProfile(auth.currentUser, updatedData);
+  const updateUser = async (updatedData) => {
+    await updateProfile(auth.currentUser, updatedData);
+   
+    setUser((prevUser) => ({
+      ...prevUser,
+      displayName: updatedData.displayName || prevUser.displayName,
+    
+    }));
+  };
 
   const logOut = () => signOut(auth);
 
   const googleProvider = new GoogleAuthProvider();
   const googleSignIn = () => {
-    setLoading(true);
+    setLoading(true); 
     return signInWithPopup(auth, googleProvider);
   };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setLoading(true);
+      setLoading(true); 
       setRoleLoading(true);
 
       if (currentUser) {
         try {
+         
           await currentUser.reload();
           const token = await currentUser.getIdToken();
 
-          // Fetch role from backend
+       
           const res = await axios.get(
             `https://shopno-bhromon-server.vercel.app/users/${currentUser.email}`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
 
-          setUser({ ...currentUser, ...res.data });
+        
+          const mergedUser = {
+            uid: currentUser.uid,
+            email: currentUser.email,
+            displayName: currentUser.displayName || res.data.name, 
+            photoURL: res.data.profilePic || currentUser.photoURL || "https://i.ibb.co/MBtjqXQ/male-placeholder-image.jpg", 
+            role: res.data.role, 
+          };
+          setUser(mergedUser);
         } catch (err) {
-          console.error("❌ Error fetching user:", err);
-          setUser(currentUser); // fallback without role
+          console.error("❌ Error fetching user data from backend:", err);
+         
+          setUser({
+            uid: currentUser.uid,
+            email: currentUser.email,
+            displayName: currentUser.displayName,
+            photoURL: currentUser.photoURL || "https://i.ibb.co/MBtjqXQ/male-placeholder-image.jpg", // Fallback placeholder
+            role: "user", 
+          });
         }
       } else {
-        setUser(null);
+        setUser(null); 
       }
 
       setRoleLoading(false);
-      setLoading(false);
+      setLoading(false); 
     });
 
-    return () => unsubscribe();
-  }, []);
+    return () => unsubscribe(); 
+  }, []); 
 
   if (loading || roleLoading) return <Loading />;
-// console.log(user?.role);
+
   const userInfo = {
     user,
     setUser,
@@ -83,10 +106,10 @@ const AuthProvider = ({ children }) => {
     logOut,
     signIn,
     googleSignIn,
-    loading,
-    setLoading,
+    loading, 
+    setLoading, 
     updateUser,
-    roleLoading,
+    roleLoading, 
   };
 
   return <AuthContext.Provider value={userInfo}>{children}</AuthContext.Provider>;

@@ -233,3 +233,4 @@ const Resorts = () => {
 };
 
 export default Resorts;
+
