@@ -36,6 +36,7 @@ const Navbar = () => {
 
   if (roleLoading) return null;
 
+  // console.log(user.photoURL);
   return (
     <nav className="sticky top-0 bg-white dark:bg-[#12121c] shadow z-50">
       <div className="max-w-7xl px-4 mx-auto flex justify-between items-center relative">
@@ -124,6 +125,7 @@ const Navbar = () => {
                     "https://i.ibb.co/MBtjqXQ/male-placeholder-image.jpg"
                   }
                   alt="profile"
+                  referrerPolicy="no-referrer"
                   className="h-10 w-10 rounded-full cursor-pointer border-2 border-[#4657F0]"
                 />
                 {isDropdownOpen && (
@@ -164,8 +166,10 @@ const Navbar = () => {
                   "https://i.ibb.co/MBtjqXQ/male-placeholder-image.jpg"
                 }
                 alt="profile"
+                referrerPolicy="no-referrer"
                 className="h-9 w-9 rounded-full border-2 border-[#4657F0]"
               />
+
               <span className="text-gray-800 dark:text-gray-200 text-sm font-medium">
                 {user.displayName || user.email}
               </span>

@@ -1,5 +1,3 @@
-
-
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router"; 
 import { FaUser, FaFileImage, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
@@ -24,6 +22,18 @@ const Register = () => {
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
+  // 📌 Function to upload image to ImgBB
+  const uploadToImgBB = async (file) => {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const res = await axios.post(
+      `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`,
+      formData
+    );
+    return res.data.data.url;
+  };
+
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
@@ -31,34 +41,32 @@ const Register = () => {
 
       let photoURL = "";
       if (profilePic) {
-        photoURL = URL.createObjectURL(profilePic);
+        // 🔹 Upload profile picture to ImgBB
+        photoURL = await uploadToImgBB(profilePic);
       }
 
       await updateUser({ displayName: fullName, photoURL });
-      setUser(result.user);
+      setUser({ ...result.user, displayName: fullName, photoURL });
 
       const user = { name: fullName, email, profilePic: photoURL };
       await axios.post("https://shopno-bhromon-server.vercel.app/users", user);
 
-      // ✅ SweetAlert after success
       Swal.fire({
-           title: "Registration Successful 🎉",
-           text: `Welcome back, ${result.user.displayName || "User"} ✅`,
-           icon: "success",
-           confirmButtonColor: "#4657F0",
-         });
+        title: "Registration Successful 🎉",
+        text: `Welcome back, ${fullName}! ✅`,
+        icon: "success",
+        confirmButtonColor: "#4657F0",
+      });
 
-      navigate("/"); // Navigate home after signup
+      navigate("/"); 
     } catch (err) {
       console.error("Registration failed:", err.message);
-
-      //  SweetAlert for error
-     Swal.fire({
-      title: "Registration Failed",
-      text: err.message,
-      icon: "error",
-      confirmButtonColor: "#4657F0",
-    });
+      Swal.fire({
+        title: "Registration Failed",
+        text: err.message,
+        icon: "error",
+        confirmButtonColor: "#4657F0",
+      });
     }
   };
 
@@ -219,7 +227,6 @@ const Register = () => {
           <span className="ml-2">Sign up with Google</span>
         </button>
 
-        {/* Already have account */}
         <div className="mt-6 text-center">
           <p>
             Already have an account?{" "}
