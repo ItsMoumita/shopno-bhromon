@@ -19,7 +19,7 @@ A full-stack travel booking application built with the MERN stack (MongoDB, Expr
 
 ## 🔗 Live Link
 
-**Live Site:** [Your Live Deployed URL Here](https://your-live-site-url.com)
+**Live Site:** https://shopno-bhromon.web.app/
 
 ---
 
@@ -29,6 +29,10 @@ A full-stack travel booking application built with the MERN stack (MongoDB, Expr
 - - **Password:** admin123
 
 ---
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2df1e322907f7546cb049d9660ee7d07ae035579
 ## 🚀 Detailed Features
 
 ### For All Users
