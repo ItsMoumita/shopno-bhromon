@@ -98,7 +98,7 @@ const Resorts = () => {
           {/* Filters Sidebar */}
           <aside
             data-aos="fade-right"
-            className="md:w-64 bg-white dark:bg-[#1b1b2b] p-6 rounded-lg shadow-md flex-shrink-0 sticky top-25 h-fit"
+            className="md:w-64 bg-white dark:bg-[#1b1b2b] p-6 rounded-lg shadow-md flex-shrink-0 md:sticky top-25 h-fit"
           >
             {/* Search */}
             <div className="mb-6">
